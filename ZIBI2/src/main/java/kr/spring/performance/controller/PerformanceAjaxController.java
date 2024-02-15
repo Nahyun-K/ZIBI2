@@ -31,7 +31,7 @@ public class PerformanceAjaxController {
 	private PerformanceService performanceService;
 	
 	@Autowired
-	private MemberService memberService;
+	private MemberService memberService; 
 	
 	/*=================================
 	 * [관리자] 상영관 - 상영관 + 2관 
