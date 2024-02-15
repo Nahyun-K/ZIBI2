@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.spring.policy.dao.PolicyMapper">
+	
+	<update id="updateStats" parameterType="policyVO">
+		UPDATE stats 
+		SET year=#{year},tot_family=#{tot_family},household_cnt=#{household_cnt} 
+		WHERE district_num=#{district_num}
+	</update>
+	
+	<select id="selectPolicyList" parameterType="map" resultType="policyVO">
+		SELECT *
+		FROM (SELECT a.*,rownum rnum
+				FROM (SELECT *
+						FROM district
+						LEFT OUTER JOIN policy USING (district_num)
+						)a)
+		<if test="start!=null">
+			<![CDATA[
+			WHERE rnum>=#{start} AND rnum<=#{end}
+			]]>
+		</if>
+		<if test="start==null">
+			WHERE NOT policy_url IS NULL
+		</if>
+	</select>
+	
+	<select id="selectStatsList" resultType="policyVO">
+		SELECT * 
+		FROM district JOIN stats USING (district_num)
+	</select>
+	
+</mapper>

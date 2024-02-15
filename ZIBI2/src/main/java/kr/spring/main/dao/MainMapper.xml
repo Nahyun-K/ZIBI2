@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.spring.main.dao.MainMapper">
+
+	<!-- 모임참여 가장 많이 한 회원 -->
+	<select id="selectMostFollowMember" resultType="lastestContentVO">
+		SELECT *
+		FROM (SELECT a.*, rownum rnum
+		        FROM(
+		                SELECT mem_num, SUM(scount) AS count
+		                FROM (
+			                    SELECT COUNT(*) AS scount, apply_num AS mem_num
+			                    FROM book_matching
+			                    GROUP BY apply_num
+			                    UNION ALL
+			                    SELECT COUNT(*) AS scount, mem_num
+			                    FROM book
+			                    GROUP BY mem_num
+		                )
+		                GROUP BY mem_num
+		            )a)
+		JOIN member USING (mem_num)
+		WHERE rnum=1
+		ORDER BY count DESC
+	</select>
+
+	<!-- 팔로워 가장 많은 회원 -->
+	<select id="selectMostFollowerMember" resultType="lastestContentVO">
+		SELECT *
+		FROM (SELECT a.*, rownum rnum
+		        FROM(
+		        		SELECT COUNT(*) count, mem_num 
+		        		FROM member JOIN follow USING (mem_num) 
+					    GROUP BY mem_num 
+					    ORDER BY count DESC
+			)a)
+		JOIN member USING (mem_num)
+		WHERE rnum=1
+	</select>
+	
+	<!-- 작성글 많은 회원 -->
+	<select id="selectMostContentMember" resultType="lastestContentVO">
+		SELECT *
+		FROM (SELECT a.*,rownum rnum
+		        FROM (
+		                SELECT COUNT(*) count, mem_num
+		                FROM community
+		                GROUP BY mem_num
+		                ORDER BY count DESC
+		        )a)
+		JOIN member USING (mem_num)
+		WHERE rnum=1
+	</select>
+	
+	<!-- 가장 많이 헬프유한 회원 -->
+	<select id="selectMostHelpMember" resultType="lastestContentVO">
+		SELECT *
+		FROM (SELECT a.*,rownum rnum
+		        FROM (
+		                SELECT COUNT(*) count, mem_num
+		                FROM helper
+                        WHERE helper_select=2
+		                GROUP BY mem_num
+		                ORDER BY count DESC
+		        )a)
+		JOIN member USING (mem_num)
+		WHERE rnum=1
+	</select>
+	
+	<!-- 가장 많이 중고거래 한 회원 -->
+	<select id="selectMostSecondMember" resultType="lastestContentVO">
+		SELECT *
+		FROM (SELECT a.*, rownum rnum
+		        FROM(
+		                SELECT mem_num, SUM(scount) AS count
+		                FROM (
+		                        SELECT COUNT(*) AS scount, sc_buyer_num AS mem_num
+		                        FROM second_order
+		                        GROUP BY sc_buyer_num
+		                        UNION ALL
+		                        SELECT COUNT(*) AS scount, mem_num
+		                        FROM second
+		                        GROUP BY mem_num
+		                )
+		                GROUP BY mem_num
+                        ORDER BY count DESC
+		            )a)
+		JOIN member USING (mem_num)
+		WHERE rnum=1
+	</select>
+	
+	<!-- 가장 많이 영화 예매한 회원 -->
+	<select id="selectMostMovieMember" resultType="lastestContentVO">
+		SELECT *
+		FROM (SELECT a.*,rownum rnum
+		        FROM (
+		                SELECT COUNT(*) count, mem_num
+		                FROM perform_choice
+		                GROUP BY mem_num
+		                ORDER BY count DESC
+		        )a)
+		JOIN member USING (mem_num)
+		WHERE rnum=1
+	</select>
+
+	<!-- 최신 글 목록 갯수 -->
+	<select id="selectLastestContentCount" resultType="int">
+		SELECT COUNT(*)
+		FROM (SELECT a.*,rownum rnum
+				FROM (
+						SELECT mem_num, num, photo, title, reg_date, mem_nickname, category
+						FROM
+							<![CDATA[
+							(SELECT mem_num, book_num num, book_thumbnailname photo, REPLACE(REPLACE(book_title,'<','&lt;'),'>','&gt;') title, book_regdate reg_date, 1 category FROM book
+								UNION
+								SELECT mem_num, helper_num num, helper_filename photo, REPLACE(REPLACE(helper_title,'<','&lt;'),'>','&gt;') title, helper_reg_date reg_date, 2 category FROM helper
+								UNION
+								SELECT mem_num, community_num num, community_filename photo, REPLACE(REPLACE(community_title,'<','&lt;'),'>','&gt;') title, community_reg_date reg_date, 3 category FROM community
+								UNION
+								SELECT mem_num, sc_num num, sc_filename photo, REPLACE(REPLACE(sc_title,'<','&lt;'),'>','&gt;') title, sc_reg_date reg_date, 4 category FROM second)
+								]]>
+						JOIN member USING (mem_num)
+						ORDER BY reg_date DESC
+					)a)
+		<![CDATA[
+		WHERE rnum<=8
+		]]>
+	</select>
+	
+	<!-- 최신 글 목록 -->
+	<select id="selectLastestContent" resultType="lastestContentVo">
+		SELECT *
+		FROM (SELECT a.*,rownum rnum
+				FROM (
+						SELECT mem_num, num, photo, title, reg_date, mem_nickname, category
+						FROM
+							<![CDATA[
+							(SELECT mem_num, book_num num, book_thumbnailname photo, REPLACE(REPLACE(book_title,'<','&lt;'),'>','&gt;') title, book_regdate reg_date, 1 category FROM book
+								UNION
+								SELECT mem_num, helper_num num, helper_filename photo, REPLACE(REPLACE(helper_title,'<','&lt;'),'>','&gt;') title, helper_reg_date reg_date, 2 category FROM helper
+								UNION
+								SELECT mem_num, community_num num, community_filename photo, REPLACE(REPLACE(community_title,'<','&lt;'),'>','&gt;') title, community_reg_date reg_date, 3 category FROM community
+								UNION
+								SELECT mem_num, sc_num num, sc_filename photo, REPLACE(REPLACE(sc_title,'<','&lt;'),'>','&gt;') title, sc_reg_date reg_date, 4 category FROM second)
+								]]>
+						JOIN member USING (mem_num)
+						ORDER BY reg_date DESC
+					)a)
+		<![CDATA[
+		WHERE rnum<=3
+		]]>
+	</select>
+	
+	<select id="selectLastestSecond" resultType="lastestContentVo">
+		SELECT *
+		FROM (SELECT a.*,rownum rnum
+				FROM (
+						SELECT mem_num, num, photo, title, reg_date, mem_nickname
+						FROM
+							<![CDATA[
+							(SELECT mem_num, sc_num num, sc_filename photo, REPLACE(REPLACE(sc_title,'<','&lt;'),'>','&gt;') title, sc_reg_date reg_date FROM second)
+							]]>
+						JOIN member USING (mem_num)
+						ORDER BY reg_date DESC
+					)a)
+		<![CDATA[
+		WHERE rnum<=3
+		]]>
+	</select>
+	
+	<select id="selectLastestHelper" resultType="lastestContentVo">
+		SELECT *
+		FROM (SELECT a.*,rownum rnum
+				FROM (
+						SELECT mem_num, num, photo, title, reg_date, mem_nickname
+						FROM
+							<![CDATA[
+							(SELECT mem_num, helper_num num, helper_filename photo, REPLACE(REPLACE(helper_title,'<','&lt;'),'>','&gt;') title, helper_reg_date reg_date FROM helper)
+							]]>
+						JOIN member USING (mem_num)
+						ORDER BY reg_date DESC
+					)a)
+		<![CDATA[
+		WHERE rnum<=3
+		]]>
+	</select>
+	
+	<select id="selectLastestMovie" resultType="lastestContentVo">
+		SELECT *
+		FROM (SELECT a.*,rownum rnum
+				FROM (
+						SELECT *
+						FROM
+							<![CDATA[
+							(SELECT performance_num num, performance_poster photo, REPLACE(REPLACE(performance_title,'<','&lt;'),'>','&gt;') title, performance_start_date reg_date FROM performance)
+							]]>
+						ORDER BY reg_date DESC
+					)a)
+		<![CDATA[
+		WHERE rnum<=3
+		]]>
+	</select>
+
+	<select id="selectLastestBook" resultType="lastestContentVo">
+		SELECT *
+		FROM (SELECT a.*,rownum rnum
+				FROM (
+						SELECT mem_num, num, photo, title, reg_date, mem_nickname
+						FROM
+							<![CDATA[
+							(SELECT mem_num, book_num num, book_thumbnailname photo, REPLACE(REPLACE(book_title,'<','&lt;'),'>','&gt;') title, book_regdate reg_date FROM book)
+							]]>
+						JOIN member USING (mem_num)
+						ORDER BY reg_date DESC
+					)a)
+		<![CDATA[
+		WHERE rnum<=3
+		]]>
+	</select>
+	
+	<select id="selectLastestCommunity" resultType="lastestContentVo">
+		SELECT *
+		FROM (SELECT a.*,rownum rnum
+				FROM (
+						SELECT mem_num, num, photo, title, reg_date, mem_nickname
+						FROM
+							<![CDATA[
+							(SELECT mem_num, community_num num, community_filename photo, REPLACE(REPLACE(community_title,'<','&lt;'),'>','&gt;') title, community_reg_date reg_date FROM community)
+							]]>
+						JOIN member USING (mem_num)
+						ORDER BY reg_date DESC
+					)a)
+		<![CDATA[
+		WHERE rnum<=3
+		]]>
+	</select>
+	
+</mapper>

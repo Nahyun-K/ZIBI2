@@ -1,0 +1,599 @@
+/*-------------- 정책 -------------*/
+/* 정책 관리자 메인 */
+.admin-page,
+.policy-page{
+	margin: 0 auto;
+}
+.admin-page .text-end{
+	margin-bottom: 20px;
+}
+.policy-main .row{
+	border-bottom: 1px solid #8c8c8c;
+	padding: 10px;
+}
+.policy-main .row div{
+	margin: 0 auto;
+	overflow: hidden;
+}
+.admin-page a{
+	color: black !important;
+}
+.admin-page .col-5 a{
+	display:block !important;
+	white-space:nowrap !important;
+	overflow:hidden;
+	text-overflow:ellipsis !important;
+}
+.admin-page a:hover{
+	color: #32a77b !important;
+	transition: .3s !important;
+}
+
+/* 정책 관리자 수정 */
+.policy-main,
+.policy-page{ 
+	margin-top: 40px;
+}
+.policy-page .row{
+	margin-top: 20px;
+}
+.policy-page button{
+	margin-top: 30px;
+}
+
+/* 정책 비율 */
+.policy-main text{
+	font-size: 2em !important;
+}
+
+/* 정책 url */
+.policy-map{
+	margin: 40px 0 20px 0;
+}
+#map{
+	margin-bottom: 10px;
+}
+
+/*-------------- 메인-------------*/
+#userInfoModal a,
+.carousel-item a,
+.main-content a{
+	color: black !important;
+}
+#userInfoModal a:hover,
+.carousel-item a:hover,
+.main-content a:hover{
+	color: #32a77b !important;
+	transition: .3s !important;
+}
+.main-content:not(:last-of-type){
+	padding-bottom: 30px;
+	border-bottom: 1px solid #ededed;
+}
+.main-content h4{
+	font-weight: 600;
+	margin-top: 30px;
+}
+
+/* 추가 정보 입력 유도 */
+#userInfoModal{
+	text-align: center;
+	padding: 10px;
+	font-size: .9em;
+}
+#userInfoModal b{
+	cursor: pointer;
+}
+
+/* 케러셀 */
+.carousel-item {
+	height: 400px;
+	width: 100%;
+	overflow: hidden;
+	display: felx;
+}
+.cmain-photo{
+	position: absolute;
+	left: 60%;
+	transform: translateX(-40%);
+}
+.cmain-content{
+	position: absolute;
+	left: 35%;
+	top: 50%;
+	transform: translateX(-60%);
+	z-index: 2;
+}
+.cmain-content h2, .cmain-content h1{
+	font-weight: 700;
+}
+.cmain-content #img_site{
+	font-size: .6em;
+	color: #ededed;
+}
+.cmovie-photo{
+	position: absolute;
+	left: 30%;
+	transform: translateX(-60%);
+	transform: rotate( -10deg );
+}
+.cmovie-content{
+	position: absolute;
+	left: 65%;
+	top: 40%;
+	transform: translateX(-50%);
+	z-index: 2;
+}
+.cmovie-content a{
+	font-weight: 700;
+}
+
+/*캐러셀 : 메뉴 설명*/
+.main-content h5{
+	margin: 30px 0 10px 0;
+	font-weight: 600;
+}
+.owl-nav{
+	display:none;
+}
+
+/*메뉴 설명*/
+.service{
+	margin:50px 0 50px 0;
+}
+.service-title{
+	font-size: 1.1em;
+	padding-bottom:10px;
+}
+.service-title-content{
+	padding-bottom:50px;
+}
+.service-content-icon h5{
+	font-size: 1em;
+	font-weight: bold;
+	margin: 0 0 10px 0 !important;
+}
+.service-content-icon p{
+	font-size: 0.9em;
+}
+.service .service-item {
+    position: relative;
+    height: 100%;
+    border-radius: 8px;
+    cursor: pointer !important;
+}
+.service-content::after {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 0;
+    top: 0;
+    left: 0;
+    bottom: auto;
+    background: #32a77b;
+    border-radius: 8px;
+    transition: 1s;
+    cursor: pointer !important;
+}
+.service-item:hover .service-content::after {
+    height: 100%;
+    opacity: 1;
+    cursor: pointer !important;
+}
+.service-item .service-content-icon {
+    position: relative;
+    z-index: 2;
+}
+.service-item .service-content-icon p {
+    transition: 1s;
+    cursor: pointer !important;
+}
+.service-item:hover .service-content-icon a {
+    color: var(--bs-white) !important;
+    cursor: pointer !important;
+}
+.service-item:hover .service-content-icon p {
+    color: var(--bs-white);
+    cursor: pointer !important;
+}
+.service-item:hover .service-content-icon{
+    color: var(--bs-white);
+    cursor: pointer !important;
+}
+.service-item .service-content-icon {
+    transition: 1s !important;
+    cursor: pointer !important;
+}
+
+/* 최신글 */
+.main-content .team-item{
+	border: 1px solid #ededed;
+}
+.main-content .team-item .team-img{
+	height: 180px;
+}
+.main-content .team-img .img-fluid{
+	border-radius: 8px;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: 50% 50%;
+	border-bottom: 1px solid #ededed;
+}
+.main-content h6{
+	display:block !important;
+	white-space:nowrap !important;
+	overflow:hidden;
+	text-overflow:ellipsis !important;
+	font-size: 1.1em;
+	font-weight: 600;
+	margin: 15px 5px 10px 5px;
+	color:black !important;
+}
+.main-content h6.text-primary{
+	font-size: .9em;
+}
+.main-content .team-item p{
+	font-size: .8em;
+}
+
+/* 지비의 명당 */
+.main-hot .photo-area{
+	height: 120px;
+	width: 120px;
+	float: left;
+}
+.main-hot .col-4{
+	margin-bottom: 15px;
+}
+.main-hot h6{
+	margin: 0;
+}
+.main-hot .profile-img{
+	border-radius: 50%;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: 50% 50%;
+}
+.main-hot .col-4 div:nth-child(2){
+	margin-top: 60px;
+	padding-left: 130px;
+
+}
+.main-hot a{
+	font-size: 1.1em;
+	font-weight: 600;
+}
+
+
+/*-------------로그인-------------*/
+.register-info div{
+	margin: 10px 0 10px 0;
+}
+.register-info a{
+	color: black;
+}
+
+/*--------------회원가입--------------*/
+/* 이메일 인증, 비밀번호 찾기 모달창 */
+#emailAuthModal{
+	margin: 0 auto;
+	width: 100%;
+	height: 100%;
+}
+.modal_box{
+	border-radius: 8px;
+	width: 35%;
+	margin: 0 auto;
+	padding: 10px;
+	text-align: center;
+	background-color: white;
+	display: flex;
+	flex-flow: column;
+	position: absolute;
+	top:50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 999;
+	border: 1px solid gray;
+}
+.modal_box img{
+	width: 20px;
+}
+.modal_box input{
+	text-align: center;
+}
+.modal_box button{
+	height: 40px;
+	align-self: center;
+	cursor: pointer;
+	font-size: .9em;
+}
+.modal_bg{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	background-color: rgba(0,0,0,0.5);
+	z-index: 99;		
+}
+.modal_box a{
+	font-weight: 600;
+	color: #DB3954;
+	cursor: pointer;
+}
+.modal_box p{
+	margin: 10px;
+}
+
+/*--------------마이페이지--------------*/
+/* 메인 */
+.mypageMain .profile-detail{
+	height: 600px;
+}
+.mypageMain .photo-area {
+	height: 400px;
+}
+.mypageMain h6{
+	font-weight: 500;
+	padding: 10px 0 5px 0;
+	color:#8c8c8c;
+	border-bottom: 1px solid #8c8c8c;
+}
+.mypageMain p{
+	font-weight: 700;
+	padding-left: 10px;
+	color:black;
+}
+.mypageMain a{
+	font-weight: 700;
+	font-size: 1.2em;
+	color: black;
+}
+.mypageMain .my-photo{
+	border-radius: 50%;
+}
+
+/* 프로필 사진 변경 */
+.mypageMain .my-photo {
+	object-fit: cover;
+	height: 400px;
+	width: 400px;
+}
+.mypageMain .site-content {
+	margin-top: 20px;
+	padding: 5px;
+	font-size: .9em;
+	font-weight: bold;
+}
+.mypageMain .event{
+	padding: 50px 0 50px 0;
+}
+.mypageMain .event h4{
+	font-size: 1.1em;
+	font-weight: bold;
+}
+.mypageMain .event .tab-class .nav-item a.active {
+    background: var(--bs-primary) !important;
+}
+.mypageMain .event .event-img .event-overlay {
+    position: absolute;
+    top: 85%;
+    left: 85%;
+    transition: 0.4s;
+    opacity: 0;
+    z-index: 1;
+    color: black;
+}
+.mypageMain .event .event-img:hover .event-overlay {
+    opacity: 1;
+    cursor: pointer;
+}
+#photo_choice{
+	margin-top: 15px;
+}
+
+/* 회원 정보 수정 */
+#update_member h6{
+	margin-bottom: 30px;
+}
+
+/* 마이페이지 내역 */
+.mypage-category{
+	margin: 20px;
+}
+.mypage-list{
+	margin: 20px;
+	padding: 5px;
+	border-bottom: 1px solid #f5f5f5;
+}
+.mypage-list .row:first-child{
+	background-color: #f5f5f5;
+}
+.mypage-list .row div{
+	border-top: 1px solid #f5f5f5;
+	padding: 5px;
+}
+
+.member-page a, .mypage-follow a{
+	text-decoration: none !important;
+	color: black !important;
+	font-weight: 600 !important;
+}
+.member-page a:hover, .mypage-follow a:hover{
+	text-decoration: none;
+	color: #32a77b !important;
+	font-weight: 600;
+	transition: .3s;
+}
+
+/* 마이페이지 팔로우 */
+.mypage-follow .col-5{ 
+	height: 100px;
+}
+.mypage-follow .col-5 img{
+	border-radius: 8px;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: 50% 50%;
+}
+.mypage-follow .col-7{
+	text-align: left;
+	border-bottom: 1px solid #ededed;
+}
+.mypage-follow .row{
+	margin: 8px;
+}
+.mypage-follow span{
+	font-size: .9em;
+	
+}
+.mypage-follow div{
+	margin-top: 10px;
+}
+.no-data{
+	text-align: center;
+	margin-top: 40px !important;
+}
+
+/* 오픈 프로필  */
+.openProfile a{
+	color: black !important;
+}
+.openProfile a:hovuserer{
+	color: #32a77b !important;
+	transition: .3s !important;
+}
+.openProfile .col-5{
+	height:  150px !important;
+	width: 174px !important;
+}
+
+.openProfile .col-5 img{
+	border-radius: 50%;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: 50% 50%;
+}
+.openProfile .row{
+	margin: 20px;
+}
+.openProfile .col{
+	text-align: center;
+	margin-bottom: 10px;
+}
+.openProfile .card-img{
+	height: 250px;
+	border-bottom: 1px solid #ededed;
+}
+.openProfile .card-img .card-image{
+	border-radius: 5px;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: 50% 50%;
+}
+.openProfile .card-title{
+	font-size: .9em;
+}
+.openProfile .card-footer{
+	font-size: .8em;
+}
+
+/*-------------전체--------------*/
+/* 일반 페이지 넓이 */
+.page-width{ 
+	width:60%;
+}
+/* 입력폼 페이지 넓이 */
+.form-width{ 
+	width:45%;
+}
+/* 오픈 프로필 페이지 넓이 */
+.page-open{
+	width: 80%;
+}
+/* 관리자 페이지 넓이 */
+.admin-page{
+	width: 80%
+}
+
+.carousel-inner img{
+	object-fit: cover;
+	width: 100%;
+	height: 100%;
+	object-position: 50% 50%;
+}
+
+/* 입력폼 */
+label{
+	font-weight: bold;
+	color: black;
+	margin-top: 20px;
+}
+input{
+	margin: 5px 0 5px 0;
+}
+input[type="text"]:focus,
+input[type="text"]:hover,
+input[type="search"]:hover,
+input[type="search"]:focus,
+input[type="password"]:focus,
+input[type="password"]:hover{
+	border: 1px solid #737373 !important;
+	box-shadow: none;
+}
+
+/* 에러 메세지 */
+.mypageMain #photo_check,
+.member-form span,
+.policy-page span{
+	margin: 5px 0 0 5px;
+	font-weight: bold;
+	color: #DB3954;
+} 
+
+/* 버튼 */
+input[type=file]::file-selector-button{
+	font-size: .9em;
+	border: 1px solid #ededed !important;
+	background: white;
+	box-shadow: none;
+	cursor: pointer;
+	border-radius: 5px;
+	padding: 5px 10px 5px 10px;
+}
+.mem-btn, .mem-btn:focus{
+	font-size: .9em;
+	border: 1px solid #ededed !important;
+	box-shadow: none;
+}
+.mem-btn-green,
+.mem-btn-green:focus{
+	background: #32a77b;
+    color: white;
+    box-shadow: none;
+}
+.mem-btn:hover,active,visited,
+.mem-btn-green:hover,active,visited{
+    background: white !important;
+    color: #32a77b;
+    border: 1px solid #ededed;
+	box-shadow: none;
+}
+
+a{
+	text-decoration-line: none;
+}
+a:hover{
+	text-decoration: none;
+}
+
+/*--------------기타--------------*/
+/* 모션 */
+.wow, .animated { 
+    animation-duration: 2s !important;
+}

@@ -1,0 +1,576 @@
+/*-------------- 메인-------------*/
+/* 케러셀 */
+.carousel-item {
+	height: 500px;
+	width: 100%;
+	overflow: hidden;
+}
+
+/*캐러셀 : 메뉴 설명*/
+.main-content h5{
+	margin: 30px 0 10px 0;
+	font-weight: 600;
+}
+.owl-nav{
+	display:none;
+}
+
+/*메뉴 설명*/
+.service{
+	margin:50px 0 50px 0;
+}
+.service-title{
+	font-size: 1.1em;
+	padding-bottom:10px;
+}
+.service-title-content{
+	padding-bottom:50px;
+}
+.service-content-icon h4{
+	font-size: 1em;
+	font-weight: bold;
+}
+.service-content-icon h4 a{
+	color: black;
+	text-decoration-line: none;
+}
+.service-content-icon p{
+	font-size: 0.9em;
+}
+.service .service-item {
+    position: relative;
+    height: 100%;
+    border-radius: 8px;
+    /*box-shadow: 0 0 45px rgba(0, 0, 0, .08);*/
+}
+.service-content::after {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 0;
+    top: 0;
+    left: 0;
+    bottom: auto;
+    background: #32a77b;
+    border-radius: 8px;
+    transition: 1s;
+}
+.service-item:hover .service-content::after {
+    height: 100%;
+    opacity: 1;
+}
+.service-item .service-content-icon {
+    position: relative;
+    z-index: 2;
+}
+.service-item .service-content-icon p {
+    transition: 1s;
+}
+.service-item:hover .service-content-icon a {
+    color: var(--bs-white) !important;
+}
+.service-item:hover .service-content-icon p {
+    color: var(--bs-white);
+}
+.service-item:hover .service-content-icon{
+    color: var(--bs-white);
+}
+.service-item .service-content-icon {
+    transition: 1s !important;
+}
+/*** Events Start ***/
+.event .tab-class .nav-item a.active {
+    background: var(--bs-primary) !important;
+}
+
+.event .event-img .event-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(212, 167, 98, 0.7);
+    border-radius: 8px;
+    transition: 0.5s;
+    opacity: 0;
+    z-index: 1;
+}
+
+.event .event-img:hover .event-overlay {
+    opacity: 1;
+}
+/*** Events End ***/
+
+/*-------------로그인-------------*/
+.register-info div{
+	margin: 10px 0 10px 0;
+}
+.register-info a{
+	color: black;
+	text-decoration-line: none;
+}
+
+/*--------------회원가입--------------*/
+/* 이메일 인증, 비밀번호 찾기 모달창 */
+#emailAuthModal{
+	margin: 0 auto;
+	width: 100%;
+	height: 100%;
+}
+.modal_box{
+	border-radius: 8px;
+	width: 35%;
+	margin: 0 auto;
+	padding: 10px;
+	text-align: center;
+	background-color: white;
+	display: flex;
+	flex-flow: column;
+	position: absolute;
+	top:50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 999;
+	border: 1px solid gray;
+}
+.modal_box img{
+	width: 20px;
+}
+.modal_box input{
+	text-align: center;
+}
+.modal_box button{
+	height: 40px;
+	align-self: center;
+	cursor: pointer;
+	font-size: .9em;
+}
+.modal_bg{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,0.5);
+	z-index: 99;		
+}
+.modal_box a{
+	font-weight: 600;
+	color: #DB3954;
+	text-decoration-line: none;
+	cursor: pointer;
+}
+.modal_box p{
+	margin: 10px;
+}
+
+/*--------------마이페이지--------------*/
+/* 메인 */
+.mypageMain .profile-detail{
+	height: 500px;
+}
+.mypageMain .photo-area {
+	height: 400px;
+}
+.mypageMain h6{
+	font-weight: 500;
+	padding: 10px 0 5px 0;
+	color:#8c8c8c;
+	border-bottom: 1px solid #8c8c8c;
+}
+.mypageMain p{
+	font-weight: 700;
+	padding-left: 10px;
+	color:black;
+}
+.mypageMain a{
+	font-weight: 700;
+	font-size: 1.2em;
+	text-decoration-line: none;
+	color: black;
+}
+.mypageMain .my-photo{
+	border-radius: 50%;
+}
+
+/* 프로필 사진 변경 */
+.mypageMain .my-photo {
+	object-fit: cover;
+	height: 350px;
+	width: 350px;
+}
+.mypageMain .site-content {
+	margin-top: 20px;
+	padding: 5px;
+	font-size: .9em;
+	font-weight: bold;
+}
+.mypageMain .event{
+	padding: 50px 0 50px 0;
+}
+.mypageMain .event h4{
+	font-size: 1.1em;
+	font-weight: bold;
+}
+.mypageMain .event .tab-class .nav-item a.active {
+    background: var(--bs-primary) !important;
+}
+.mypageMain .event .event-img .event-overlay {
+    position: absolute;
+    top: 80%;
+    left: 80%;
+    transition: 0.4s;
+    opacity: 0;
+    z-index: 1;
+    color: black;
+}
+.mypageMain .event .event-img:hover .event-overlay {
+    opacity: 1;
+    cursor: pointer;
+}
+
+/* 회원 정보 수정 */
+#update_member h6{
+	margin-bottom: 30px;
+}
+
+/* 마이페이지 내역 */
+.mypage-category{
+	margin: 20px;
+}
+.mypage-list{
+	margin: 20px;
+	padding: 5px;
+	border-bottom: 1px solid gray;
+}
+.mypage-list .row div{
+	border-top: 1px solid gray;
+	padding: 5px;
+}
+.mypage-list a, .mypage-follow a{
+	text-decoration: none;
+	color: black;
+	font-weight: 600;
+}
+.mypage-list a:hover, .mypage-follow a:hover{
+	text-decoration: none;
+	color: #32a77b;
+	font-weight: 600;
+	transition: .3s;
+}
+
+/* 마이페이지 팔로우 */
+.mypage-follow .col-5{
+	height: 100px;
+	width: 300px;
+	overflow: hidden;
+}
+.mypage-follow .col-5 img,
+.mypage-follow .col-4 img{
+	border-radius: 8px;
+	object-fit: cover;
+	width: 100%;
+	height: 100%;
+	object-position: 50% 50%;
+}
+.mypage-follow .col-7{
+	text-align: left;
+	border-bottom: 1px solid lightgray;
+}
+
+/* 오픈 프로필 */
+.mypage-follow .col-4{
+	height: 100px;
+	width: 200px;
+	overflow: hidden;
+}
+.mypage-follow .col-3{
+	text-align: left;
+}
+.all-card{
+	margin-top: 40px;
+	display: felx;
+	flex-wrap: wrap-reverse;
+	align-items: flex-start;
+}
+.card{
+	width:18em;
+	margin:5px;
+	display: inline-block;
+	align-self: flex-start;
+}
+
+
+/*-------------전체--------------*/
+/* 일반 페이지 넓이 */
+.page-width{ 
+	width:60%;
+}
+
+/* 입력폼 페이지 넓이 */
+.form-width{ 
+	width:45%;
+}
+
+
+.carousel-inner img{
+	object-fit: cover;
+	width: 100%;
+	height: 100%;
+	object-position: 50% 50%;
+}
+
+/* 입력폼 */
+.member-form label{
+	font-weight: bold;
+	color: black;
+	margin-top: 20px;
+}
+.member-form input{
+	margin: 5px 0 5px 0;
+}
+.member-form input[type="text"]:focus,
+.member-form input[type="text"]:hover,
+.member-form input[type="password"]:focus,
+.member-form input[type="password"]:hover{
+	border: 1px solid #737373 !important;
+	box-shadow: none;
+}
+
+/* 에러 메세지 */
+.mypageMain #photo_check,
+.member-form span{
+	margin: 5px 0 0 5px;
+	font-weight: bold;
+	color: #DB3954;
+} 
+
+/* 버튼 */
+input[type=file]::file-selector-button{
+	font-size: .9em;
+	border: 1px solid #ededed !important;
+	background: white;
+	box-shadow: none;
+	cursor: pointer;
+	border-radius: 5px;
+	padding: 5px 10px 5px 10px;
+}
+.mem-btn, .mem-btn:focus{
+	font-size: .9em;
+	border: 1px solid #ededed !important;
+	box-shadow: none;
+}
+.mem-btn-green,
+.mem-btn-green:focus{
+	background: #32a77b;
+    color: white;
+    box-shadow: none;
+}
+.mem-btn:hover,active,visited,
+.mem-btn-green:hover,active,visited{
+    background: white !important;
+    color: #32a77b;
+    border: 1px solid #ededed;
+	box-shadow: none;
+}
+
+/*--------------기타--------------*/
+/* 모션 */
+.wow, .animated { 
+    animation-duration: 2s !important;
+}
+
+/*--------------좌석 선택--------------*/
+/* 좌석 */
+.seat-style{
+	display:inline-block;
+	width:50px;
+	height:50px;
+	border:1px solid black;
+	margin:2px;
+}
+.seat-click{
+	background-color: red;
+}
+/* 이미 선택된 좌석 */
+.seat-full{
+	background-color: gray;
+}
+.rev-over-style{
+	border:3px solid blue;
+}
+
+/* 연령 */
+.ratingAge {
+	width: 30px;
+}
+/* 메인 컬러 */
+.green-background {
+	background-color: #32a77b;
+}
+.white-color{
+	color: white;
+}
+/* div */
+.div_inline{
+	display:inline-block;
+}
+/*버튼 위치*/
+.btn-position{
+	float:right;
+}
+/* 메인 리스트
+--------------------------------------*/
+.mainMouseoverBtn {
+    border: none;
+    border-radius: 10px;
+    background-color: #32a77b;
+    padding: 10px 0;
+    color: white;
+    margin: auto 0;
+}
+/* 상세 페이지
+--------------------------------------*/
+.detailLabel{
+	color: gray;
+	font-size:14pt;
+}
+.detailContent{
+	font-size:20pt;
+}
+
+
+/* 상영관, 영화, 날짜 시간 선택 페이지
+--------------------------------------*/
+.searchCinemaTable{
+	margin-top: 20px;
+	width: 150px;
+	border-top: solid #d3d3d3 1px;
+	border-bottom: solid #d3d3d3 1px;
+	padding: 5px 0;
+	text-align: center;
+	font-size: 14pt;
+	cursor: pointer;
+}
+.ent{
+	display:inline-block;
+	margin:20px;
+	border:1px solid #d3d3d3;
+	border-radius: 5px;
+	width:120px;height:120px;
+	text-align:center;
+	vertical-align:middle;
+	padding:0.5em;
+	cursor: pointer;
+}
+.ticketing-ent-row{
+	cursor: pointer;
+	margin: 0 auto;
+}
+#movieList{
+	margin: 10px;
+}
+#ticketing-poster-img{
+	height:230px; 
+	margin:10px; 
+	padding-left: 40px;
+}
+.ticketing-info{
+	font-size: 13pt;
+}
+
+
+/* 좌석 선택 페이지
+--------------------------------------*/
+.poster{
+	width: 170px;
+}
+.point{
+	cursor: pointer;
+}
+.people{
+	font-size: 14pt;
+}
+.select-people{
+	width: 140px;
+	margin: 30px 0 10px 40px;
+}
+.select-people-inner{
+	display: flex;
+	justify-content: space-evenly;
+	margin-bottom: 5px;
+}
+.seat-movieInfo-sort{
+	display:flex;
+	margin: 40px;
+}
+.movieInfo-sort{
+	margin: 3px 0 0 30px;
+	font-size: 13pt;
+}
+
+/* 좌석 선택 페이지
+--------------------------------------*/
+.payment-body{
+	height: 580px;
+	padding: 40px;
+	font-size: 13pt;
+}
+.submitBtn{
+	border: none;
+	width: 100px;
+	text-align: center;
+	float: right;
+}
+
+
+
+/* 좌석 선택 페이지
+--------------------------------------*/
+.ticketPage{
+	margin: 40px;
+}
+.ticketLabel{
+	color: gray;
+	font-size:11pt;
+}
+.ticketContent{
+	font-size:13pt;
+}
+/* 티켓
+--------------------------------------*/
+.showTicket{
+	display: inline-block;
+	margin: 10px 30px 0 0;
+}
+.showTicketImg{
+	width:300px;
+}
+.ticketBody{
+	font-size: 18pt;
+	margin: 20px 0;
+}
+
+
+/* 결제 history
+--------------------------------------*/
+.historyTable{
+	width: 100%;
+}
+.historyTable th, td{
+	border-bottom: 2px solid #d3d3d3;
+	padding: 15px;
+}
+.historyTable tr{
+	margin: 10px;
+	color: gray;
+}
+.ticketInfo{
+	margin: 8px;
+}
+/* 결제 history
+--------------------------------------*/
+.form-style{ 
+	list-style-type:none;
+	width:40%;
+}

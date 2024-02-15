@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.spring.community.dao.CommunityMapper">
+	<!-- 게시판 글 등록 -->
+	<insert id="insertCommunity" parameterType="communityVO">
+		INSERT INTO community(
+		   community_num,
+		   community_title,
+		   community_content,
+		   community_filename,
+		   community_category,
+		   mem_num)
+		VALUES (
+		   community_seq.nextval,
+		   #{community_title},
+		   #{community_content},
+		   #{community_filename,jdbcType=VARCHAR},
+		   #{community_category},
+		   #{mem_num})
+	</insert>
+	
+	<!-- sql 태그와 include 태그를 이용해 SQL문 재사용 -->
+	<sql id="communitySearch">
+		<where>
+			<if test="community_category!=null and community_category!=''">
+				community_category = #{community_category}
+			</if>
+			<if test="keyword != null and keyword != ''">
+				<if test="keyfield == 1">
+					community_title LIKE '%' || #{keyword} || '%'
+				</if>
+				<if test="keyfield == 2">
+					id LIKE '%' || #{keyword} || '%' OR
+					mem_nickname LIKE '%' || #{keyword} || '%'
+				</if>
+				<if test="keyfield == 3">
+					community_content LIKE '%' || #{keyword} || '%'
+				</if>
+				<if test="keyfield == 4">
+					community_title LIKE '%' || #{keyword} || '%' OR
+					community_content LIKE '%' || #{keyword} || '%'
+				</if>
+			</if>
+		</where>
+	</sql>
+	
+	<sql id="communityOrder">
+		<if test="order == 1">
+			ORDER BY community_num DESC
+		</if>
+		<if test="order == 2">
+			ORDER BY community_hit DESC
+		</if>
+		<if test="order == 3">
+			ORDER BY fav_cnt DESC NULLS LAST
+		</if>
+		<if test="order == 4">
+			ORDER BY re_cnt DESC NULLS LAST
+		</if>
+	</sql>
+	
+	<!-- 게시판 글의 총개수/검색 개수 -->
+	<select id="selectRowCount" parameterType="map" resultType="integer">
+		SELECT
+		  COUNT(*)
+		FROM community JOIN member USING(mem_num)
+		<include refid="communitySearch"></include>
+	</select>
+	
+	<!-- 게시판 전체 목록/검색 목록 -->
+	<select id="selectList" parameterType="map" resultType="communityVO">
+		SELECT
+		   *
+		FROM (SELECT
+		        a.*,
+		        rownum rnum
+		      FROM (SELECT
+		               community_num,
+		               <![CDATA[
+		               REPLACE(REPLACE(community_title,'<','&lt;'),'>','&gt;') community_title,
+		               ]]>
+		               community_hit,
+		               community_reg_date,
+		               community_category,
+		               mem_num,
+		               mem_nickname,
+		               re_cnt,
+		               fav_cnt
+		            FROM community 
+		            LEFT OUTER JOIN (SELECT COUNT(*) re_cnt, community_num FROM community_reply GROUP BY community_num) USING(community_num)
+		            LEFT OUTER JOIN (SELECT COUNT(*) fav_cnt, community_num FROM community_fav GROUP BY community_num) USING(community_num)
+		  	    	LEFT OUTER JOIN member USING(mem_num) 
+		            <include refid="communitySearch"></include>
+		            <include refid="communityOrder"></include>)a)
+		<![CDATA[
+		WHERE rnum >= #{start} AND rnum <= #{end}
+		]]>            
+	</select>
+	
+	<!-- 글 상세 -->
+	<select id="selectCommunity" parameterType="integer">
+		SELECT 
+		  * 
+		FROM community 
+		JOIN member USING(mem_num)
+		LEFT OUTER JOIN member USING(mem_num)
+		WHERE community_num=#{community_num} 
+	</select>
+	
+	<!-- 글 수정 -->
+	<update id="updateCommunity" parameterType="communityVO">
+		UPDATE community SET
+		  <if test="community_filename != null">
+		  community_filename=#{community_filename},
+		  </if>
+		  community_title=#{community_title},
+		  community_content=#{community_content},
+		  community_modify_date=SYSDATE
+		WHERE community_num=#{community_num}
+	</update>
+	
+	<!-- 댓글 등록 -->
+	<insert id="insertReply" parameterType="communityReplyVO">
+		INSERT INTO community_reply(
+			re_num,
+			re_content,
+			community_num,
+			mem_num)
+		VALUES (
+			community_reply_seq.nextval,
+			#{re_content},
+			#{community_num},
+			#{mem_num}
+		)
+	</insert>
+	
+	<!-- 댓글 목록 -->
+	<select id="selectListReply" parameterType="map" resultType="communityReplyVO">
+	SELECT
+	   *
+	FROM (SELECT
+			a.*,
+			rownum rnum
+		  FROM (SELECT
+		  			re_num,
+		  			<![CDATA[
+		  			REPLACE(REPLACE(re_content,'<','&lt;'),'>','&gt;') re_content,
+		  			]]>
+		  	        re_date,
+		  	        re_modifydate,
+		  	        community_num,
+		  	        mem_num,
+		  	        mem_nickname
+		  	    FROM community_reply
+		  	    JOIN member USING(mem_num)
+		  	    WHERE community_num=#{community_num}
+		  	    ORDER BY re_num DESC)a)
+		<![CDATA[
+		WHERE rnum >= #{start} AND rnum <= #{end}
+		]]> 	    
+	</select>
+</mapper>

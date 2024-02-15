@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+
+	<!-- 로그인 페이지 -->
+	<definition name="loginForm" template="/WEB-INF/views/home/layout_menuPage.jsp">
+	 	<put-attribute name="title" value="로그인"/>
+    	<put-attribute name="header" value="/WEB-INF/views/home/header.jsp"/>
+    	<put-attribute name="body" value="/WEB-INF/views/member/loginForm.jsp"/>
+    	<put-attribute name="footer" value="/WEB-INF/views/home/footer.jsp"/>
+	</definition>
+	
+	<!-- 타일스 기본 레이아웃 -->
+	<definition name="performancePage" template="/WEB-INF/views/performance/layout_menuPage.jsp">
+		<put-attribute name="title" value="예매하기"/>
+    	<put-attribute name="header" value="/WEB-INF/views/home/header.jsp"/>
+    	<put-attribute name="menu" value="/WEB-INF/views/home/menu.jsp"/>
+    	<put-attribute name="body" value="/WEB-INF/views/home/main.jsp"/>
+		<put-attribute name="footer" value="/WEB-INF/views/home/footer.jsp"/>
+	</definition>
+	
+	<!-- 공연 list (main 페이지) -->
+	<definition name="performanceList" extends="performancePage">
+		<put-attribute name="title" value="영화"/>
+    	<put-attribute name="body" value="/WEB-INF/views/performance/performanceList.jsp"/>
+	</definition>
+	
+	<!-- 공연 상세  -->
+	<definition name="performanceDetail" extends="performancePage">
+		<put-attribute name="title" value="영화 상세"/>
+    	<put-attribute name="body" value="/WEB-INF/views/performance/performanceDetail.jsp"/>
+	</definition>
+	
+	<!-- 공연 정보 넣는 폼 작성 -->
+	<definition name="writePerformance" extends="performancePage"><!-- jsp 명과 name을 동일하게 써야함 -->
+		<put-attribute name="title" value="영화 정보 form"/>
+    	<put-attribute name="body" value="/WEB-INF/views/performance/writePerformance.jsp"/>
+	</definition>
+	
+	<!-- 상영관, 날짜 선택 -->
+	<definition name="ticketing" extends="performancePage"><!-- jsp 명과 name을 동일하게 써야함 -->
+		<put-attribute name="title" value="상영 선택"/>
+    	<put-attribute name="body" value="/WEB-INF/views/performance/ticketing.jsp"/>
+	</definition>
+	
+	<!-- 상영관 정보 넣는 폼 작성 -->
+	<definition name="writeCinema" extends="performancePage"><!-- jsp 명과 name을 동일하게 써야함 -->
+		<put-attribute name="title" value="상영관 정보 form"/>
+    	<put-attribute name="body" value="/WEB-INF/views/performance/writeCinema.jsp"/>
+	</definition>
+	
+	<!-- 영화,상영관,상영날짜,상영시간 정보 넣는 폼 작성 -->
+	<definition name="writePerformanceDate" extends="performancePage"><!-- jsp 명과 name을 동일하게 써야함 -->
+		<put-attribute name="title" value="영화, 상영관, 날짜, 시간 정보 form"/>
+    	<put-attribute name="body" value="/WEB-INF/views/performance/writePerformanceDate.jsp"/>
+	</definition>
+	
+	<!-- 좌석 선택창 -->
+	<definition name="performanceSeat" extends="performancePage"><!-- jsp 명과 name을 동일하게 써야함 -->
+		<put-attribute name="title" value="인원/좌석 선택"/>
+    	<put-attribute name="body" value="/WEB-INF/views/performance/performanceSeat.jsp"/>
+	</definition>
+	
+	<!-- 결제창 -->
+	<definition name="performancePayment" extends="performancePage">
+		<put-attribute name="title" value="결제"/>
+    	<put-attribute name="body" value="/WEB-INF/views/performance/performancePayment.jsp"/>
+	</definition>
+	
+	<!-- [결제] 티켓 번호 -->
+	<definition name="performanceShowTicket" extends="performancePage">
+		<put-attribute name="title" value="결제 완료"/>
+    	<put-attribute name="body" value="/WEB-INF/views/performance/performanceShowTicket.jsp"/>
+	</definition>
+	
+	<!-- 결제 내역 목록 -->
+	<definition name="performanceHistory" extends="performancePage">
+		<put-attribute name="title" value="결제 내역"/>
+    	<put-attribute name="body" value="/WEB-INF/views/performance/performanceHistory.jsp"/>
+	</definition>
+	
+</tiles-definitions>

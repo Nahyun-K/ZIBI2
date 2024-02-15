@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.spring.secondchat.dao.ChatMapper">
+	<!-- 자바빈 매핑  -->
+	<resultMap type="chatRoomVO" id="chatMap">
+		<result property="chatVO.chat_message" column="chat_message"/>
+		<result property="chatVO.chat_reg_date" column="chat_reg_date"/>
+	</resultMap>
+
+	<!-- 채팅방 화면 호출 - 채팅방 관련 정보 구하기 -->
+		<!-- chatroom_num값을 전달받아서 chatroom 테이블과 second테이블 조인해서 sc_title 가져오고, 
+		chatroom테이블과 member 테이블 조인해서 seller_num과 buyer_num의 mem_nickname을 가져온다  -->
+	<select id="selectChatroomDetail" parameterType="integer" resultType="chatRoomVO">
+		SELECT 
+    		cr.chatroom_num,
+    		cr.sc_num,
+    		sec.sc_title,
+    		sec.sc_filename,sec.sc_sellstatus,sec.sc_price,
+    		cr.seller_num,
+    		md_seller.mem_nickname AS seller,
+    		cr.buyer_num,
+    		md_buyer.mem_nickname AS buyer
+		FROM 
+    		chatroom cr
+		JOIN 
+    		member md_seller ON cr.seller_num = md_seller.mem_num
+		JOIN 
+    		member md_buyer ON cr.buyer_num = md_buyer.mem_num
+		JOIN 
+    		second sec ON cr.sc_num = sec.sc_num
+		WHERE 
+    		cr.chatroom_num = ${chatroom_num}
+	</select>
+	
+	<select id="selectChatDetail" parameterType="integer" resultType="chatVO">
+		SELECT 
+			<![CDATA[
+			REPLACE(REPLACE(chat_message,'<','&lt;'),'>','&gt;') chat_message,
+			]]> 
+			chat_reg_date,
+			mem_num,
+			chat_read_check,
+			mem_nickname
+		FROM chat
+		JOIN member USING(mem_num)
+		WHERE chatroom_num=#{chatroom_num} 
+		ORDER BY chat_reg_date ASC 
+	</select>
+	
+	<!--  -->
+	<!-- 구매자 목록 행 개수 구하기 -->
+	<select id="selectChatBuyerListRowCount" parameterType="map" resultType="integer">
+		SELECT COUNT(*) FROM chatroom c 
+		JOIN (SELECT chatroom_num FROM chat group by chatroom_num) USING(chatroom_num) 
+		LEFT OUTER JOIN 
+			(SELECT COUNT(*) read_count, chatroom_num FROM chat 
+				WHERE chat_read_check=1 AND mem_num!=#{seller_num} GROUP BY chatroom_num) USING(chatroom_num) 
+		JOIN member m ON c.buyer_num=m.mem_num 
+		LEFT OUTER JOIN (SELECT 
+									chat_num,
+								chat_message,
+									chat_reg_date,
+									chatroom_num
+								 FROM chat WHERE chat_num IN (SELECT
+								 									MAX(chat_num) chat_num 
+								 								FROM chat
+								 								GROUP BY chatroom_num))
+				USING(chatroom_num)
+		WHERE sc_num=#{sc_num} ORDER BY read_count DESC NULLS LAST
+	</select>
+	
+	<!-- 구매자 목록 구하기 -->
+	<select id="selectChatBuyerList" parameterType="map" resultMap="chatMap">
+		SELECT * FROM chatroom c 
+		JOIN (SELECT chatroom_num FROM chat group by chatroom_num) USING(chatroom_num) 
+		LEFT OUTER JOIN 
+			(SELECT COUNT(*) read_count, chatroom_num FROM chat 
+				WHERE chat_read_check=1 AND mem_num!=#{seller_num} GROUP BY chatroom_num) USING(chatroom_num) 
+		JOIN member m ON c.buyer_num=m.mem_num 
+		LEFT OUTER JOIN (SELECT 
+									chat_num,
+								chat_message,
+									chat_reg_date,
+									chatroom_num
+								 FROM chat WHERE chat_num IN (SELECT
+								 									MAX(chat_num) chat_num 
+								 								FROM chat
+								 								GROUP BY chatroom_num))
+				USING(chatroom_num)
+		WHERE sc_num=#{sc_num} ORDER BY read_count DESC NULLS LAST
+	</select>
+</mapper>

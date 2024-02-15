@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+    <definition name="bookWrite" template="/WEB-INF/views/book/layout_bookBasic.jsp">
+    	<put-attribute name="tabtitle" value="소모임 만들기 | ZIBI"/>
+    	<put-attribute name="title" value="소모임 예약"/>
+    	<put-attribute name="header" value="/WEB-INF/views/home/header.jsp"/>
+    	<put-attribute name="menu" value="/WEB-INF/views/home/menu.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/views/book/bookWrite.jsp"/>
+		<put-attribute name="footer" value="/WEB-INF/views/home/footer.jsp"/>
+	</definition>
+	
+	<definition name="bookList" extends="bookWrite">
+		<put-attribute name="tabtitle" value="소모임 예약 | ZIBI"/>
+		<put-attribute name="title" value="소모임 예약"/>
+		<put-attribute name="body" value="/WEB-INF/views/book/bookList.jsp"/>
+	</definition>
+	
+	<definition name="bookDetail" extends="bookWrite">
+		<put-attribute name="tabtitle" value="소모임 예약 | ZIBI"/>
+		<put-attribute name="title" value="소모임 예약"/>
+		<put-attribute name="body" value="/WEB-INF/views/book/bookDetail.jsp"/>
+	</definition>
+	
+	<definition name="bookUpdate" extends="bookWrite">
+		<put-attribute name="tabtitle" value="소모임 수정하기 | ZIBI"/>
+		<put-attribute name="title" value="소모임 예약"/>
+		<put-attribute name="body" value="/WEB-INF/views/book/bookUpdate.jsp"/>
+	</definition>
+	
+	<definition name="bookCancel" extends="bookWrite">
+		<put-attribute name="tabtitle" value="소모임 취소하기 | ZIBI"/>
+		<put-attribute name="title" value="소모임 예약"/>
+		<put-attribute name="body" value="/WEB-INF/views/book/bookCancel.jsp"/>
+	</definition>
+	
+	<definition name="bookReview" extends="bookWrite">
+		<put-attribute name="tabtitle" value="소모임 후기 남기기 | ZIBI"/>
+		<put-attribute name="title" value="소모임 예약"/>
+		<put-attribute name="body" value="/WEB-INF/views/book/bookReview.jsp"/>
+	</definition>
+</tiles-definitions>

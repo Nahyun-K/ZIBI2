@@ -1,0 +1,413 @@
+/* 공통 정렬
+-------------------------*/
+.align-center{
+	text-align:center;
+}
+.align-right{
+	text-align:right;
+}
+.align-left{
+	text-align: left;
+}
+
+/* ck 에디터 크기 조정
+-------------------------*/
+.ck.ck-editor{
+	max-width:900px;
+}
+.ck-editor__editable{
+	min-height:300px;
+}
+
+/* 유효성 체크 문구
+-------------------------*/
+.error-color{
+	color:#ff0000;
+}	
+
+/* 버튼색
+-------------------------*/
+.helper-btn{
+	background: #32a77b;
+    color: white;
+}
+
+/* 버튼 길이
+-------------------------*/
+.helper-btn-size{
+	width:500px;
+	text-align:center;
+	height:50px;
+}
+.float-rigth{
+	float:right;
+}
+.float-rigth2{
+	float:right;
+	position:absolute;
+}
+.float-left{
+	float:left;
+}
+.float-left1{
+	float:left;
+	margin-left:100px;
+}
+.float-left2{
+	float:left;
+	margin-left:80px;
+}
+
+.input-group-text p-3{
+	position:absolute;
+	left:5px;
+}
+.search-size{
+	width:50px;
+	height:50px;
+}
+.keyword-size{
+	height:50px;
+}
+.align-center{
+	text-align: center;
+}
+.margin{
+	margin-left: 5px;
+}
+/* 목록 페이지
+-------------------------*/
+.help_btn{
+	width:100px;
+	height:30px;
+	border-color:green;
+	border-radius:30px;
+	color:white;
+	cursor:pointer;
+}
+.font-size1{
+	font-size: 20px;
+	font-weight: bold;
+}
+.font-size2{
+	font-size: 20px;
+	font-weight: bold;
+}
+.border-color{
+	border-color: #D8D8D8;
+	border-radius: 20px;
+	padding:15px;
+}
+.border-color2{
+	border-color: #D8D8D8;
+	border-radius: 20px;
+	padding:10px;
+}
+.hr-line{
+	height: 1px;
+	background: #bbb;
+	background-image: -webkit-linear-gradient(left, #eee, #777, #eee); 
+	background-image: -moz-linear-gradient(left, #eee, #777, #eee); 
+	background-image: -ms-linear-gradient(left, #eee, #777, #eee); 
+	background-image: -o-linear-gradient(left, #eee, #777, #eee); 
+}
+
+.title{
+	font-size: 30px;
+	font-weight: bold;
+}
+
+.radius{
+	border-radius: 30px;
+}
+.radius2{
+	border-radius: 80px;
+}
+
+/*상세글 카테고리*/
+.border_cate{
+	font-size:20px;
+	color:white;
+	border-radius:3px;
+	width:105px;
+	margin-top:10px;
+	padding:10px;
+	border-radius: 10px;
+}
+.font-color{
+	color:#424242;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+
+
+
+
+
+
+/* 댓글
+-------------------------*/
+div#reply_div{
+	padding:5px 80px 20px 10px;
+	background-color:white;
+	border:2px solid #D8D8D8;
+	border-radius: 10px;
+	float:left;
+	margin-top:10px;
+	margin-bottom:30px;
+	margin-left:20px;
+}
+form#re_form{
+	width:650px;
+	height:100px;
+	border:none;
+	background-color: white;
+}
+span.re-title{
+	color:#000;
+	font-size:12pt;
+	line-height:200%;
+}
+span.letter-count{
+	font-size:10pt;
+	color:#999;
+}
+.margin-span{
+	margin-left:480px;
+}
+textarea.rep-content{
+	width:98%;
+	height:50px;
+	margin:10px 10px;
+	border-color: #D8D8D8;
+	border-radius: 10px;
+}
+textarea.rep-content2{
+	width:80%;
+	height:50px;
+	margin-top:20px ;
+	margin-left:15px;
+	border-color: #D8D8D8;
+	border-radius: 10px;
+	resize: none;
+}
+
+div#loading{
+	width:100px;
+	height:50px;
+	/*정중앙에 div를 배치하기 위한 설정*/
+	position:absolute;
+	top:50%;
+	left:50%;
+	transform:translate(-50%,-50%);
+	/*하위 요소를 수직으로 쌓을 수 있는 공간을 만듬*/
+	display:flex;
+	/*세로 정렬*/
+	align-items:center;
+	/*가로 정렬*/
+	justify-content:center;
+}
+div.paging-button{
+	text-align:right;
+}
+div#output{
+	clear:both;
+}
+form#mre_form{
+	border:1px solid #D8D8D8;
+	width:700px;
+	height:120px;
+	border-radius: 10px;
+	margin-left:60px;
+}
+.btn-reply{/*작성하기*/
+	border-color: #D8D8D8;
+	border-radius: 10px;
+	background-color:white;
+	box-shadow: none;
+	padding:10px;
+	margin-top:10px;
+}
+.margin-photo{
+	margin-right:10px;
+	margin-left:10px;
+}
+.margin-date{
+	margin-right:30px;
+}
+.margin-content{
+	margin-left:10px;
+}
+.margin-address{
+	margin-left:10px;
+	margin-bottom:10px;;
+}
+.margin-top{
+	margin-top:15px;
+}
+.margin-top2{
+	margin-top:30px;
+}
+.margin-bottom{
+	margin-bottom:15px;
+}
+.margin-left{
+	margin-left:10px;
+}
+/*목록 검색*/
+.margin-keyword{
+	margin-left:230px;
+}
+
+/*상세글 박스*/
+.detail-border{
+	border:1px solid #D8D8D8;
+	border-radius: 10px;
+	padding:50px;
+	width:900px;
+	margin-left:100px;
+}
+.detail-border2{
+	border:1px solid #D8D8D8;
+	border-radius: 10px;
+	margin-left: 40px;
+	height: 500px;
+	width:200px;
+}
+
+.btn-detail{/*작성하기*/
+	font-size: 15px;
+	border: 1px solid #ededed !important;
+	box-shadow: none;
+	height:50px;
+	border-radius:7px;
+}
+
+.border-width{
+	width:150px;
+}
+.border-width2{
+	width:100px;
+	height:50px;
+}
+.border-keyword{
+	height: 50px;
+}
+#hp_bord{
+	border:1px solid #32a77b;
+}
+
+#hp_size{
+	border:900px;
+}
+/*버튼*/
+.mem-btn, .mem-btn:focus{
+	font-size: .9em;
+	border: 1px solid #ededed !important;
+	box-shadow: none;
+}
+.mem-btn-green,
+.mem-btn-green:focus{
+	background: #32a77b;
+    color: white;
+    box-shadow: none;
+}
+.mem-btn:hover,active,visited,
+.mem-btn-green:hover,active,visited{
+    background: white !important;
+    color: #32a77b;
+    border: 1px solid #ededed;
+	box-shadow: none;
+}
+.delete-btn2{
+	font-size: .9em;
+	border: 1px solid #ededed !important;
+	box-shadow: none;
+	width:80px;
+	border-radius: 20px;
+}
+
+
+/*radio 버튼*/
+label[for="helper_select1"],
+label[for="helper_select2"]{
+	margin-bottom:-5px !important;
+	margin-top:-13px !important;
+}
+.helper_select input[type="radio"]{
+	display:none;
+}
+.helper_select input[type="radio"]+label{
+	display:inline-block;
+    cursor:pointer;
+    height:30px;
+    width:90px;
+    border: 1px solid #32a77b;
+    line-height:30px;
+    text-align:center;
+    vertical-align:middle;
+    font-weight:bold;
+    font-size:13px;
+    background-color:#fff;
+    color:#333;
+}
+.helper_select input[type="radio"]:checked+label{
+	background-color:#32a77b;
+	color:white;
+}
+
+/*카테고리 입력란*/
+select:focus,
+select:hover {
+	outline:2px solid #32a77b;
+	box-shadow: none;
+}
+
+/*썸네일 안내*/
+.thum{
+	font-size: 13px;
+	color: #848484;
+}
+
+/*해결중&완료 토글*/
+#output_solution, #output_scrap{
+	cursor:pointer;
+}
+
+/*목록 테이블*/
+table{
+	width:100%;
+	margin:7px 0;
+ 	border-collapse: separate;
+ 	border-top: 1px solid #D8D8D8;
+}
+th, td {
+    border-bottom: 1px solid #D8D8D8;
+    padding: 10px;
+}
+th:first-child, td:first-child {
+    border-left: none;
+}
+
+/*목록 폰트*/
+.font-color1{
+	color:#04B486;
+	font-size: 18px;
+	font-weight: bold;
+}
+.font-color2{
+	color:#848484;
+	font-size: 18px;
+}
+.font-bold{
+	font-weight: bold;
+}
+
+/*지도*/
+#map{
+	width: 500px;
+	height: 300px;
+}
+
+

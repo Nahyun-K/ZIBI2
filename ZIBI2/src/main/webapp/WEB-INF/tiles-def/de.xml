@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+
+	<definition name="menuPage" template="/WEB-INF/views/helper/layout_menuPage.jsp">
+    	<put-attribute name="title" value="메뉴명"/>
+    	<put-attribute name="header" value="/WEB-INF/views/home/header.jsp"/>
+    	<put-attribute name="body" value="/WEB-INF/views/home/main.jsp"/>
+    	<put-attribute name="footer" value="/WEB-INF/views/home/footer.jsp"/>
+	</definition>
+
+	<!-- 재능기부 목록 페이지 -->
+	<definition name="helperList" extends="menuPage">
+		<put-attribute name="title" value="재능기부 목록"/>
+		<put-attribute name="body" value="/WEB-INF/views/helper/helperList.jsp"/>
+	</definition>
+	
+	<!-- 재능기부 글 등록 페이지 -->
+	<definition name="helperWrite" extends="menuPage">
+		<put-attribute name="title" value="재능기부 글등록"/>
+		<put-attribute name="body" value="/WEB-INF/views/helper/helperWrite.jsp"/>
+	</definition> 
+	
+	<!-- 재능기부 글 상세 페이지 -->
+	<definition name="helperView" extends="menuPage">
+		<put-attribute name="title" value="재능기부 글상세"/>
+		<put-attribute name="body" value="/WEB-INF/views/helper/helperView.jsp"/>
+	</definition>
+	
+	<!-- 재능기부 글 수정 페이지 -->
+	<definition name="helperModify" extends="menuPage">
+		<put-attribute name="title" value="재능기부 글수정"/>
+		<put-attribute name="body" value="/WEB-INF/views/helper/helperModify.jsp"/>
+	</definition>
+	
+	<!-- 재능기부 채팅 페이지 -->
+	<definition name="talkList" extends="menuPage">
+		<put-attribute name="title" value="재능기부 채팅 목록"/>
+		<put-attribute name="body" value="/WEB-INF/views/helper/talkList.jsp"/>
+	</definition>
+	
+	<!-- 재능기부 채팅 페이지 -->
+	<definition name="talkRoomWrite" extends="menuPage">
+		<put-attribute name="title" value="재능기부 채팅방 생성"/>
+		<put-attribute name="body" value="/WEB-INF/views/helper/talkRoomWrite.jsp"/>
+	</definition>
+	
+	<!-- 재능기부 채팅 페이지 -->
+	<definition name="talkDetail" extends="menuPage">
+		<put-attribute name="title" value="재능기부 채팅방"/>
+		<put-attribute name="body" value="/WEB-INF/views/helper/talkDetail.jsp"/>
+	</definition>
+	
+</tiles-definitions>

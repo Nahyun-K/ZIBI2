@@ -1,0 +1,140 @@
+*{
+	font-family: 'Noto Sans KR', sans-serif !important;
+	color: black;
+	padding: 0;
+	margin: 0;
+}
+/*--------------------header--------------------*/
+header{
+	background-color: #fcfcfc;
+	box-shadow: 0 8px 8px 0 #ededed;
+}
+header a{
+	cursor: pointer;
+}
+
+/* 회원 메뉴 */
+#member_menu a{
+	font-size: 0.8em;
+	color: black;
+	text-decoration-line: none;
+	padding: 5px;
+}
+#member_menu a:hover{
+	color: #32a77b;	
+	transition: .4s;
+}
+
+/* 문의하기 팝업창 */
+#question_popup{
+	font-size: .8em;
+	margin: 2px 0 2px 0;
+	padding: 2px 0 2px 0;
+}
+
+/* 전체 메뉴, 로고 */
+.navbar-collapse{
+	margin-left: 20px;
+}
+.main-header .navbar .navbar-nav .nav-link {
+    transition: .4s;
+    cursor: pointer;
+    color: black;
+}
+.main-header .navbar .dropdown-toggle::after {
+    border: none;
+    vertical-align: middle;
+    margin-left: 8px;
+}
+@media (min-width: 1200px) {
+    .main-header .navbar .nav-item .dropdown-menu {
+        display: block;
+        visibility: hidden;
+        top: 100%;
+        transform: rotateX(-75deg);
+        transform-origin: 0% 0%;
+        transition: .3s;
+        opacity: 0;
+    }
+    .main-header .navbar .nav-item:hover .dropdown-menu {
+        transform: rotateX(0deg);
+        visibility: visible;
+        opacity: 1;
+    }
+}
+.main-header .dropdown .dropdown-menu a:hover {
+    background: #fafafa;
+    color: #0a2118;
+    transition: .4s;
+}
+.dropdown-item{
+	font-size: .9em;
+}
+
+/* 페이지 메뉴명 */
+.menu-title{
+    background: #fcfcfc;
+    box-shadow: 0 0 3px 0 #ededed;
+    margin-bottom: 30px;
+	font-size: 1.2em;
+	font-weight:600;
+}
+
+/*--------------------footer--------------------*/
+footer{
+	background:#fcfcfc;
+	padding: 40px;
+	margin-top: 50px;
+	color: #65756f;
+}
+footer a{
+	text-decoration-line: none;
+	color: #424242;
+}
+footer a:hover{
+	color: #0a2118;
+}
+footer ul li{
+	list-style-type: none;
+	padding: 2px;
+	
+}
+footer ul>li:first-child{
+	font-size: .9em;
+	font-weight: 600;
+	padding-bottom: 6px;
+}
+footer ul li:not(:first-of-type) {
+	font-size: .8em;
+}
+footer .footer-logo{
+	margin-left:70px;
+}
+footer .info{
+	border-top: 1px solid lightgray;
+	font-size: .7em;
+	text-align:center;
+	padding-top: 20px;
+	margin-top:20px;
+}
+
+/* 크롬 input 태그 파란 배경색상 제거 */
+input:-webkit-autofill { 
+	-webkit-box-shadow: 0 0 0 30px #fff inset ; 
+	-webkit-text-fill-color: #000; 
+}
+input:-webkit-autofill, 
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{ 
+	transition: background-color 5000s ease-in-out 0s; 
+}
+
+/* 상단으로 스크롤 */
+ .back-to-top {
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    z-index: 99;
+    background-color: white;
+}

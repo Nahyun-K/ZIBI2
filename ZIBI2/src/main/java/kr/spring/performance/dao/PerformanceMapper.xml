@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.spring.performance.dao.PerformanceMapper">
+	<resultMap type="totalVO" id="totalMap">
+		<result property="cinemaVO.cinema_num" column="cinema_num"/>
+		<result property="cinemaVO.cinema_location1" column="cinema_location1"/>
+		<result property="cinemaVO.cinema_location2" column="cinema_location2"/>
+		<result property="cinemaVO.cinema_theater" column="cinema_theater"/>
+		<result property="performanceVO.performance_num" column="performance_num"/>
+		<result property="performanceVO.performance_title" column="performance_title"/>
+		<result property="performanceVO.performance_poster" column="performance_poster"/>
+		<result property="performanceVO.performance_age" column="performance_age"/>
+		<result property="ticketingVO.ticketing_num" column="ticketing_num"/>
+		<result property="ticketingVO.ticketing_date" column="ticketing_date"/>
+		<result property="ticketingVO.ticketing_start_time" column="ticketing_start_time"/>
+		<result property="choiceVO.choice_num" column="choice_num"/>
+		<result property="choiceVO.choice_row" column="choice_row"/>
+		<result property="choiceVO.choice_col" column="choice_col"/>
+		<result property="choiceVO.choice_adult" column="choice_adult"/>
+		<result property="choiceVO.choice_teenage" column="choice_teenage"/>
+		<result property="choiceVO.choice_treatement" column="choice_treatment"/>
+		<result property="choiceVO.mem_num" column="mem_num"/>
+		<result property="paymentVO.payment_num" column="payment_num"/>
+		<result property="paymentVO.payment_uid" column="payment_uid"/>
+		<result property="paymentVO.payment_type" column="payment_type"/>
+		<result property="paymentVO.payment_price" column="payment_price"/>
+		<result property="paymentVO.payment_state" column="payment_state"/>
+		<result property="paymentVO.payment_date" column="payment_date"/>
+	</resultMap>
+
+	<!-- 공연 등록 -->
+	<insert id="insertPerformance" parameterType="performanceVO">
+		INSERT INTO performance(
+		   performance_num,
+		   performance_title,
+		   performance_poster,
+		   performance_content,
+		   performance_start_date,
+		   performance_age,
+		   performance_category)
+		VALUES (
+		   performance_seq.nextval, 
+		   #{performance_title},
+		   #{performance_poster,jdbcType=VARCHAR},
+		   #{performance_content},
+		   #{performance_start_date},
+		   #{performance_age},
+		   #{performance_category})
+	</insert>
+	<!-- 상영관 등록 -->
+	<insert id="insertCinema" parameterType="cinemaVO">
+		INSERT INTO cinema(
+		   cinema_num,
+		   cinema_location1,
+		   cinema_location2,
+		   cinema_theater,
+		   cinema_theater_num,
+		   cinema_total,
+		   cinema_row,
+		   cinema_col,
+		   cinema_adult,
+		   cinema_teenage,
+		   cinema_treatment)
+		VALUES (
+		   performance_seq.nextval,
+		   #{cinema_location1},
+		   #{cinema_location2},
+		   #{cinema_theater},
+		   #{cinema_theater_num},
+		   #{cinema_total},
+		   #{cinema_row},
+		   #{cinema_col},
+		   #{cinema_adult},
+		   #{cinema_teenage},
+		   #{cinema_treatment})
+	</insert>
+	<!-- 공연+상영관+날짜 등록 -->
+	<insert id="insertDate" parameterType="ticketingVO">
+		INSERT INTO ticketing(
+		   ticketing_num,
+		   performance_num,
+		   cinema_num,
+		   ticketing_date,
+		   ticketing_start_time)
+		VALUES (
+		   ticketing_seq.nextval,
+		   #{performance_num},
+		   #{cinema_num},
+		   #{ticketing_date},
+		   #{ticketing_start_time})
+	</insert>
+	
+	<!-- choice insert -->
+	<insert id="insertChoice" parameterType="choiceVO">
+		INSERT INTO perform_choice(
+		   choice_num,
+		   choice_row,
+		   choice_col,
+		   choice_adult,
+		   choice_teenage,
+		   choice_treatment,
+		   mem_num,
+		   ticketing_num)
+		VALUES (
+		   perform_choice_seq.nextval,
+		   #{choice_row},
+		   #{choice_col},
+		   #{choice_adult},
+		   #{choice_teenage},
+		   #{choice_treatment},
+		   #{mem_num},
+		   #{ticketing_num})
+	</insert>
+	
+	<insert id="insertPayment" parameterType="map">
+		INSERT INTO perform_payment(
+		   payment_num,
+		   payment_uid,
+		   payment_type,
+		   payment_price,
+		   payment_state,
+		   payment_date,
+		   mem_num,
+		   choice_num)
+		VALUES (
+		   perform_payment_seq.nextval,
+		   #{payment_uid},
+		   #{payment_type},
+		   #{payment_price},
+		   #{payment_state},
+		   SYSDATE,
+		   #{mem_num},
+		   (SELECT min(choice_num) 
+		   		FROM perform_choice 
+		   		WHERE choice_row=#{choice_row} AND choice_col=#{choice_col} 
+		   		AND choice_adult=#{choice_adult} 
+		   		AND choice_teenage=#{choice_teenage} 
+		   		AND choice_treatment=#{choice_treatment} 
+		   		AND mem_num=#{mem_num} AND ticketing_num=#{ticketing_num}))
+	</insert>
+	
+	
+	<!-- [재사용] sql 검색어 -->
+	<sql id="performanceSearch">
+		<where>
+			<if test="keyword != null and keyword != ''">
+				performance_title LIKE '%' || #{keyword} || '%' AND performance_category=#{category}
+			</if>
+		</where>
+	</sql>
+	
+	<!-- 공연 전체/검색 목록 -->
+	<select id="selectList" parameterType="map" resultType="performanceVO">
+		SELECT
+			*
+		FROM performance
+		<include refid="performanceSearch"></include>
+		ORDER BY performance_start_date DESC
+	</select>
+	
+	<!-- 공연 개수/검색 개수 -->
+	<select id="selectRowCount" parameterType="map" resultType="integer">
+		SELECT COUNT(*) FROM performance
+		<include refid="performanceSearch"></include>
+	</select>
+	
+	<!-- 지역1로 -> 지역2 선택 -->
+	<select id="selectCinemaLoc2" parameterType="map" resultType="cinemaVO">
+		SELECT DISTINCT cinema_location2 FROM cinema WHERE cinema_location1=#{cinema_location1}
+	</select>
+	
+	<!-- [상영관] 상영관 + 날짜 + 영화로 예매할 수 있는 정보 출력 -->
+	<select id="selectCinemaWithTicketing" parameterType="map" resultType="cinemaVO">
+		SELECT c.cinema_num,c.cinema_location1,c.cinema_location2,c.cinema_theater,c.cinema_theater_num,c.cinema_total,c.cinema_row,c.cinema_col,c.cinema_adult,c.cinema_teenage,c.cinema_treatment
+		<include refid="result"></include>
+	</select>
+	
+	<!-- [영화] 상영관 + 날짜 + 영화로 예매할 수 있는 정보 출력 -->
+	<select id="selectPerformanceWithTicketing" parameterType="map" resultType="PerformanceVO">
+		SELECT p.performance_num, p.performance_title, p.performance_poster, p.performance_start_date, p.performance_age, p.performance_category
+		<include refid="result"></include>
+	</select>
+	
+	<!-- [상영관+영화+날짜] 상영관 + 날짜 + 영화로 예매할 수 있는 정보 출력 -->
+	<select id="selectWithTicketing" parameterType="map" resultType="TicketingVO">
+		SELECT t.ticketing_num,t.performance_num, t.cinema_num, t.ticketing_date, t.ticketing_start_time
+		<include refid="result"></include>
+	</select>
+	
+	<!-- [include] 상영관 + 날짜 + 영화로 예매할 수 있는 정보 출력 -->
+	<sql id="result">
+		FROM performance p JOIN ticketing t ON p.performance_num = t.performance_num JOIN cinema c ON t.cinema_num = c.cinema_num
+		<![CDATA[
+		WHERE 
+		TO_TIMESTAMP(TO_CHAR(t.ticketing_date, 'YYYY-MM-DD') || ' ' || t.ticketing_start_time, 'YYYY-MM-DD HH24:MI') > CURRENT_TIMESTAMP 
+		AND t.ticketing_date=#{day}
+		]]>
+		<if test="list != null and list != ''">
+			 AND t.cinema_num IN
+			 <foreach item="item" index="index" collection="list"
+	       		open="(" separator="," close=")">
+	         		#{item}
+	   		</foreach>	
+		</if>
+		<if test="performance_num != null and performance_num != ''">
+				AND p.performance_num=#{performance_num}
+		</if> 
+	</sql>
+	
+	<!-- 좌석 예매 페이지 -->
+	<!-- 티켓번호에 따른 cinema 정보 -->
+	<select id="pickCinema" parameterType="map" resultType="cinemaVO">
+		SELECT c.cinema_num,c.cinema_location1,c.cinema_location2,c.cinema_theater,c.cinema_theater_num,c.cinema_total,c.cinema_row,c.cinema_col,c.cinema_adult,c.cinema_teenage,c.cinema_treatment
+		<include refid="pick_performance"></include>
+	</select>
+	
+	<!-- 티켓번호에 따른 performance 정보 -->
+	<select id="pickPerformance" parameterType="map" resultType="PerformanceVO">
+		SELECT p.performance_num, p.performance_title, p.performance_poster, p.performance_start_date, p.performance_age, p.performance_category
+		<include refid="pick_performance"></include>
+	</select>
+	
+	<!-- 티켓번호에 따른 ticketing 정보 -->
+	<select id="pickTicketing" parameterType="map" resultType="TicketingVO">
+		SELECT t.ticketing_num,t.performance_num, t.cinema_num, t.ticketing_date, t.ticketing_start_time
+		<include refid="pick_performance"></include>
+	</select>
+	
+	<!-- 티켓번호에 따른 cinema 정보 -->
+	<select id="choosingCinema" parameterType="map">
+		SELECT c.cinema_num,c.cinema_location1,c.cinema_location2,c.cinema_theater,c.cinema_theater_num,c.cinema_total,c.cinema_row,c.cinema_col,c.cinema_adult,c.cinema_teenage,c.cinema_treatment
+		<include refid="pick_performance"></include>
+	</select>
+	
+	<!-- 티켓번호에 따른 performance 정보 -->
+	<select id="choosingPerformance" parameterType="map">
+		SELECT p.performance_num, p.performance_title, p.performance_poster, p.performance_start_date, p.performance_age, p.performance_category
+		<include refid="pick_performance"></include>
+	</select>
+	
+	<!-- [임시] 티켓번호에 따른 ticketing 정보 -->
+	<select id="choosingTicketing" parameterType="map">
+		SELECT t.ticketing_num,t.performance_num, t.cinema_num, t.ticketing_date, t.ticketing_start_time
+		<include refid="pick_performance"></include>
+	</select>
+	
+	
+	<!-- [include] 좌석 예매 페이지 -->
+	<sql id="pick_performance">
+		FROM performance p JOIN ticketing t ON p.performance_num = t.performance_num JOIN cinema c ON t.cinema_num = c.cinema_num
+		WHERE ticketing_num=#{ticketing_num}
+	</sql>
+	
+	<!-- [결제내역] Cinema -->
+	<select id="selectPayCinema" parameterType="map" resultType="cinemaVO">
+		SELECT c.*
+		<include refid="payment_history"></include>
+	</select>
+	
+	<!-- [결제내역] Performance -->
+	<select id="selectPayPerformance" parameterType="map" resultType="performanceVO">
+		SELECT p.*
+		<include refid="payment_history"></include>
+	</select>
+	
+	<!-- [결제내역] Ticketing -->
+	<select id="selectPayTicketing" parameterType="map" resultType="ticketingVO">
+		SELECT t.*
+		<include refid="payment_history"></include>
+	</select>
+	
+	<!-- [결제내역] Choice -->
+	<select id="selectPayChoice" parameterType="map" resultType="choiceVO">
+		SELECT pc.*
+		<include refid="payment_history"></include>
+	</select>
+	
+	<!-- [결제내역] PaymentVO -->
+	<select id="selectPayPayment" parameterType="map" resultType="paymentVO">
+		SELECT pp.*
+		<include refid="payment_history"></include>
+	</select>
+	
+	<!-- [결제내역] TotalVO -->
+	<select id="selectPayTotal" parameterType="map" resultMap="totalMap">
+		SELECT DISTINCT
+			c.cinema_num,
+			c.cinema_location1,
+			c.cinema_location2,
+			c.cinema_theater,
+			p.performance_num,
+			p.performance_title,
+			p.performance_poster,
+			p.performance_age,
+			t.ticketing_num,
+			t.ticketing_date,
+			t.ticketing_start_time,
+			pc.mem_num,
+			pp.payment_uid,
+			pp.payment_type,
+			pp.payment_price,
+			pp.payment_state,
+			pp.payment_date
+		<include refid="payment_history"></include>
+		<include refid="withOrderUid"></include>
+	</select>
+	
+	<select id="selectPayAll" parameterType="map" resultMap="totalMap">
+		SELECT *
+		<include refid="payment_history"></include>
+		<include refid="withOrderUid"></include>
+	</select>
+	
+	<select id="selectPayCount" parameterType="map" resultType="integer">
+		SELECT COUNT(*)
+		<include refid="payment_history"></include>
+		<include refid="withOrderUid"></include>
+	</select>
+	
+	<!-- [include] 결제 내역 -->
+	<sql id="payment_history">
+		FROM performance p
+		JOIN ticketing t ON p.performance_num = t.performance_num
+		JOIN perform_choice pc ON t.ticketing_num = pc.ticketing_num
+		JOIN perform_payment pp ON pc.choice_num = pp.choice_num
+		JOIN cinema c ON t.cinema_num = c.cinema_num
+		WHERE pc.mem_num=#{mem_num}
+	</sql>
+	
+	<!-- [재사용] 결제내역 주문번호로 검색 -->
+	<sql id="withOrderUid">
+		<if test="payment_uid != null and payment_uid != ''">
+			AND pp.payment_uid=#{payment_uid}
+		</if>
+	</sql>
+	
+	
+	
+	
+	
+</mapper>
+

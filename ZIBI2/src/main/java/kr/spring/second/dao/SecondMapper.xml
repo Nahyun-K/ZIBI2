@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.spring.second.dao.SecondMapper">
+	<!-- 자바빈 매핑  -->
+	<resultMap type="secondOrderVO" id="secondMap">
+		<result property="secondVO.sc_filename" column="sc_filename"/>
+		<result property="secondVO.sc_sellstatus" column="sc_sellstatus"/>
+		<result property="secondVO.sc_title" column="sc_title"/>
+		<result property="secondVO.sc_price" column="sc_price"/>
+		<result property="secondVO.sc_address" column="sc_address"/>
+		<result property="secondVO.mem_num" column="mem_num"/>
+	</resultMap>
+	<!-- 중고거래 글 등록 -->
+	<insert id="insertSecond" parameterType="secondVO">
+		INSERT INTO second(
+			sc_num,
+			sc_title,
+			sc_category,
+			sc_price,
+			sc_content,
+			sc_status,
+			sc_way,
+			sc_address,
+			sc_place,
+			sc_latitude,
+			sc_longitude,
+			sc_filename,
+			sc_ip,
+			mem_num)
+		VALUES (
+			second_seq.nextval,
+			#{sc_title},
+			#{sc_category},
+			#{sc_price},
+			#{sc_content},
+			#{sc_status},
+			#{sc_way},
+			#{sc_address},
+			#{sc_place},
+			#{sc_latitude},
+			#{sc_longitude},
+			#{sc_filename,jdbcType=VARCHAR},
+			#{sc_ip},
+			#{mem_num})
+	</insert>
+	
+	<!-- sql 태그와 include 태그를 이용해 SQL문 재사용 -->
+	<sql id="secondSearch">
+		WHERE
+			sc_show=2
+		<if test="keyword != null and keyword != ''">
+				AND (sc_title LIKE '%' || #{keyword} || '%' OR
+				sc_content LIKE '%' || #{keyword} || '%' OR
+				sc_address LIKE '%' || #{keyword} || '%') 
+		</if>
+	</sql>
+	
+	<!-- 중고거래 글의 총개수/검색 개수 -->
+	<select id="selectRowCount" parameterType="map" resultType="integer">
+		SELECT COUNT(*) FROM second JOIN member USING(mem_num)
+		<include refid="secondSearch"></include>
+	</select>
+	
+	<!-- 중고거래 전체 목록/검색 목록 -->
+	<select id="selectList" parameterType="map" resultType="secondVO">
+		SELECT * FROM (SELECT a.*, rownum rnum FROM 
+		(SELECT 
+			sc_num,
+			<![CDATA[
+			REPLACE(REPLACE(sc_title,'<','&lt;'),'>','&gt;') sc_title,
+			]]> 
+			sc_price,sc_filename,sc_address,sc_sellstatus,
+			sc_reg_date, mem_num
+		FROM second
+		JOIN member USING(mem_num)
+		<include refid="secondSearch"></include>
+		ORDER BY sc_reg_date DESC)a) 
+		<![CDATA[
+		WHERE rnum >= #{start} AND rnum <= #{end}
+		]]>
+	</select>
+	
+	<!-- 중고거래 글 상세 -->
+	<select id="selectSecond" parameterType="integer">
+		SELECT * FROM second JOIN member USING(mem_num)
+		WHERE sc_num=#{sc_num}
+	</select>
+	
+	<!-- 중고거래 글 수정 -->
+	<update id="updateSecond" parameterType="secondVO">
+		UPDATE second SET 
+		<if test="sc_filename != null" >
+		sc_filename=#{sc_filename},
+		</if>
+		sc_title=#{sc_title},
+		sc_category=#{sc_category},
+		sc_price=#{sc_price},
+		sc_content=#{sc_content},
+		sc_status=#{sc_status},
+		sc_way=#{sc_way},
+		sc_address=#{sc_address},
+		sc_place=#{sc_place},
+		sc_latitude=#{sc_latitude},
+		sc_longitude=#{sc_longitude},
+		sc_ip=#{sc_ip},
+		sc_modify_date=SYSDATE 
+		WHERE sc_num=#{sc_num} 
+	</update>
+	
+	<!-- 글 상세 판매자 후기 행 개수 -->
+	<select id="selectSellRevCount" parameterType="integer">
+		SELECT COUNT(*)
+		FROM second_review sr
+		JOIN second s ON sr.sc_num = s.sc_num
+		JOIN member m ON sr.reviewer_num = m.mem_num
+		WHERE s.mem_num = (SELECT mem_num FROM second WHERE sc_num = #{sc_num})
+	</select>
+	<!-- 글 상세 판매자 후기 목록 -->
+	<select id="selectSellRevList" parameterType="map" resultType="secondVO">
+		SELECT sr.reviewer_num, sr.sc_rev_content,sr.sc_rev_star, reviewer_num, m.mem_nickname
+		FROM second_review sr
+		JOIN second s ON sr.sc_num = s.sc_num
+		JOIN member m ON sr.reviewer_num = m.mem_num
+		WHERE s.mem_num = (SELECT mem_num FROM second WHERE sc_num = #{sc_num})
+	</select>
+	
+	
+	<!-- ================= 거래 ================= -->
+	<insert id="insertSecondOrder" parameterType="secondOrderVO">
+		INSERT INTO second_order(
+			sc_order_num,
+			sc_buyer_num,
+			sc_num)
+		VALUES (
+			second_order_seq.nextval,
+			#{sc_buyer_num},
+			#{sc_num})
+	</insert>
+	<!-- 구매자 선택시 sc_num 관련 행이 없다면 판매완료 행 insert  sc_order_status를 3으로 insert -->
+	<insert id="insertOrderSellFin" parameterType="secondOrderVO">
+		INSERT INTO second_order(
+			sc_order_num,
+			sc_buyer_num,sc_order_status,
+			sc_num)
+		VALUES (
+			second_order_seq.nextval,
+			#{sc_buyer_num},3,
+			#{sc_num})
+	</insert>
+	
+	
+	
+	<!-- ================= 중고거래 마이페이지 ================= -->
+	<!-- sc_sellstatus(0:판매중 1:예약대기 2:예약중 3: 거래완료) -->
+	<!-- 중고거래 마이페이지 - 판매내역 - 전체 글의 총 개수 -->
+		<!-- sc_show(2: 표시)2이고 로그인한 사람의 전체 글 개수  -->
+	<select id="selectMyscCount" parameterType="map" resultType="integer">
+		SELECT COUNT(*) FROM second JOIN member USING(mem_num) WHERE mem_num=#{mem_num} AND sc_show=2
+	</select>
+	
+	<!-- 중고거래 마이페이지 - 판매내역 - 전체 글 목록 -->
+		<!-- sc_show(2: 표시)2이고 로그인한 사람의 전체 글 보여지게  -->
+	<select id="selectMyscList" parameterType="map" resultType="secondVO">
+		SELECT * FROM (SELECT a.*, rownum rnum FROM 
+			(SELECT sc_num, sc_filename, sc_title,
+					sc_price, sc_address,sc_reg_date,sc_sellstatus,
+					sc_modify_date,mem_num
+			 FROM second 
+			 JOIN member USING(mem_num) WHERE mem_num=#{mem_num} AND sc_show=2 ORDER BY sc_reg_date DESC)a)
+	</select>
+	
+	<!-- sc_sellstatus가 0일때(판매중)  -->
+	<!-- 중고거래 마이페이지 - 판매내역 - 판매중 글 개수-->   
+	<select id="selectForSaleCount" parameterType="map" resultType="integer">
+		SELECT COUNT(*) FROM second JOIN member USING(mem_num) WHERE mem_num=#{mem_num} AND sc_show=2 AND sc_sellstatus=0
+	</select>
+	
+	<!-- 중고거래 마이페이지 - 판매내역 - 판매중 글 목록 -->
+		<!-- sc_show가 2이고, 로그인한 사람의 전체 글 보여지게 -->
+	<select id="selectForSaleList" parameterType="map" resultType="secondVO">
+		SELECT * FROM (SELECT a.*, rownum rnum FROM 
+			(SELECT sc_num, sc_filename, sc_title,
+					sc_price, sc_address,sc_reg_date,sc_sellstatus,
+					sc_modify_date,mem_num
+			 FROM second 
+			 JOIN member USING(mem_num) WHERE mem_num=#{mem_num} AND sc_show=2 AND sc_sellstatus=0)a)
+	</select>
+	
+	
+	<!-- sc_sellstatus가 1일때(예약대기)  -->
+	<!-- 중고거래 마이페이지 - 판매내역 - 예약대기 글 개수-->  
+	<select id="selectWaitReserveCount" parameterType="map" resultType="integer">
+		SELECT COUNT(*) FROM (
+			SELECT a.*, rownum rnum FROM (
+			    SELECT *
+			    FROM second s
+			    LEFT OUTER JOIN second_order so ON s.sc_num = so.sc_num
+			    LEFT OUTER JOIN member m ON so.sc_buyer_num = m.mem_num
+			    WHERE s.mem_num = #{mem_num} AND s.sc_show = 2 AND s.sc_sellstatus = 1
+			) a)
+	</select>
+	<!-- 중고거래 마이페이지 - 판매내역 - 예약대기 글 목록 -->
+		<!-- second_oder테이블과 조인해서 구매자 정보 가져오고, member테이블과 조인해서 구매자 닉네임 가져옴 -->
+	<select id="selectWaitReserveList" parameterType="map" resultType="secondVO">
+		SELECT * FROM (
+		    SELECT a.*, rownum rnum FROM (
+		        SELECT 
+		            s.sc_num, s.sc_filename, s.sc_title, s.sc_price, s.sc_address, s.sc_sellstatus,
+		            s.mem_num, so.sc_buyer_num, so.sc_order_reg_date, m.mem_nickname sc_buyer_nickname
+		        FROM second s
+		        LEFT OUTER JOIN second_order so ON s.sc_num = so.sc_num
+		        LEFT OUTER JOIN member m ON so.sc_buyer_num = m.mem_num
+		        WHERE s.mem_num = #{mem_num} AND s.sc_show = 2 AND s.sc_sellstatus = 1
+		    ) a)
+	</select>
+	
+	<!-- sc_sellstatus가 2일때(예약중)  -->
+	<!-- 중고거래 마이페이지 - 판매내역 - 예약중 글 개수-->  
+	<select id="selectReserveCount" parameterType="map" resultType="integer">
+		SELECT COUNT(*) FROM second JOIN member USING(mem_num) WHERE mem_num=#{mem_num} AND sc_show=2 AND sc_sellstatus=2
+	</select>
+	<!-- 중고거래 마이페이지 - 판매내역 - 예약중 글 목록 -->
+	<select id="selectReserveList" parameterType="map" resultType="secondVO">
+		SELECT * FROM (SELECT a.*, rownum rnum FROM 
+			(SELECT s.sc_num, s.sc_filename, s.sc_title,
+					s.sc_price, s.sc_address,s.sc_reg_date,s.sc_sellstatus,
+					s.sc_modify_date, s.mem_num, m.mem_nickname sc_buyer_nickname
+			 FROM second s
+			 LEFT OUTER JOIN second_order so ON s.sc_num = so.sc_num
+			 LEFT OUTER JOIN member m ON so.sc_buyer_num = m.mem_num
+			 WHERE s.mem_num=#{mem_num} AND s.sc_show=2 AND s.sc_sellstatus=2)a)
+	</select>
+	
+	<!-- sc_sellstatus가 3일때(판매완료)  -->
+	<!-- 중고거래 마이페이지 - 판매내역 - 판매완료 글 개수-->  
+	<select id="selectSellFinCount" parameterType="map" resultType="integer">
+		SELECT COUNT(*) FROM second JOIN member USING(mem_num) WHERE mem_num=#{mem_num} AND sc_show=2 AND sc_sellstatus=3
+	</select>
+	<!-- 중고거래 마이페이지 - 판매내역 - 판매완료 글 목록 -->
+	<select id="selectSellFinList" parameterType="map" resultType="secondVO">
+		SELECT * FROM (SELECT a.*, rownum rnum FROM 
+			(SELECT s.sc_num, s.sc_filename, s.sc_title,
+					s.sc_price, s.sc_address,s.sc_reg_date,s.sc_sellstatus,
+					s.sc_modify_date, s.mem_num, m.mem_nickname sc_buyer_nickname
+			 FROM second s
+			 LEFT OUTER JOIN second_order so ON s.sc_num = so.sc_num
+			 LEFT OUTER JOIN member m ON so.sc_buyer_num = m.mem_num
+			 WHERE s.mem_num=#{mem_num} AND s.sc_show=2 AND s.sc_sellstatus=3)a)
+	</select>
+	
+	<!-- sc_show가 1(숨김) 게시물 -->
+	<!-- 중고거래 마이페이지 - 판매내역 - 판매완료 글 개수-->  
+	<select id="selectHideCount" parameterType="map" resultType="integer">
+		SELECT COUNT(*) FROM second JOIN member USING(mem_num) WHERE mem_num=#{mem_num} AND sc_show=1
+	</select>
+	
+	<select id="selectHideList" parameterType="map" resultType="secondVO">
+		SELECT * FROM second JOIN member USING(mem_num) WHERE mem_num=#{mem_num} AND sc_show=1
+	</select>
+	
+	
+	
+	
+	<!-- 마이페이지 - 구매내역 -->
+	<select id="selectBuyList" parameterType="map" resultMap="secondMap">
+		SELECT * FROM second_order 
+			JOIN second USING(sc_num) 
+            LEFT OUTER JOIN member USING(mem_num)  WHERE sc_buyer_num=#{mem_num}
+	</select>
+	
+	<!-- 마이페이지 - 찜 상품  -->
+	<select id="selectScFavCount" parameterType="integer" resultType="integer">
+		SELECT COUNT(*) FROM (SELECT * FROM 
+					(SELECT * FROM second JOIN member USING(mem_num) 
+					JOIN second_fav f USING(sc_num) WHERE f.mem_num=#{mem_num}
+					ORDER BY sc_num DESC))
+	</select>
+	
+	<select id="selectScFavList" parameterType="map" resultType="secondVO">
+		SELECT * FROM (SELECT * FROM 
+					(SELECT * FROM second JOIN member USING(mem_num) 
+					JOIN second_fav f USING(sc_num) WHERE f.mem_num=#{mem_num}
+					ORDER BY sc_num DESC))
+	</select>
+	
+	<!-- 후기 작성 -->
+	<insert id="insertScReview" parameterType="secondReviewVO">
+		INSERT INTO second_review(
+			sc_rev_num,
+			sc_rev_star,
+			sc_rev_content,
+			sc_num,
+			reviewer_num,
+			sc_rev_ip) 
+		VALUES(
+			second_review_seq.nextval,
+			#{sc_rev_star},
+			#{sc_rev_content},
+			#{sc_num},
+			#{reviewer_num},
+			#{sc_rev_ip})
+	</insert>
+	
+	<!-- 후기 목록 행 개수 -->	
+	<select id="selectReviewCount" parameterType="integer" resultType="integer">
+		SELECT COUNT(*)
+		FROM second_review sr
+		JOIN second s ON sr.sc_num = s.sc_num
+		JOIN member m ON sr.reviewer_num = m.mem_num WHERE s.mem_num = #{mem_num}
+	</select>
+	<!-- 후기 목록 가져오기  -->
+		<!-- 후기 작성자 닉네임, 로그인 한 사람(판매자) mem_num 가져오기 -->
+	<select id="selectReviewList" parameterType="map" resultType="secondReviewVO">
+		SELECT sr.*, m.mem_nickname reviewer_nickname,s.mem_num seller_num
+		FROM second_review sr
+		JOIN second s ON sr.sc_num = s.sc_num
+		JOIN member m ON sr.reviewer_num = m.mem_num WHERE s.mem_num = #{mem_num}
+	</select>
+
+	<!-- 채팅 내역 행 개수   -->
+	<select id="selectBuyChatCount" parameterType="map" resultType="integer">
+		 SELECT COUNT(*)
+		FROM chatroom 
+		JOIN (SELECT chatroom_num FROM chat GROUP BY chatroom_num) USING(chatroom_num) 
+		JOIN second USING(sc_num) 
+		JOIN member USING(mem_num) 
+		LEFT OUTER JOIN (
+		    SELECT chat_num, chat_message, chat_reg_date, chatroom_num 
+		    FROM chat 
+		    WHERE chat_num IN (
+		        SELECT MAX(chat_num) AS chat_num 
+		        FROM chat 
+		        GROUP BY chatroom_num
+		    )
+		) USING(chatroom_num) 
+		WHERE buyer_num = #{mem_num}
+	
+	</select>
+	<!-- 채팅 내역 목록 가져오기   -->
+	<select id="selectBuyChatList" parameterType="map" resultType="chatRoomVO">
+	 SELECT chatroom_num, mem_nickname, sc_title, sc_filename, chat_reg_date,sc_num 
+FROM chatroom 
+JOIN (SELECT chatroom_num FROM chat GROUP BY chatroom_num) USING(chatroom_num) 
+JOIN second USING(sc_num) 
+JOIN member USING(mem_num) 
+LEFT OUTER JOIN (
+    SELECT chat_num, chat_message, chat_reg_date, chatroom_num 
+    FROM chat 
+    WHERE chat_num IN (
+        SELECT MAX(chat_num) AS chat_num 
+        FROM chat 
+        GROUP BY chatroom_num
+    )
+) USING(chatroom_num) 
+WHERE buyer_num = #{mem_num}
+	
+	</select>
+	
+
+</mapper>

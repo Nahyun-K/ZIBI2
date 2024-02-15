@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.spring.checklist.dao.CheckListMapper">
+<!-- 체크리스트 글 등록 -->
+	<insert id="insertCheckList" parameterType="CheckListVO">
+		INSERT INTO CheckList(
+		   check_id,
+		   room_name,
+		   room_address1,
+		   room_address2,
+		   room_deposit,
+		   room_expense,
+		   room_size,
+		   room_star,
+		   room_description,
+		   room_filename,
+		   room_check1,
+		   room_check2,
+		   room_check3,
+		   room_check4,
+		   room_check5,
+		   room_check6,
+		   mem_num)
+		VALUES (
+		   CheckList_seq.nextval,
+		   #{room_name},
+		   #{room_address1},
+		   #{room_address2},
+		   #{room_deposit},
+		   #{room_expense},
+		   #{room_size},
+		   #{room_star,jdbcType=INTEGER},
+		   #{room_description},
+		   #{room_filename},
+		   #{room_check1},
+		   #{room_check2},
+		   #{room_check3},
+		   #{room_check4},
+		   #{room_check5},
+		   #{room_check6},
+		   #{mem_num})
+	</insert>
+	
+	<!-- 체크리스트 글의 총개수/검색 개수 -->
+	<select id="selectRowCount" parameterType="map" resultType="integer">
+		SELECT
+		  COUNT(*)
+		FROM checklist JOIN member USING(mem_num)
+	</select>
+	
+	<!-- 체크리스트 전체 목록/검색 목록 -->
+	<select id="selectList" parameterType="map" resultType="checklistVO">
+		SELECT
+		   *
+		FROM (SELECT
+		        a.*,
+		        rownum rnum
+		      FROM (SELECT
+		               check_id,
+		               <![CDATA[
+		               REPLACE(REPLACE(room_name,'<','&lt;'),'>','&gt;') room_name,
+		               ]]>
+		               room_deposit,
+		               room_star,
+		               room_description,
+		               room_filename
+		               from checklist
+		               LEFT OUTER JOIN member USING(mem_num)
+		               ORDER BY check_date DESC)a)
+		<![CDATA[
+		WHERE rnum >= #{start} AND rnum <= #{end}
+		]]>            
+	</select>
+	
+	<!-- 체크리스트 글 상세 -->
+	<select id="selectChecklist" parameterType="integer">
+		SELECT 
+		  * 
+		FROM checklist 
+		JOIN member USING(mem_num)
+		LEFT OUTER JOIN member USING(mem_num)
+		WHERE check_id=#{check_id} 
+	</select>
+	
+	<!-- 체크리스트 글 수정 -->
+	<update id="updateChecklist" parameterType="communityVO">
+		UPDATE checklist SET
+		  <if test="room_filename != null">
+		  room_filename=#{room_filename},
+		  </if>
+		  room_name=#{room_name},
+		  room_address1=#{room_address1},
+		  room_address2=#{room_address2},
+		  room_deposit=#{room_deposit},
+		  room_expense=#{room_expense},
+		  room_size=#{room_size},
+		  room_star=#{room_star},
+		  room_description=#{room_description},
+		  room_check1=#{room_check1},
+		  room_check2=#{room_check2},
+		  room_check3=#{room_check3},
+		  room_check4=#{room_check4},
+		  room_check5=#{room_check5},
+		  room_check6=#{room_check6}
+		WHERE check_id=#{check_id}
+	</update>
+	
+</mapper>	

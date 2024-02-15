@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+	
+    <definition name="main" template="/WEB-INF/views/template/layout_basic.jsp">
+    	<put-attribute name="title" value="SpringPage"/>
+    	<put-attribute name="header" value="/WEB-INF/views/template/header.jsp"/>
+    	<put-attribute name="body" value="/WEB-INF/views/main/main.jsp"/>
+    	<put-attribute name="footer"  value="/WEB-INF/views/template/footer.jsp"/>                                             
+    </definition>
+
+    <definition name="home" template="/WEB-INF/views/home/layout_main.jsp">
+    	<put-attribute name="popup" value="/WEB-INF/views/home/popup.jsp"/>
+    	<put-attribute name="header" value="/WEB-INF/views/home/header.jsp"/>
+    	<put-attribute name="body" value="/WEB-INF/views/home/main.jsp"/>
+    	<put-attribute name="footer" value="/WEB-INF/views/home/footer.jsp"/>
+	</definition>
+	 <definition name="menuPageYena" template="/WEB-INF/views/home/layout_menuPage.jsp">
+	 	<put-attribute name="title" value="메뉴명"/>
+    	<put-attribute name="header" value="/WEB-INF/views/home/header.jsp"/>
+    	<put-attribute name="body" value="/WEB-INF/views/home/main.jsp"/>
+    	<put-attribute name="footer" value="/WEB-INF/views/home/footer.jsp"/>
+	</definition>
+	 <definition name="loginPage" template="/WEB-INF/views/member/layout_login.jsp">
+	 	<put-attribute name="title" value="메뉴명"/>
+    	<put-attribute name="header" value="/WEB-INF/views/home/header.jsp"/>
+    	<put-attribute name="body" value="/WEB-INF/views/home/main.jsp"/>
+    	<put-attribute name="footer" value="/WEB-INF/views/home/footer.jsp"/>
+	</definition>
+	 <definition name="myPage" template="/WEB-INF/views/member/layout_mypage.jsp">
+	 	<put-attribute name="title" value="메뉴명"/>
+    	<put-attribute name="header" value="/WEB-INF/views/home/header.jsp"/>
+    	<put-attribute name="body" value="/WEB-INF/views/home/main.jsp"/>
+    	<put-attribute name="footer" value="/WEB-INF/views/home/footer.jsp"/>
+	</definition>
+	<definition name="mypageOpen" template="/WEB-INF/views/member/layout_openprofile.jsp">
+		<put-attribute name="title" value="오픈 프로필"/>
+    	<put-attribute name="header" value="/WEB-INF/views/home/header.jsp"/>
+    	<put-attribute name="body" value="/WEB-INF/views/member/openProfile.jsp"/>
+    	<put-attribute name="footer" value="/WEB-INF/views/home/footer.jsp"/>
+	</definition>
+	<definition name="adminPage" template="/WEB-INF/views/admin/layout_adminPage.jsp">
+	 	<put-attribute name="title" value="관리자 페이지"/>
+    	<put-attribute name="header" value="/WEB-INF/views/home/header.jsp"/>
+    	<put-attribute name="body" value="/WEB-INF/views/admin/adminPolicyMain.jsp"/>
+    	<put-attribute name="footer" value="/WEB-INF/views/home/footer.jsp"/>
+	</definition>
+	<definition name="policyMain" template="/WEB-INF/views/policy/layout_policy.jsp">
+	 	<put-attribute name="title" value="1인가구 정책"/>
+    	<put-attribute name="header" value="/WEB-INF/views/home/header.jsp"/>
+    	<put-attribute name="body" value="/WEB-INF/views/policy/policyMain.jsp"/>
+    	<put-attribute name="footer" value="/WEB-INF/views/home/footer.jsp"/>
+	</definition>
+	
+	<definition name="policyCount" extends="policyMain">
+		<put-attribute name="title" value="1인 가구 비율"/>
+    	<put-attribute name="body" value="/WEB-INF/views/policy/policyCount.jsp"/>
+	</definition>
+	
+	<definition name="adminPolicyInsert" extends="adminPage">
+		<put-attribute name="title" value="[관리자] 1인 가구 정책 사이트 등록"/>
+    	<put-attribute name="body" value="/WEB-INF/views/admin/adminPolicyInsert.jsp"/>
+	</definition>
+	<definition name="adminPolicyModify" extends="adminPage">
+		<put-attribute name="title" value="[관리자] 1인 가구 정책 사이트 수정"/>
+    	<put-attribute name="body" value="/WEB-INF/views/admin/adminPolicyModify.jsp"/>
+	</definition>
+	<definition name="adminPerformanceMain" extends="adminPage">
+		<put-attribute name="title" value="[관리자] 영화 수정,등록"/>
+    	<put-attribute name="body" value="/WEB-INF/views/admin/adminPerformance.jsp"/>
+	</definition>
+	
+	<definition name="registerForm" extends="menuPageYena">
+		<put-attribute name="title" value="회원가입"/>
+    	<put-attribute name="body" value="/WEB-INF/views/member/registerForm.jsp"/>
+	</definition>
+	<definition name="mypageUpdate" extends="menuPageYena">
+		<put-attribute name="title" value="회원 정보 수정"/>
+    	<put-attribute name="body" value="/WEB-INF/views/member/mypageUpdateForm.jsp"/>
+	</definition>
+	<definition name="passwordUpdateForm" extends="menuPageYena">
+		<put-attribute name="title" value="비밀번호 변경"/>
+    	<put-attribute name="body" value="/WEB-INF/views/member/passwordUpdateForm.jsp"/>
+	</definition>
+	<definition name="findPassword" extends="menuPageYena">
+		<put-attribute name="title" value="비밀번호 분실"/>
+    	<put-attribute name="body" value="/WEB-INF/views/member/findPassword.jsp"/>
+	</definition>
+	<definition name="checkPassword" extends="menuPageYena">
+		<put-attribute name="title" value="비밀번호 확인"/>
+    	<put-attribute name="body" value="/WEB-INF/views/member/checkPassword.jsp"/>
+	</definition>
+	
+	<definition name="loginForm" extends="loginPage">
+		<put-attribute name="title" value="로그인"/>
+    	<put-attribute name="body" value="/WEB-INF/views/member/loginForm.jsp"/>
+	</definition>
+	
+	<definition name="mypageMain" extends="myPage">
+		<put-attribute name="title" value="마이페이지"/>
+    	<put-attribute name="body" value="/WEB-INF/views/member/mypageMain.jsp"/>
+	</definition>
+	<definition name="mypageDeal" extends="myPage">
+		<put-attribute name="title" value="나의 거래 내역"/>
+    	<put-attribute name="body" value="/WEB-INF/views/member/mypageDealList.jsp"/>
+	</definition>
+	<definition name="mypageAct" extends="myPage">
+		<put-attribute name="title" value="나의 활동 내역"/>
+    	<put-attribute name="body" value="/WEB-INF/views/member/mypageActList.jsp"/>
+	</definition>
+	<definition name="mypageFollow" extends="myPage">
+		<put-attribute name="title" value="팔로우 내역"/>
+    	<put-attribute name="body" value="/WEB-INF/views/member/mypageFollowList.jsp"/>
+	</definition>
+	
+</tiles-definitions>

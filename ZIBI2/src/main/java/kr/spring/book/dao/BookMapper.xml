@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.spring.book.dao.BookMapper">
+	<!-- 소모임 예약 게시글 등록 -->		
+	<insert id="insertBook" parameterType="bookVO">
+		INSERT INTO book(
+			book_num,
+			mem_num,
+			book_thumbnailName,
+			book_category,
+			book_title,
+			book_content,
+			book_gatheringDate,
+			book_match,
+			book_address1,
+			book_address2,
+			book_kit,
+			book_maxcount,
+			book_ip,
+			book_expense)
+		VALUES (
+			book_seq.nextval,
+			#{mem_num},
+			#{book_thumbnailName,jdbcType=VARCHAR},
+			#{book_category},
+			#{book_title},
+			#{book_content},
+			#{book_gatheringDate},
+			#{book_match},
+			#{book_address1},
+			#{book_address2},
+			#{book_kit,jdbcType=VARCHAR},
+			#{book_maxcount},
+			#{book_ip},
+			#{book_expense,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<!-- 검색 -->
+	<sql id="bookSearch">
+		<where>
+			<if test="keyword != null and keyword != ''">
+				<if test="keyfield == 1">
+					book_title LIKE '%' || #{keyword} || '%'
+				</if>
+				<if test="keyfield == 2">
+					mem_nickname LIKE '%' || #{keyword} || '%'
+				</if>
+			</if>
+		</where>
+	</sql>
+	
+	<!-- 정렬 -->
+	<sql id="bookOrder">
+		<if test="order == 1">
+			ORDER BY CASE WHEN book_onoff = '2' OR gdate <![CDATA[<=]]> sysdate THEN 1 ELSE 0 END, book_regDate DESC
+		</if>
+		<if test="order == 2">
+			ORDER BY CASE WHEN book_onoff = '2' THEN 1 ELSE 0 END, rev_cnt DESC NULLS LAST
+		</if>
+		<if test="order == 3">
+			ORDER BY CASE WHEN book_onoff = '2' THEN 1 ELSE 0 END, scrap_cnt DESC NULLS LAST
+		</if>
+		<if test="order == 4">
+			ORDER BY CASE WHEN book_onoff = '2' OR gdate <![CDATA[<=]]> sysdate THEN 1 ELSE 0 END, gdate ASC
+		</if>
+	</sql>
+	
+	<!-- 소모임 예약 게시글의 총 개수/검색 개수 -->
+	<select id="selectRowCount" parameterType="map" resultType="integer">
+		SELECT
+			COUNT(*)
+		FROM book 
+		LEFT OUTER JOIN member USING(mem_num) 
+		<include refid="bookSearch"></include>
+	</select>
+	
+	<!-- 소모임 예약 게시글 전체 목록/검색 목록 -->
+	<select id="selectList" parameterType="map" resultType="bookVO">
+		SELECT
+			*
+		FROM (SELECT
+				a.*,
+				rownum rnum
+			FROM (SELECT
+					book_num,
+					mem_num,
+					<![CDATA[
+					REPLACE(REPLACE(book_title,'<','&lt;'),'>','&gt;') book_title,
+					]]>
+					book_thumbnailName,
+					book_category,
+					book_onoff,
+					book_regDate,
+					book_gatheringDate,
+					TO_DATE(book_gatheringDate,'YYYY-MM-DD HH24:MI') gdate,
+					book_address1,
+					book_kit,
+					book_maxcount,
+					book_headcount,
+					book_expense,
+					mem_nickname,
+					rep_cnt,
+					rev_cnt,
+					scrap_cnt
+				FROM book
+				LEFT OUTER JOIN member USING(mem_num)
+				LEFT OUTER JOIN (SELECT COUNT(*) scrap_cnt, book_num FROM book_scrap GROUP BY book_num) USING(book_num)
+				LEFT OUTER JOIN (SELECT COUNT(*) rev_cnt, book_num FROM book_review GROUP BY book_num) USING(book_num)
+				LEFT OUTER JOIN (SELECT COUNT(*) rep_cnt, book_num FROM book_reply GROUP BY book_num) USING(book_num) 
+				<include refid="bookSearch"></include> 
+				<include refid="bookOrder"></include>)a)
+		<![CDATA[
+		WHERE rnum >= #{start} AND rnum <= #{end}
+		]]>	
+	</select>
+	
+	<!-- 소모임 나의 예약 내역 개수 -->
+	<select id="selectMatchCount" parameterType="map" resultType="integer">
+		SELECT
+			COUNT(*)
+		FROM book_matching
+		JOIN book USING(book_num)
+		WHERE mem_num=#{mem_num} OR apply_num=#{mem_num}
+	</select>
+	
+	<!-- 소모임 나의 예약 내역 -->
+	<select id="selectMatchList" parameterType="map" resultType="bookVO">
+		SELECT
+			*
+		FROM (SELECT
+				a.*,
+				rownum rnum
+			FROM (SELECT
+					book_num,
+					mem_num,
+					apply_num,
+					<![CDATA[
+					REPLACE(REPLACE(apply_title,'<','&lt;'),'>','&gt;') apply_title,
+					]]>
+					book_onoff,
+					book_regDate,
+					apply_gatheringDate,
+					<![CDATA[
+					CASE WHEN SYSDATE >= TO_DATE(apply_gatheringDate,'YYYY-MM-DD HH24:MI') THEN '1'
+                       	 WHEN SYSDATE < TO_DATE(apply_gatheringDate,'YYYY-MM-DD HH24:MI') THEN '2'
+                  	END compareNow,
+                  	]]>
+					apply_address1,
+					book_state,
+					book_headcount,
+					book_maxcount,
+					book_match,
+					book_matchDate
+				FROM book_matching
+				JOIN book USING(book_num)
+				WHERE mem_num=#{mem_num} OR apply_num=#{mem_num}
+				ORDER BY book_matchDate DESC)a)
+		<![CDATA[
+		WHERE rnum >= #{mstart} AND rnum <= #{mend}
+		]]>
+		
+	</select>
+	
+	<!-- 소모임 예약 상세글 -->
+	<select id="selectBook" parameterType="integer" resultType="bookVO">
+		SELECT
+			book_num,
+			mem_num,
+			book_category,
+			book_thumbnailName,
+			book_match,
+			book_title,
+			book_headcount,
+			book_maxcount,
+			book_expense,
+			book_onoff,
+			book_content,
+			book_address1,
+			book_address2,
+			book_gatheringDate,
+			<![CDATA[
+			CASE WHEN SYSDATE >= TO_DATE(book_gatheringDate,'YYYY-MM-DD HH24:MI') THEN '1'
+                 WHEN SYSDATE < TO_DATE(book_gatheringDate,'YYYY-MM-DD HH24:MI') THEN '2'
+            END compareNow,
+            ]]>
+            book_kit,
+            mem_nickname
+		FROM book
+		JOIN member USING(mem_num) 
+		WHERE book_num=#{book_num}
+	</select>
+	
+	<!-- 소모임 예약 글 수정 -->
+	<update id="updateBook" parameterType="bookVO">
+		UPDATE book SET
+			<if test="book_thumbnailName != null">
+			book_thumbnailName=#{book_thumbnailName},
+			</if>
+			book_category=#{book_category},
+			book_title=#{book_title},
+			book_content=#{book_content},
+			book_gatheringDate=#{book_gatheringDate},
+			book_match=#{book_match},
+			book_address1=#{book_address1},
+			book_address2=#{book_address2},
+			book_kit=#{book_kit,jdbcType=VARCHAR},
+			book_maxcount=#{book_maxcount},
+			book_ip=#{book_ip},
+			book_expense=#{book_expense,jdbcType=VARCHAR},
+			book_modifydate=sysdate
+		WHERE book_num=${book_num}
+	</update>
+	
+	<!-- 소모임 후기 등록 -->
+	<insert id="insertRev" parameterType="bookReviewVO">
+		INSERT INTO book_review(
+			rev_num,
+			book_rev,
+			book_grade,
+			book_revIp,
+			book_num,
+			mem_num,
+			apply_gatheringDate)
+		VALUES (
+			book_rev_seq.nextval,
+			#{book_rev},
+			#{book_grade},
+			#{book_revIp},
+			#{book_num},
+			#{mem_num},
+			#{apply_gatheringDate})
+	</insert>
+	
+	<!-- 소모임 후기 목록 개수 -->
+	<select id="selectRevCount" parameterType="integer" resultType="integer">
+		SELECT
+			COUNT(*)
+		FROM book_review
+		WHERE book_num=#{book_num}
+	</select>
+	
+	<!-- 소모임 후기 목록 -->
+	<select id="selectListRev" parameterType="integer" resultType="bookReviewVO">
+		SELECT
+			book_num,
+			mem_num,
+			book_grade,
+			<![CDATA[
+			REPLACE(REPLACE(REPLACE(book_rev,'<','&lt;'),'>','&gt;'),'<br>','/\r\n/g') book_rev,
+			]]>
+			rev_num,
+			apply_gatheringDate,
+			mem_nickname
+		FROM book_review
+		LEFT OUTER JOIN member USING(mem_num)
+		WHERE book_num = #{book_num}
+	</select>
+	
+	<!-- 소모임 댓글 등록 -->
+	<insert id="insertReply" parameterType="bookReplyVO">
+		INSERT INTO book_reply(
+			rep_num,
+			book_rep,
+			book_repIp,
+			book_num,
+			mem_num)
+		VALUES(
+			book_rep_seq.nextval,
+			#{book_rep},
+			#{book_repIp},
+			#{book_num},
+			#{mem_num})
+	</insert>
+	
+	<!-- 소모임 댓글 목록 -->
+	<select id="selectListReply" parameterType="map" resultType="bookReplyVO">
+		SELECT
+			*
+		FROM (SELECT
+				a.*,
+				rownum rnum
+			FROM (SELECT
+					rep_num,
+					<![CDATA[
+					REPLACE(REPLACE(book_rep,'<','&lt;'),'>','&gt;') book_rep,
+					]]>
+					TO_CHAR(book_repdate,'YYYY-MM-DD HH24:mm') book_repdate,
+					ref_level,
+					ref_rep_num,
+					book_num,
+					mem_num,
+					mem_nickname,
+					book_deleted
+			FROM book_reply
+			JOIN member USING(mem_num)
+			WHERE book_num=#{book_num}
+			ORDER BY rep_num ASC)a)
+		<![CDATA[
+		WHERE rnum >= #{rpstart} AND rnum <= #{rpend}
+		]]>	
+	</select>
+	
+	<!-- 소모임 대댓글 등록 -->
+	<insert id="insertReplies" parameterType="bookReplyVO">
+		INSERT INTO book_reply(
+			rep_num,
+			book_rep,
+			book_repIp,
+			book_num,
+			mem_num,
+			ref_rep_num,
+			ref_level)
+		VALUES(
+			book_rep_seq.nextval,
+			#{book_rep},
+			#{book_repIp},
+			#{book_num},
+			#{mem_num},
+			#{ref_rep_num},
+			2)
+	</insert>
+</mapper>

@@ -1,0 +1,1243 @@
+@charset "UTF-8";
+/*별점 위한 */
+@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+/*----------- 공통 버튼 -----------*/
+.default-btn{
+	background:#32a77b;
+	font-weight:bold;
+	color:white;
+	border:none;
+	font-size:13px;
+	border-radius:5px;
+	width:100px;
+	height:24px;
+	padding:3px;
+}
+/* 작은 사이즈 초록색 버튼 */
+.default-btn3{
+	background:#32a77b;
+	border:1px solid #32a77b;
+	border-radius:3px;
+	width:100px;
+	font-size:13px;
+	color:white;
+}
+
+.sc-btn-search{
+	background-position:0px 0px;
+	background-repeat:no-repeat;
+	width:40px;
+	height:40px;
+	margin:0 0 0 0;
+	padding:0;
+	border:0px;
+	cursor:pointer;
+	outline:0;
+	vertical-align: middle;
+	filter: opacity(0.5) drop-shadow(0 0 0 #32a77b);
+}
+a:hover{
+	color: #32a77b;
+}
+.sc-title-fav{
+	color: black;
+}
+.sc-title-fav:hover{
+	color: #32a77b;
+}
+/** layout_secondManage.jsp 내상점 navbar **/
+#navbarCollapse a span:hover{
+	color: #32a77b;
+}
+/*** 부트스트랩 제공 Button Start ***/
+.btn.btn-primary {
+    border: 0;
+}
+
+.btn.btn-primary:hover {
+    background: var(--bs-dark) !important;
+    color: var(--bs-primary) !important;
+}
+
+.btn {
+    font-weight: 600;
+    transition: .5s;
+}
+
+.btn-square {
+    width: 32px;
+    height: 32px;
+}
+
+.btn-sm-square {
+    width: 38px;
+    height: 38px;
+}
+
+.btn-md-square {
+    width: 44px;
+    height: 44px;
+}
+
+.btn-lg-square {
+    width: 56px;
+    height: 56px;
+}
+
+.btn-square,
+.btn-sm-square,
+.btn-md-square,
+.btn-lg-square {
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: normal;
+}
+/*** Button End ***/
+
+/* 중고거래 글쓰기 폼
+-------------------------*/
+
+.sc-writeform input[type='text']:focus,
+.sc-writeform input[type='text']:hover,
+.sc-writeform select:focus,
+.sc-writeform select:hover {
+	outline:2px solid #32a77b;
+	box-shadow: none;
+}
+
+#sc_write label{
+	margin-bottom:15px;
+	margin-top:15px;
+	font-weight:bold;
+}
+
+/* 상품 수정 폼 */
+#sc_updateform label{
+	margin-bottom:15px;
+	margin-top:15px;
+	font-weight:bold;
+}
+
+/* 상품 등록 버튼 */
+.sc-writeform .btn.btn-light{
+    font-weight: 600;
+    transition: .5s;
+    background: #fafafa;
+}
+.sc-writeform .btn.btn-light:hover{
+    background: #32a77b !important;
+    color: white !important;
+}
+/* 상품 수정 버튼 */
+#sc_updateform .btn.btn-light{
+    font-weight: 600;
+    transition: .5s;
+    background: #fafafa;
+}
+#sc_updateform .btn.btn-light:hover{
+    background: #32a77b !important;
+    color: white !important;
+}
+
+
+/* 유효성 검사 색상 */
+.error-color{
+	color:#ff0000;
+}
+/* 상품 상태  */
+label[for="sc_status1"],
+label[for="sc_status2"]{
+	margin-bottom:-5px !important;
+	margin-top:-13px !important;
+}
+.sc_status input[type="radio"]{
+	display:none;
+}
+.sc_status input[type="radio"]+label{
+	display:inline-block;
+    cursor:pointer;
+    height:30px;
+    width:90px;
+    border: 1px solid #32a77b;
+    line-height:30px;
+    text-align:center;
+    vertical-align:middle;
+    font-weight:bold;
+    font-size:13px;
+    background-color:#fff;
+    color:#333;
+}
+.sc_status input[type="radio"]:checked+label{
+	background-color:#32a77b;
+	color:white;
+}
+
+/* 거래 방법  */
+label[for="sc_way1"],
+label[for="sc_way2"]{
+	margin-bottom:-5px !important;
+	margin-top:-13px !important;
+}
+.sc_way input[type="radio"]{
+	display:none;
+}
+.sc_way input[type="radio"]+label{
+	display:inline-block;
+    cursor:pointer;
+    height:30px;
+    width:90px;
+    border: 1px solid #32a77b;
+    line-height:30px;
+    text-align:center;
+    vertical-align:middle;
+    font-weight:bold;
+    font-size:13px;
+    background-color:#fff;
+    color:#333;
+}
+.sc_way input[type="radio"]:checked+label{
+	background-color:#32a77b;
+	color:white;
+}
+/* 중고거래 메인 list
+-------------------------*/
+.scmain-btn {
+    text-align: right; /* Move the button to the right */
+    margin-top: 20px; /* Add some spacing at the top */
+}
+/* 판매하기 버튼 */
+.sell-btn{
+	border: none;
+    display: right;
+    align-items: center;
+    padding: 5px; /* Adjust padding as needed */
+    cursor: pointer;
+    background-color:#fff;
+}
+/* 내 상점 버튼 */
+.sc-mypage-btn{
+	border: none;
+    display: right;
+    align-items: center;
+    padding: 5px; /* Adjust padding as needed */
+    cursor: pointer;
+    background-color:#fff;
+}
+.sell-btn img {
+	margin-right: 5px; /* Adjust the margin as needed */
+  }
+
+.sell-txt {
+	margin: 0; /* Remove default margin for span element */
+}
+.separator1::after {
+	content: " | ";
+	margin-left: 5px; 
+	margin-right: 1px;
+	color:#adb5bd;
+}
+
+/* 목록 버튼 */
+.sclist-btn{
+	background:white;
+	color:#32a77b;
+	border:1px solid #32a77b;
+	font-size:13px;
+	border-radius:5px;
+	width:100px;
+	height:24px;
+	padding:3px;
+	float:right;
+}
+.second-span4{
+	color:white;
+	width:80px;
+	text-align:center;
+}
+.second-page{
+	clear:both;
+	text-align:center;
+	font-family:fantasy;
+	padding-top:20px;
+}
+/* 글 목록 */
+.second-box{
+	width:100%;
+	height:370px;
+	box-shadow:4px 3px 3px lightgray;
+	/* background-color:pink; */
+}
+/* 글 목록 폰트 */
+#thumb_img{
+	width:100%; 
+	height:220px;
+}
+#thumb_noimg{
+	width:100%; 
+	height:220px;
+}
+#main_title{
+	font-size:20px;
+	margin-left:10px;
+}
+#main_price{
+	font-size:21px;
+	margin-left:10px;
+}
+#main_regdate{
+	margin-top:6px;
+	padding-left:20px;
+}
+
+#main_address{
+	display: block;
+	padding-top: 5px;
+	height:30%;
+	border-top: 1px solid lightgray ; 
+}
+
+
+/* 나중에 list에 사용할거임 */
+/*** service start ***/
+.service .service-item {
+    position: relative;
+    height: 100%;
+    border-radius: 8px;
+    box-shadow: 0 0 45px rgba(0, 0, 0, .08);
+}
+
+.service-content::after {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 0;
+    top: 0;
+    left: 0;
+    bottom: auto;
+    background: var(--bs-primary);
+    border-radius: 8px;
+    transition: 1s;
+}
+
+.service-item:hover .service-content::after {
+    height: 100%;
+    opacity: 1;
+}
+
+.service-item .service-content-icon {
+    position: relative;
+    z-index: 2;
+}
+
+.service-item .service-content-icon i,
+.service-item .service-content-icon p {
+    transition: 1s;
+}
+
+.service-item:hover .service-content-icon a.btn-primary {
+    background: var(--bs-white);
+    color: var(--bs-dark);
+}
+
+.service-item .service-content-icon a.btn-primary {
+    transition: 1s !important;
+}
+/*** Services End ***/
+
+/* 중고거래 상세 
+------------------------------*/
+/* 상품 수정 이미지 */
+.sc_modifylogo, 
+.sc_status_modifylogo,
+.sc_deletelogo{ 
+	filter: opacity(0.5) drop-shadow(0 0 0 #eeeeee);
+	
+}
+a{
+	text-decoration: none;
+}
+
+.sc-order-btn{
+	font-size: 15px;
+	border: 1px solid #ededed !important;
+	box-shadow: none;
+	height:50px;
+	border-radius:7px;
+	width:100%;
+}
+.sc-order-btn-green{
+	background: #32a77b;
+    color: white;
+    box-shadow: none;
+    border:none;
+    font-size: 15px;
+    height:50px;
+    border-radius:7px;
+    width:100%;
+}
+.sc-order-btn:hover,active,visited,
+.sc-order-btn-green:hover,active,visited{
+    background: white !important;
+    color: #32a77b;
+    border: 1px solid #ededed;
+	box-shadow: none;
+	height:50px;
+	border-radius:7px;
+	font-size: 15px;
+}
+
+/* 채팅, 바로예약 버튼 disabled 처리 */
+.sc-disabled-btn{
+	font-size: 15px;
+	border: 1px solid #ededed !important;
+	box-shadow: none;
+	height:50px;
+	border-radius:7px;
+	width:100%;
+	color: lightgray;
+}
+
+
+.dinfo-box1{
+	border-top:2px solid #eeeeee;
+	border-bottom:2px solid #eeeeee;
+}
+.box1-first,
+.box1-second{
+	border-right:2px solid #eeeeee;
+}
+/* 상점정보 div */
+.sc-storeinfo{
+	border-left: 1px solid #ededed;
+}
+/* 바로예약 모달 - detail*/
+.order-modal-box{
+	border-radius: 8px;
+	width: 40%;
+	height: 40%;
+	margin: 0 auto;
+	padding: 0;
+	background-color: white;
+	display: flex;
+	flex-flow: column;
+	justify-content: center;
+    align-items: center;
+    text-align:center;
+	position: absolute;
+	top:50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 999;
+	border: 1px solid gray;
+}
+#detail-span1{
+	text-align: center;
+}
+#detail-span1 span{
+	color:gray;
+}
+.order-btn1{
+	width:80%;
+	margin-top:30px;
+}
+#order_closeModalBtn{
+	cursor:pointer;
+	width:80%;
+	text-align:right;
+}
+.close{
+	font-size:25px;
+}	
+/* 상태 변경 모달 - detail */
+#ms_closeModalBtn{
+	cursor:pointer;
+	width:80%;
+	text-align:right;
+}
+
+.ms-modal-box{
+	border-radius: 8px;
+	width: 25%;
+	height: 35%;
+	margin: 0 auto;
+	padding: 0;
+	background-color: white;
+	display: flex;
+	flex-flow: column;
+	justify-content:center;
+	align-items:center;
+	position: absolute;
+	top:50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 999;
+	border: 1px solid gray;
+}
+.mModal-h3{
+	text-align:center;
+}
+#scForsale_btn{
+	width:150px;
+}
+#scWaitReserve_btn{
+	width:150px;
+}
+#scReserve_btn{
+	width:150px;
+}
+#scSellFin_btn{
+	width:150px;
+}
+/*모달 상태변경 버튼*/
+.sc-sdefault-btn{
+	font-size: 15px;
+	border: 1px solid #ededed !important;
+	box-shadow: none;
+	height:40px;
+	border-radius:7px;
+}
+.sc-sdefault-btn:hover,active,visited{
+    background: white !important;
+    color: #32a77b;
+    border: 1px solid #ededed;
+	box-shadow: none;
+	height:40px;
+	border-radius:7px;
+	font-size: 15px;
+}
+/* 글 삭제 모달
+------------------------------*/
+#secondDeleteModal{
+	font-size: .8em;
+	margin: 0 auto;
+	width: 100%;
+	height: 100%;
+}
+.dmodal-box{
+	border-radius: 8px;
+	width: 30%;
+	height: 30%;
+	margin: 0 auto;
+	padding: 20px;
+	background-color: white;
+	display: flex;
+	flex-flow: column;
+	position: absolute;
+	top:50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 999;
+	border: 1px solid gray;
+	text-align: center;
+}
+.modal-bg{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 5000%;
+	background-color: rgba(0,0,0,0.5);
+	z-index: 99;
+}
+.delete-span1{
+	padding-top:30px;
+	padding-bottom:30px;
+	color:gray;
+	font-size:20px;
+	text-align: center;
+}
+.delete-span2{
+	margin-bottom:10px;
+}
+/*모달 취소, 삭제 버튼*/
+.scdelete-btn-green{
+	background: #32a77b;
+    color: white;
+    box-shadow: none;
+    border:none;
+    font-size: 15px;
+    height:40px;
+    border-radius:7px;
+    width:45%;
+}
+.scdelete-btn{
+	font-size: 15px;
+	border: 1px solid #ededed !important;
+	box-shadow: none;
+	height:40px;
+	border-radius:7px;
+	width:45%;
+}
+.scdelete-btn:hover,active,visited,
+.scdelete-btn-green:hover,active,visited{
+    background: white !important;
+    color: #32a77b;
+    border: 1px solid #ededed;
+	box-shadow: none;
+	height:40px;
+	border-radius:7px;
+	font-size: 15px;
+}
+
+
+/*썸네일 상태변경시 */
+    
+
+    
+
+
+/* 중고거래 내 상점
+------------------------------*/
+.separator::after {
+	content: " | ";
+	margin-left: 20px; 
+	margin-right: 20px;
+}
+.itemManagebar{
+    margin-bottom: 70px;
+	font-size: 1.2em;
+	
+}
+
+
+/* secondsellList.jsp 
+------------------------------*/
+#sc_sellAll{
+	border:1px solid #32a77b;
+}
+#sc_forSale{
+	border:1px solid #32a77b;
+}
+#sc_waitReserve{
+	border:1px solid #32a77b;
+}
+#sc_reserve{
+	border:1px solid #32a77b;
+}
+#sc_sellFin{
+	border:1px solid #32a77b;
+}
+#sc_hide{
+	border:1px solid #32a77b;
+}
+
+/* 공통 등록, 수정 폼
+------------------------------*/
+
+form ul li{
+	clear:both;
+}
+form ul li label{
+	width:130px;
+	float:left;
+}
+ul{
+	list-style:none;
+}
+
+form#search_form{
+	border:none;
+}
+ul.search{
+	width:700px;
+	list-style:none;
+	padding:0;
+	margin:0 auto 10px auto;
+	display: flex; 
+	justify-content: center;
+}
+ul.search li{
+	padding:0;
+	display:inline;
+	margin-right: 10px;
+}
+ul.search li:last-child {
+  	margin-right: 0; /* 마지막 li에는 마진을 주지 않음 */
+}
+
+#keyword{
+	border-radius:9px;
+	border:1px solid #c7d9c9;
+	width:400px;
+}
+#keyword:hover,#keyword:focus{
+	outline:2px solid #32a77b;
+	box-shadow:none;
+}
+.result-display{
+	width:400px;
+	height:200px;
+	margin:100px auto;
+	border:1px solid #000;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+}
+
+/*** 판매내역 버튼 ***/
+.menu .nav-item a.active {
+    background:  #32a77b !important;
+}
+.menu .nav-item a.active span {
+    color: white !important;
+}
+.menu .menu-item .border-bottom {
+    border-bottom-style: dashed !important;
+}
+
+
+/*** 판매내역 끝 ***/
+
+/* secondReviewWrite.jsp 거래후기 작성 폼*/
+.review-title{
+	font-size:30px;
+	margin:2px 0 20px 0;
+}
+.review-txt1{
+	font-size:21px;
+	color:#32a77b;
+	margin-bottom:1px;
+}
+.review-txt2{
+	font-size:17px;
+	color:gray;
+}
+
+
+
+
+
+.scstore-btn,
+.scstore-btn:focus{
+	background: white !important;
+    color: #32a77b;
+    border: 1px solid #ededed;
+	box-shadow: none;
+}
+
+.scstore-btn:hover,active,visited{
+	background: #32a77b !important;
+    color: white;
+    box-shadow: none;
+    border:none;
+    margin-bottom:5px;
+}
+#sc_hidein1,
+#sc_hidein1:focus{
+	background: white !important;
+    color: #32a77b;
+    border: 1px solid #ededed;
+	box-shadow: none;
+	margin-bottom:5px;
+	width:90px;
+}
+#sc_hidein1:hover,active,visited{
+	background: #32a77b !important;
+    color: white;
+    box-shadow: none;
+    border:none;
+    margin-bottom:5px;
+    width:90px;
+}
+#sc_hidein2,
+#sc_hidein2:focus{
+	background: white !important;
+    color: #32a77b;
+    border: 1px solid #ededed;
+	box-shadow: none;
+	margin-bottom:5px;
+	width:55px;
+}
+#sc_hidein2:hover,active,visited{
+	background: #32a77b !important;
+    color: white;
+    box-shadow: none;
+    border:none;
+    margin-bottom:5px;
+    width:55px;
+}
+#sc_hidein3,
+#sc_hidein3:focus{
+	background: white !important;
+    color: #32a77b;
+    border: 1px solid #ededed;
+	box-shadow: none;
+	margin-bottom:5px;
+	width:55px;
+}
+#sc_hidein3:hover,active,visited{
+	background: #32a77b !important;
+    color: white;
+    box-shadow: none;
+    border:none;
+    margin-bottom:5px;
+    width:55px;
+}
+#sc_hidein4,
+#sc_hidein4:focus{
+	background: white !important;
+    color: #32a77b;
+    border: 1px solid #ededed;
+	box-shadow: none;
+	margin-bottom:5px;
+	width:55px;
+}
+#sc_hidein4:hover,active,visited{
+	background: #32a77b !important;
+    color: white;
+    box-shadow: none;
+    border:none;
+    margin-bottom:5px;
+    width:55px;
+}
+
+
+/* 끌어올리기 버튼 */
+#sc_up3,
+#sc_up3:focus{
+	background: white !important;
+    color: #32a77b;
+    border: 1px solid #ededed;
+	box-shadow: none;
+	margin-bottom:5px;
+	width:85px;
+}
+#sc_up3:hover,active,visited{
+	background: #32a77b !important;
+    color: white;
+    box-shadow: none;
+    border:none;
+    margin-bottom:5px;
+    width:85px;
+}
+#sc_up4,
+#sc_up4:focus{
+	background: white !important;
+    color: #32a77b;
+    border: 1px solid #ededed;
+	box-shadow: none;
+	margin-bottom:5px;
+	width:85px;
+}
+#sc_up4:hover,active,visited{
+	background: #32a77b !important;
+    color: white;
+    box-shadow: none;
+    border:none;
+    margin-bottom:5px;
+    width:85px;
+}
+/* 끌어올리기 disabled */
+#sc-up-disabled{
+	font-size: 15px;
+	border: 1px solid #ededed !important;
+	box-shadow: none;
+	width:85px;
+	color: gray;
+}
+
+
+
+/* 마이페이지 - 채팅하기 버튼 */
+.scstore-btn2,
+.scstore-btn2:focus{
+	background: white !important;
+    color: #32a77b;
+    border: 1px solid #ededed;
+	box-shadow: none;
+	width:68px;
+}
+
+.scstore-btn2:hover,active,visited{
+	background: #32a77b !important;
+    color: white;
+    box-shadow: none;
+    border:none;
+    margin-bottom:5px;
+    width:68px;
+}
+/* 마이페이지 수정, 삭제 버튼 */
+.store-md,
+.store-md:focus{
+	background: white !important;
+    color: #32a77b;
+    border: 1px solid #ededed;
+	box-shadow: none;
+	margin-bottom:5px;
+	width:50px;
+}
+.store-md:hover,active,visited{
+	background: #32a77b !important;
+    color: white;
+    box-shadow: none;
+    border:none;
+    margin-bottom:5px;
+    width:50px;
+}
+/* 예약 확정, 예약 거절 버튼 */
+.reserve-okno,
+.reserve-okno:focus{
+	background: white !important;
+    color: #32a77b;
+    border: 1px solid #ededed;
+	box-shadow: none;
+	margin-bottom:5px;
+	width:90px;
+}
+.reserve-okno:hover,active,visited{
+	background: #32a77b !important;
+    color: white;
+    box-shadow: none;
+    border:none;
+    margin-bottom:5px;
+    width:90px;
+}
+/* 예약확정, 예약 거절 disabled */
+.screserve-disabled{
+	font-size: 15px;
+	border: 1px solid #ededed !important;
+	box-shadow: none;
+	width:85px;
+	color: gray;
+}
+/* 판매완료하기 버튼 */
+.sellfini-btn,
+.sellfini-btn:focus{
+	background: white !important;
+    color: #32a77b;
+    border: 1px solid #ededed;
+	box-shadow: none;
+	margin-bottom:5px;
+	width:95px;
+}
+.sellfini-btn:hover,active,visited{
+	background: #32a77b !important;
+    color: white;
+    box-shadow: none;
+    border:none;
+    margin-bottom:5px;
+    width:95px;
+}
+
+/* 별점 */
+.rate { 
+	display: inline-block;
+	border: 0;
+	margin-right: 15px;
+}
+.rate > input {
+	display: none;
+}
+.rate > label {
+	float: right;
+	color: #ddd
+}
+.rate > label:before {
+	display: inline-block;
+	font-size: 1.5rem;
+	padding: .3rem .2rem;
+	margin: 0;cursor: 
+	pointer;font-family: 
+	FontAwesome;content: "\f005 ";
+}
+.rate .half:before {
+	content: "\f089 "; 
+	position: absolute;
+	padding-right: 0;
+}
+.rate input:checked ~ label, 
+.rate label:hover,.rate label:hover ~ label {
+	color: #32a77b !important;  
+} 
+.rate input:checked + .rate label:hover,
+.rate input input:checked ~ label:hover,
+.rate input:checked ~ .rate label:hover ~ label,  
+.rate label:hover ~ input:checked ~ label { 
+	color: #32a77b !important;  
+} 
+
+
+
+
+
+
+
+/*후기 textarea*/
+#sc_rev_content {
+    resize: none;
+    width: 100%;
+    border-radius:7px;
+    border: 2px solid #32a77b;
+    margin-top:10px;
+}
+#sc_rev_content:focus{
+	outline-color:#32a77b;	
+}
+
+#sc_rev_content:hover {
+    border: 1px solid #32a77b; /* 녹색 테두리 */
+}
+
+/* 채팅 chatDetail.jsp
+------------------------------*/
+.contact-form {
+    box-shadow: 0 0 45px rgba(0, 0, 0, .08);
+    
+} 
+.seller-title{
+	text-align:center;
+	border-bottom: 1px solid lightgray ; 
+}
+
+.chat-iteminfo{
+	border-bottom: 1px solid lightgray ;
+	
+}
+.sc-photo{
+	margin-left:10px;
+}
+.separator3::before {
+	content: " | ";
+	margin-left: 5px; 
+	margin-right: 1px;
+	color:#adb5bd;
+}
+#chatdetail_form{
+	display: flex; /* 부모 요소를 Flex 컨테이너로 설정 */
+    align-items: center;/* 수직 가운데 정렬 */
+}
+.chat-message{
+	flex: 1;
+	margin-right: 8px; 
+	padding-left:10px;
+	margin-left:5px;
+	resize:none;
+	height:50px;
+	background:rgba(240,249,242,0.6);
+	border-radius:30px;
+	border:1px solid #ededed;
+}
+.chat-message:focus,
+.chat-message:hover{
+	outline:1px solid #32a77b;
+}
+.chat-send-btn {
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+}
+.chat-send-btn img{
+	width:35px;
+}
+
+/*채팅메시지 목록 박스*/
+#chatting_message{
+	width:98%;
+	height:390px;
+	margin:0 auto;
+	padding:10px;
+	overflow:auto; /* 위에 높이를 지정했기 때문에 흘러넘치게 되면 스크롤됨 */
+}
+#chatting_message::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Edge 등의 웹킷 기반 브라우저에서 스크롤바를 숨김 */
+}
+.date-position{
+	text-align: center;
+}
+
+.date-position span{
+	display:inline-block;
+	width:300px;
+	height:20px;
+	border-radius:10px;
+	background-color:#f2efef;
+}
+.from-position{
+	width:300px;
+	margin:10px 0 10px 330px;
+}
+.from-position .item{
+	background:rgba(193,221,197,0.6);
+	padding:10px;
+	min-height:50px;
+	border-radius:20px;
+	border-top-right-radius:0;
+	position: relative;
+}
+.chat-read-check {
+    position: absolute;
+    top: auto; 
+    bottom: -5px; 
+    left: -20px; 
+    color: #ffcc00; 
+    padding: 2px 5px; 
+    border-radius: 5px; 
+    font-size: 20px; 
+}
+
+.to-position{
+	width:300px;
+	margin:10px 0 10px 0;
+}
+.to-position .item{
+	background-color:#f2efef;
+	padding:10px;
+	min-height:50px;
+	border-radius:20px;
+	border-top-left-radius:0;
+}
+.to-position div.space-photo{
+	float:left;
+	width:15%;
+}
+.to-position div.space-message{
+	float:left;
+	width:85%;
+}
+.to-position div.space-clear{
+	clear:both;
+}
+#chat_message{
+	width:578px;
+}
+
+
+
+/* 채팅 거래자 목록  chatListForSeller.jsp 
+-------------------------------------*/
+table.basic-table{
+	border:1px solid rgba(0,0,0,.1);
+}
+table.basic-table td{
+	padding:.7em .5em;  /* 0.7em인데 앞의 0 생략 가능 */
+	vertical-align:middle;
+	border-bottom:1px solid rgba(0,0,0,.1);
+}
+.chat-btn3{
+	background:#32a77b;
+	border:1px solid #32a77b;
+	border-radius:3px;
+	width:100px;
+	font-size:17px;
+	color:white;
+}
+.seller-read{
+	color:red; 
+	margin-right:10px; 
+	margin-left:10px;
+	font-size:20px;
+}
+
+/* 채팅 거래자 선택  chatSelectBuyerList.jsp 
+-------------------------------------*/
+table.basic-table2{
+	border:1px solid rgba(0,0,0,.1);
+}
+table.basic-table2 td{
+	padding:.7em .5em;  /* 0.7em인데 앞의 0 생략 가능 */
+	vertical-align:middle;
+	border-bottom:1px solid rgba(0,0,0,.1);
+}
+.selbuyer-btn1{
+	background: #32a77b;
+    color: white;
+    box-shadow: none;
+    border:none;
+    font-size: 17px;
+    height:40px;
+    border-radius:7px;
+    width:40%;
+}
+.selbuyer-btn2{
+	font-size: 18px;
+	border: 1px solid #ededed !important;
+	box-shadow: none;
+	height:50px;
+	border-radius:7px;
+	width:50%;
+}
+.selbuyer-btn1:hover,active,visited{
+    background: white !important;
+    color: #32a77b;
+    border: 1px solid #ededed;
+	box-shadow: none;
+	height:40px;
+	border-radius:7px;
+	font-size: 17px;
+}
+.selbuyer-btn2:hover,active,visited{
+    background: white !important;
+    color: #32a77b;
+    border: 1px solid #ededed;
+	box-shadow: none;
+	height:50px;
+	border-radius:7px;
+	font-size: 18px;
+}
+
+/*거래 후기 페이지 secondreviewList.jsp
+-------------------------------------*/
+.testimonial-item {
+    /* border: 1px solid var(--bs-primary); */
+    padding: 20px 20px;
+}
+
+.testimonial-carousel .owl-item img {
+    width: 100px;
+    height: 100px;
+}
+
+.testimonial-carousel.owl-rtl .testimonial-item {
+    direction: ltr !important;
+}
+.sc_reviewtitle{
+	text-align:center;
+}
+.review-bg{
+	background:rgba(240,249,242,0.6);
+}
+/* 후기 별점 표시 */
+.rate2{
+	background: url(../images/jiwon/sc_star_bg2.png) no-repeat;
+	width: 121px;
+	height: 20px;
+	position: relative;
+	
+}
+.rate2 span{
+	position: absolute;
+	background: url(../images/jiwon/sc_star2.png);
+	width: auto;
+	height: 20px;
+	
+}
+.review-buttons{
+	text-align: center;
+}
+.revwrite-btn{
+    background: #32a77b !important;
+    color: white;
+    font-size:15px;
+    font-weight:normal;
+}
+.revwrite-btn:hover{
+    background: white !important;
+    color: #32a77b !important;
+    font-weight:normal;
+    text-align: center;
+}
+.rev-notice-icon{
+	color:red;
+}
+.rev-notice1{
+	color:gray;
+}
+.rev-redspan{
+	color:red;
+}
+	
+	
+	
