@@ -79,6 +79,8 @@ public interface PerformanceMapper {
 	
 	
 	// 관리자
+	@Select("SELECT count(*) FROM performance WHERE performance_id=#{performance_id}")
+	public int countPerformance(int performance_id);
 	public void insertPerformance(PerformanceVO performance); // 영화 정보 저장
 	public void insertCinema(CinemaVO cinema); // 상영관 정보 저장
 	@Select("SELECT DISTINCT cinema_location1, cinema_location2 FROM cinema WHERE cinema_location1=#{loc1}")

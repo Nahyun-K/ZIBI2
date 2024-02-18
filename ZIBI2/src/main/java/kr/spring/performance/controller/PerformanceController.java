@@ -1,9 +1,13 @@
 package kr.spring.performance.controller;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -13,7 +17,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -38,6 +47,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 public class PerformanceController {
+	
+	//tmdb api 키 호출
+	@Value("${HYUN-API-KEY.tmdbKey}")
+	private String tmdbKey;
+	
+	
 	// 의존성 주입
 	@Autowired
 	private PerformanceService performanceService;
@@ -60,25 +75,117 @@ public class PerformanceController {
 	 * [메인] 공연 리스트
 	 *=================================*/
 	@RequestMapping("/performance/list")
-	public ModelAndView mainList(@RequestParam(value="category", defaultValue="1") int category,
-			                     String keyword) {
+	public ModelAndView getMovieInfo(String[] args) throws IOException, InterruptedException, ParseException {
+
+
+		//영화 now-playing 리스트 호출 api
+		HttpRequest request = HttpRequest.newBuilder()
+				.uri(URI.create("https://api.themoviedb.org/3/movie/now_playing?language=ko-KR&page=1&region=KR"))
+				.header("accept", "application/json")
+				.header("Authorization", "Bearer "+tmdbKey)
+				.method("GET", HttpRequest.BodyPublishers.noBody())
+				.build();
+		HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+
+		// json형태의 string일 경우
+		String jsonData = response.body();
+		// reader를 Object로 parse
+		JSONParser parser = new JSONParser();
+		Object obj = parser.parse(jsonData); 
+
+		// obj를 우선 JSONObject에 담음
+		JSONObject jsonMain = (JSONObject)obj;
+
+		// jsonObject에서 jsonArray를 get함
+		JSONArray jsonArr = (JSONArray)jsonMain.get("results");
+		
+		log.debug("" + jsonArr);
+
+		
+		// jsonArr에서 하나씩 JSONObject로 cast해서 사용
+		if (jsonArr.size() > 0){
+			//List<MovieVO> list = new ArrayList<MovieVO>();
+			for(int i=0; i<jsonArr.size(); i++){
+				JSONObject jsonObj = (JSONObject)jsonArr.get(i);
+				
+				PerformanceVO performance = new PerformanceVO();
+				
+				performance.setPerformance_id(Math.toIntExact((Long) jsonObj.get("id")));
+				performance.setPerformance_title((String) jsonObj.get("title"));
+				performance.setPerformance_poster((String) jsonObj.get("poster_path"));
+				performance.setPerformance_content((String)jsonObj.get("overview"));
+				String releaseDateStr = (String) jsonObj.get("release_date");
+				Date releaseDate = Date.valueOf(releaseDateStr);
+				performance.setPerformance_start_date(releaseDate);
+				
+				int movie_num = Math.toIntExact((Long) jsonObj.get("id")); // 영화 id 구하기
+				
+				
+				int count = performanceService.countPerformance(movie_num);
+				log.debug("<<id의 performance COUNT>> : " + count);
+				if(count <= 0) {
+					performanceService.insertPerformance(performance);
+				}
+				
+				
+				//MovieVO movie = new MovieVO();
+
+//				movie.setMovie_num(Math.toIntExact((Long) jsonObj.get("id")));
+//				movie.setMovie_title((String) jsonObj.get("title"));
+//				movie.setMovie_poster((String) jsonObj.get("poster_path"));
+//				movie.setMovie_original_title((String)jsonObj.get("original_title"));
+//				movie.setMovie_overview((String)jsonObj.get("overview"));
+//				movie.setMovie_popularity((Double) jsonObj.get("popularity"));
+//				//release_date를 파싱하여 Date 형태로 변환
+//				String releaseDateStr = (String) jsonObj.get("release_date");
+//				Date releaseDate = Date.valueOf(releaseDateStr);
+//				movie.setMovie_opendate(releaseDate);
+				
+				
+				
+				//=========2번쨰 api호출=================// 영화 1개 당 상세
+				  HttpRequest request2 = HttpRequest.newBuilder() //영화 id
+				  .uri(URI.create("https://api.themoviedb.org/3/movie/" + movie_num + "?language=ko-KR")) .header("accept", "application/json")
+				  .header("Authorization",
+				  "Bearer " + tmdbKey
+				  ) .method("GET", HttpRequest.BodyPublishers.noBody()) .build();
+				  HttpResponse<String> response2 = HttpClient.newHttpClient().send(request2,HttpResponse.BodyHandlers.ofString());
+				  
+				  
+				  String jsonData2 = response2.body(); 
+				  // reader를 Object로 parse 
+				  JSONParser parser2 = new JSONParser();
+				  Object obj2 = parser2.parse(jsonData2);
+				  
+				  JSONObject jsonObj2 = (JSONObject)obj2;
+				  log.debug("---------------------------------------------------------------------------");
+				  log.debug("" + jsonObj2);
+				  log.debug("---------------------------------------------------------------------------");
+				  
+				 // movie.setMovie_num(Math.toIntExact((Long) jsonObj2.get("id")));
+//				  movie.setMovie_runtime(Math.toIntExact((Long)jsonObj2.get("runtime")));
+//				  movie.setMovie_status((String)jsonObj2.get("status"));
+//				  movie.setMovie_tagline((String)jsonObj2.get("tagline"));
+				 
+//				list.add(movie);
+//				log.debug("<<List>> :" + list);
+//				log.debug("<<List size>> :" + list.size());
+				//log.debug("<<status>> :" + jsonObj2.get("status"));
+			}
+			//movieService.saveMovieDataFromList(list);
+		}
+		
+		
 		log.debug("<<목록 메서드>>");
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("keyword", keyword);
-		map.put("category", category);
 		
 		// 전체/검색 레코드 수
-		int count = performanceService.selectRowCount(map);
-		log.debug("<<count>> : " + count);
-		log.debug("<<category>> : " + category);
+		
 		List<PerformanceVO> list = null;
-		if(count > 0) {
-			list = performanceService.selectList(map);
-		}
+		list = performanceService.selectList(map);
 		
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("performanceList"); // tiles 설정 name과 동일해야 함
-		mav.addObject("count", count);
 		mav.addObject("list", list);
 
 		return mav; 
@@ -233,7 +340,7 @@ public class PerformanceController {
 	
 	// 오늘 날짜, 현재 시간
 	public static String getCurrentDateTime() {
-		Date today = new Date();
+		java.util.Date today = new java.util.Date(); // java.util.Date VS java.sql.Date
 		Locale currentLocale = new Locale("KOREAN", "KOREA");
 		String pattern = "yyyy:MM:dd:HH:mm:ss"; // 년 월 일 시 분 초
 		SimpleDateFormat formatter = new SimpleDateFormat(pattern, currentLocale);

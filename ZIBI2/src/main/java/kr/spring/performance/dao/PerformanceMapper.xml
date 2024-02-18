@@ -37,7 +37,7 @@
 		   performance_content,
 		   performance_start_date,
 		   performance_age,
-		   performance_category)
+		   performance_id)
 		VALUES (
 		   performance_seq.nextval, 
 		   #{performance_title},
@@ -45,7 +45,7 @@
 		   #{performance_content},
 		   #{performance_start_date},
 		   #{performance_age},
-		   #{performance_category})
+		   #{performance_id})
 	</insert>
 	<!-- 상영관 등록 -->
 	<insert id="insertCinema" parameterType="cinemaVO">
@@ -177,7 +177,7 @@
 	
 	<!-- [영화] 상영관 + 날짜 + 영화로 예매할 수 있는 정보 출력 -->
 	<select id="selectPerformanceWithTicketing" parameterType="map" resultType="PerformanceVO">
-		SELECT p.performance_num, p.performance_title, p.performance_poster, p.performance_start_date, p.performance_age, p.performance_category
+		SELECT p.performance_num, p.performance_title, p.performance_poster, p.performance_start_date, p.performance_age, p.performance_id
 		<include refid="result"></include>
 	</select>
 	
@@ -216,7 +216,7 @@
 	
 	<!-- 티켓번호에 따른 performance 정보 -->
 	<select id="pickPerformance" parameterType="map" resultType="PerformanceVO">
-		SELECT p.performance_num, p.performance_title, p.performance_poster, p.performance_start_date, p.performance_age, p.performance_category
+		SELECT p.performance_num, p.performance_title, p.performance_poster, p.performance_start_date, p.performance_age, p.performance_id
 		<include refid="pick_performance"></include>
 	</select>
 	
@@ -234,7 +234,7 @@
 	
 	<!-- 티켓번호에 따른 performance 정보 -->
 	<select id="choosingPerformance" parameterType="map">
-		SELECT p.performance_num, p.performance_title, p.performance_poster, p.performance_start_date, p.performance_age, p.performance_category
+		SELECT p.performance_num, p.performance_title, p.performance_poster, p.performance_start_date, p.performance_age, p.performance_id
 		<include refid="pick_performance"></include>
 	</select>
 	

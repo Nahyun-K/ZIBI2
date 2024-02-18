@@ -18,6 +18,6 @@ public class PerformanceVO {
 	private String performance_content;
 	private Date performance_start_date; // '2000-05-03' 년-월-일
 	private int performance_age;
-	private int performance_category;
+	private int performance_id;
 	private MultipartFile upload;
 }

@@ -199,6 +199,11 @@ public class PerformanceServiceImpl implements PerformanceService {
 		performanceMapper.deleteChoice(map);
 	}
 
+	@Override
+	public int countPerformance(int performance_id) {
+		return performanceMapper.countPerformance(performance_id);
+	}
+
 	
 
 

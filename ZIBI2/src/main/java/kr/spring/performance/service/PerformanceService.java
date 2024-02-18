@@ -63,6 +63,7 @@ public interface PerformanceService {
 	
 	
 	// 관리자
+	public int countPerformance(int performance_id);
 	public void insertPerformance(PerformanceVO performance);
 	public void insertCinema(CinemaVO cinema);
 	public List<CinemaVO> adminSelectLocation(String loc1);
