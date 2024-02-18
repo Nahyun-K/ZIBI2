@@ -13,6 +13,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -23,6 +24,11 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class MovieApiController {
 	
+	//카카오 앱키 호출
+	@Value("${HYUN-API-KEY.tmdbKey}")
+	private String tmdbKey;
+	
+	// 이미지 불러오기 공식 문서 https://developer.themoviedb.org/docs/image-basics
 	@RequestMapping("/performance/movie")
 	public String getMovieInfo(String[] args) throws IOException, InterruptedException, ParseException {
 
@@ -31,7 +37,7 @@ public class MovieApiController {
 		HttpRequest request = HttpRequest.newBuilder()
 				.uri(URI.create("https://api.themoviedb.org/3/movie/now_playing?language=ko-KR&page=1&region=KR"))
 				.header("accept", "application/json")
-
+				.header("Authorization", "Bearer "+tmdbKey)
 				.method("GET", HttpRequest.BodyPublishers.noBody())
 				.build();
 		HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
@@ -50,32 +56,33 @@ public class MovieApiController {
 		
 		log.debug("" + jsonArr);
 
-		/*
+		
 		// jsonArr에서 하나씩 JSONObject로 cast해서 사용
 		if (jsonArr.size() > 0){
-			List<MovieVO> list = new ArrayList<MovieVO>();
+			//List<MovieVO> list = new ArrayList<MovieVO>();
 			for(int i=0; i<jsonArr.size(); i++){
 				JSONObject jsonObj = (JSONObject)jsonArr.get(i);
 
-				MovieVO movie = new MovieVO();
+				//MovieVO movie = new MovieVO();
 
-				movie.setMovie_num(Math.toIntExact((Long) jsonObj.get("id")));
-				movie.setMovie_title((String) jsonObj.get("title"));
-				movie.setMovie_poster((String) jsonObj.get("poster_path"));
-				movie.setMovie_original_title((String)jsonObj.get("original_title"));
-				movie.setMovie_overview((String)jsonObj.get("overview"));
-				movie.setMovie_popularity((Double) jsonObj.get("popularity"));
-				//release_date를 파싱하여 Date 형태로 변환
-				String releaseDateStr = (String) jsonObj.get("release_date");
-				Date releaseDate = Date.valueOf(releaseDateStr);
-				movie.setMovie_opendate(releaseDate);
-
-				//=========2번쨰 api호출=================
+//				movie.setMovie_num(Math.toIntExact((Long) jsonObj.get("id")));
+//				movie.setMovie_title((String) jsonObj.get("title"));
+//				movie.setMovie_poster((String) jsonObj.get("poster_path"));
+//				movie.setMovie_original_title((String)jsonObj.get("original_title"));
+//				movie.setMovie_overview((String)jsonObj.get("overview"));
+//				movie.setMovie_popularity((Double) jsonObj.get("popularity"));
+//				//release_date를 파싱하여 Date 형태로 변환
+//				String releaseDateStr = (String) jsonObj.get("release_date");
+//				Date releaseDate = Date.valueOf(releaseDateStr);
+//				movie.setMovie_opendate(releaseDate);
+				
+				int movie_num = Math.toIntExact((Long) jsonObj.get("id")); // 영화 id 구하기
+				
+				//=========2번쨰 api호출=================// 영화 1개 당 상세
 				  HttpRequest request2 = HttpRequest.newBuilder() //영화 id
-				  .uri(URI.create("https://api.themoviedb.org/3/movie/" + movie.getMovie_num()
-				  + "?language=ko-KR")) .header("accept", "application/json")
+				  .uri(URI.create("https://api.themoviedb.org/3/movie/" + movie_num + "?language=ko-KR")) .header("accept", "application/json")
 				  .header("Authorization",
-				  "Bearer 인증코드"
+				  "Bearer " + tmdbKey
 				  ) .method("GET", HttpRequest.BodyPublishers.noBody()) .build();
 				  HttpResponse<String> response2 = HttpClient.newHttpClient().send(request2,HttpResponse.BodyHandlers.ofString());
 				  
@@ -86,19 +93,22 @@ public class MovieApiController {
 				  Object obj2 = parser2.parse(jsonData2);
 				  
 				  JSONObject jsonObj2 = (JSONObject)obj2;
+				  log.debug("---------------------------------------------------------------------------");
+				  log.debug("" + jsonObj2);
+				  log.debug("---------------------------------------------------------------------------");
 				  
 				 // movie.setMovie_num(Math.toIntExact((Long) jsonObj2.get("id")));
-				  movie.setMovie_runtime(Math.toIntExact((Long)jsonObj2.get("runtime")));
-				  movie.setMovie_status((String)jsonObj2.get("status"));
-				  movie.setMovie_tagline((String)jsonObj2.get("tagline"));
+//				  movie.setMovie_runtime(Math.toIntExact((Long)jsonObj2.get("runtime")));
+//				  movie.setMovie_status((String)jsonObj2.get("status"));
+//				  movie.setMovie_tagline((String)jsonObj2.get("tagline"));
 				 
-				list.add(movie);
-				log.debug("<<List>> :" + list);
-				log.debug("<<List size>> :" + list.size());
+//				list.add(movie);
+//				log.debug("<<List>> :" + list);
+//				log.debug("<<List size>> :" + list.size());
 				//log.debug("<<status>> :" + jsonObj2.get("status"));
 			}
 			//movieService.saveMovieDataFromList(list);
-		}*/
+		}
 		return "movie/movieApi";
 	}
 
