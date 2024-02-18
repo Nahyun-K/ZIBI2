@@ -32,7 +32,7 @@
                             </div>
                             <div class="overflow-hidden rounded payment-body">
                             	<p>${payPerformance.performance_title}</p>
-                            	<p><img class="img-fluid rounded" src="${pageContext.request.contextPath}/upload/${payPerformance.performance_poster}" alt="" style="width:150px;"></p>
+                            	<p><img class="img-fluid rounded" src="https://image.tmdb.org/t/p/w500/${payPerformance.performance_poster}" alt="" style="width:150px;"></p>
                             	<p>연령 : 
                             	<c:if test="${payPerformance.performance_age == 0}">
 								전체 관람가

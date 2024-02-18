@@ -19,7 +19,7 @@
 		<div class="seat-movieInfo-sort">
 			<c:forEach var="performance" items="${pickPerformance}" varStatus="status">
 			<div class="div_inline">
-					<img class="poster" src="${pageContext.request.contextPath}/upload/${performance.performance_poster}" alt="">
+					<img class="poster" src="https://image.tmdb.org/t/p/w500/${performance.performance_poster}" alt="">
 				</div>
 			</c:forEach>
 		

@@ -70,6 +70,68 @@ public class PerformanceController {
 		return mav; //타일스 설정명
 	}
 	
+	// now playing 영화만 뽑기
+	public List<PerformanceVO> getMovie(String[] args) throws IOException, InterruptedException, ParseException {
+		log.debug("이전");
+		//영화 now-playing 리스트 호출 api
+		HttpRequest request = HttpRequest.newBuilder()
+				.uri(URI.create("https://api.themoviedb.org/3/movie/now_playing?language=ko-KR&page=1&region=KR"))
+				.header("accept", "application/json")
+				.header("Authorization", "Bearer "+tmdbKey)
+				.method("GET", HttpRequest.BodyPublishers.noBody())
+				.build();
+		HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+
+		// json형태의 string일 경우
+		String jsonData = response.body();
+		// reader를 Object로 parse
+		JSONParser parser = new JSONParser();
+		Object obj = parser.parse(jsonData); 
+
+		// obj를 우선 JSONObject에 담음
+		JSONObject jsonMain = (JSONObject)obj;
+
+		// jsonObject에서 jsonArray를 get함
+		JSONArray jsonArr = (JSONArray)jsonMain.get("results");
+		
+		log.debug("" + jsonArr);
+		List<PerformanceVO> list = new ArrayList<PerformanceVO>();;
+		
+		// jsonArr에서 하나씩 JSONObject로 cast해서 사용
+		if (jsonArr.size() > 0){
+			//List<MovieVO> list = new ArrayList<MovieVO>();
+			for(int i=0; i<jsonArr.size(); i++){
+				JSONObject jsonObj = (JSONObject)jsonArr.get(i);
+				
+				PerformanceVO performance = new PerformanceVO();
+				
+				performance.setPerformance_id(Math.toIntExact((Long) jsonObj.get("id")));
+				performance.setPerformance_title((String) jsonObj.get("title"));
+				performance.setPerformance_poster((String) jsonObj.get("poster_path"));
+				performance.setPerformance_content((String)jsonObj.get("overview"));
+				String releaseDateStr = (String) jsonObj.get("release_date");
+				Date releaseDate = Date.valueOf(releaseDateStr);
+				performance.setPerformance_start_date(releaseDate);
+				
+				int movie_num = Math.toIntExact((Long) jsonObj.get("id")); // 영화 id 구하기
+				
+				
+				int count = performanceService.countPerformance(movie_num);
+				log.debug("<<id의 performance COUNT>> : " + count);
+				if(count <= 0) {
+					performanceService.insertPerformance(performance);
+				}
+				
+				log.debug("json 값 : " + performance);
+				list.add(performance);
+				
+			}
+		}
+		log.debug("끝");
+		
+		return list;
+		
+	}
 	
 	/*=================================
 	 * [메인] 공연 리스트
@@ -77,7 +139,8 @@ public class PerformanceController {
 	@RequestMapping("/performance/list")
 	public ModelAndView getMovieInfo(String[] args) throws IOException, InterruptedException, ParseException {
 
-
+		
+		// ----------------------- 리스트 페이지 실행 시 데이터 저장 시작 --------------------------
 		//영화 now-playing 리스트 호출 api
 		HttpRequest request = HttpRequest.newBuilder()
 				.uri(URI.create("https://api.themoviedb.org/3/movie/now_playing?language=ko-KR&page=1&region=KR"))
@@ -128,21 +191,6 @@ public class PerformanceController {
 				}
 				
 				
-				//MovieVO movie = new MovieVO();
-
-//				movie.setMovie_num(Math.toIntExact((Long) jsonObj.get("id")));
-//				movie.setMovie_title((String) jsonObj.get("title"));
-//				movie.setMovie_poster((String) jsonObj.get("poster_path"));
-//				movie.setMovie_original_title((String)jsonObj.get("original_title"));
-//				movie.setMovie_overview((String)jsonObj.get("overview"));
-//				movie.setMovie_popularity((Double) jsonObj.get("popularity"));
-//				//release_date를 파싱하여 Date 형태로 변환
-//				String releaseDateStr = (String) jsonObj.get("release_date");
-//				Date releaseDate = Date.valueOf(releaseDateStr);
-//				movie.setMovie_opendate(releaseDate);
-				
-				
-				
 				//=========2번쨰 api호출=================// 영화 1개 당 상세
 				  HttpRequest request2 = HttpRequest.newBuilder() //영화 id
 				  .uri(URI.create("https://api.themoviedb.org/3/movie/" + movie_num + "?language=ko-KR")) .header("accept", "application/json")
@@ -162,28 +210,16 @@ public class PerformanceController {
 				  log.debug("" + jsonObj2);
 				  log.debug("---------------------------------------------------------------------------");
 				  
-				 // movie.setMovie_num(Math.toIntExact((Long) jsonObj2.get("id")));
-//				  movie.setMovie_runtime(Math.toIntExact((Long)jsonObj2.get("runtime")));
-//				  movie.setMovie_status((String)jsonObj2.get("status"));
-//				  movie.setMovie_tagline((String)jsonObj2.get("tagline"));
-				 
-//				list.add(movie);
-//				log.debug("<<List>> :" + list);
-//				log.debug("<<List size>> :" + list.size());
-				//log.debug("<<status>> :" + jsonObj2.get("status"));
 			}
-			//movieService.saveMovieDataFromList(list);
 		}
+		// ----------------------- 리스트 페이지 실행 시 데이터 저장 끝 --------------------------
 		
 		
 		log.debug("<<목록 메서드>>");
-		Map<String, Object> map = new HashMap<String, Object>();
 		
-		// 전체/검색 레코드 수
+		List<PerformanceVO> list = getMovie(args); // 현재 상영되는 영화만 출력
 		
-		List<PerformanceVO> list = null;
-		list = performanceService.selectList(map);
-		
+		log.debug("<<LIST>> : " + list);
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("performanceList"); // tiles 설정 name과 동일해야 함
 		mav.addObject("list", list);
@@ -291,7 +327,7 @@ public class PerformanceController {
 	 *=================================*/
 	// 상영관+영화+날짜 중 영화 출력 페이지 호출
 	@GetMapping("/performance/ticketing")
-	public ModelAndView ticketPage(@RequestParam(value="performance_num", defaultValue="0") int performance_num) {
+	public ModelAndView ticketPage(@RequestParam(value="performance_num", defaultValue="0") int performance_num, String[] args) throws IOException, InterruptedException, ParseException{
 		// 그냥 예매하기 버튼으로 간건지
 		// 영화를 클릭하고 예매하기 버튼으로 갔는지 구분하기
 		log.debug("<<티켓 페이지>>");
@@ -311,10 +347,15 @@ public class PerformanceController {
 		log.debug("<<영화 개수>> : " + count);
 		
 		// 영화 리스트 출력
-		List<PerformanceVO> list = null;
-		if(count > 0) {
-			list = performanceService.selectList(map);
-		}
+//		List<PerformanceVO> list = null;
+//		if(count > 0) {
+//			list = performanceService.selectList(map);
+//		}
+		
+		
+		// 수정
+		List<PerformanceVO> list = getMovie(args); // 현재 상영되는 영화만 출력
+		
 		
 		// 날짜
 		List<TicketingVO> dayList = null;

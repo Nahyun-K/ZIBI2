@@ -77,7 +77,8 @@
 	                                	<!-- ============== <<영화 시작>> ============== -->
                                         <div class="col-md-6 col-lg-3 wow bounceInUp" data-wow-delay="0.3s">
                                             <div class="event-img position-relative">
-                                                <img class="img-fluid rounded w-100" src="${pageContext.request.contextPath}/upload/${performance.performance_poster}" alt="">
+	                                            <!-- tmdb api 이미지 path :  https://developer.themoviedb.org/docs/image-basics -->
+                                                <img class="img-fluid rounded w-100" src="https://image.tmdb.org/t/p/w500/${performance.performance_poster}" alt="">
                                                 <div class="event-overlay d-flex flex-column p-4 mainMouseover">
                                                     <!-- <h4 class="me-auto">Wedding</h4> -->
                                                     <%-- <input type="button" value="예매하기" onclick="location.href='ticketing?performance_num=${performance.performance_num}'"> --%>
@@ -86,26 +87,6 @@
                                             </div>
                                             <div>${performance.performance_title}</div>
                                             <div>개봉일 ${performance.performance_start_date}</div>
-                                            <div>
-                                            <!-- 연령 등급 -->
-                                            <c:if test="${performance.performance_age == 0}">
-                                            	전체 관람가
-                                            	<img class="ratingAge" src="${pageContext.request.contextPath}/images/hyun/rating1.png">
-                                            </c:if>
-                                            <c:if test="${performance.performance_age == 12}">
-                                            	12세 이상 관람
-                                            	<img class="ratingAge" src="${pageContext.request.contextPath}/images/hyun/rating2.png">
-                                            </c:if>
-                                            <c:if test="${performance.performance_age == 15}">
-                                            	15세 이상 관람
-                                            	<img class="ratingAge" src="${pageContext.request.contextPath}/images/hyun/rating3.png">
-                                            </c:if>
-                                            <c:if test="${performance.performance_age == 19}">
-                                            	청소년 관람 불가
-                                            	<img class="ratingAge" src="${pageContext.request.contextPath}/images/hyun/rating4.png">
-                                            </c:if>
-                                            <!-- 연령 등급 -->
-                                            </div>
                                         </div>
                                         <!-- ============== <<영화 끝>> ============== -->
                                         

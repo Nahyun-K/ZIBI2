@@ -22,7 +22,7 @@
 				<c:forEach var="total" items="${total}" varStatus="status">
 				<tr>
 					<td>
-						<img class="" style="width:150px;" src="${pageContext.request.contextPath}/upload/${total.performanceVO.performance_poster}" alt="">
+						<img class="" style="width:150px;" src="https://image.tmdb.org/t/p/w500/${total.performanceVO.performance_poster}" alt="">
 					</td>
 					<td>
 						<div>

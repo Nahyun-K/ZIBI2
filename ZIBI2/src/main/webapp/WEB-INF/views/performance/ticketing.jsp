@@ -94,7 +94,7 @@
                                 	<!-- ajax -->
 		                           	<c:forEach var="performance" items="${list}">
 		                           	<tr class="ticketing-ent-row" id="${performance.performance_num}">
-										<td class="ticketing-poster"><img id="ticketing-poster-img" src="${pageContext.request.contextPath}/upload/${performance.performance_poster}" style="height:230px; margin:10px;"></td>
+										<td class="ticketing-poster"><img id="ticketing-poster-img" src="https://image.tmdb.org/t/p/w500/${performance.performance_poster}" style="height:230px; margin:10px;"></td>
 										<td class="ticketing-info">
 											${performance.performance_title}
 											<br>

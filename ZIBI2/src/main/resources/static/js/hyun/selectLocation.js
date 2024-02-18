@@ -157,7 +157,7 @@ $(function(){
 						// 영화 목록 --> 영화 제목 / 영화 포스터 / 연령제한
 						// output
 						let outputPerformance = '<tr class="ticketing-ent-row" id='+param.resultTicketing[i].performance_num+'>';
-						outputPerformance += '<td class="ticketing-poster"><img style="" id="ticketing-poster-img"  src="../upload/'+param.resultPerformance[i].performance_poster+'"></td>'; // js에서 파일 읽어오는 것! .. 이용
+						outputPerformance += '<td class="ticketing-poster"><img style="" id="ticketing-poster-img"  src="https://image.tmdb.org/t/p/w500/'+param.resultPerformance[i].performance_poster+'"></td>'; // js에서 파일 읽어오는 것! .. 이용
 						outputPerformance += '<td class="ticketing-info">'+param.resultPerformance[i].performance_title+'<br>'+param.resultPerformance[i].performance_age+'</td>';
 						outputPerformance += '</tr>';
 						// output 추가
