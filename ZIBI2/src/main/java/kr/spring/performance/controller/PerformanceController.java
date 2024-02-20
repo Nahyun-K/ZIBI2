@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StopWatch;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -138,7 +139,8 @@ public class PerformanceController {
 	 *=================================*/
 	@RequestMapping("/performance/list")
 	public ModelAndView getMovieInfo(String[] args) throws IOException, InterruptedException, ParseException {
-
+		StopWatch stopWatch = new StopWatch();
+		stopWatch.start();
 		
 		// ----------------------- 리스트 페이지 실행 시 데이터 저장 시작 --------------------------
 		//영화 now-playing 리스트 호출 api
@@ -223,6 +225,9 @@ public class PerformanceController {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("performanceList"); // tiles 설정 name과 동일해야 함
 		mav.addObject("list", list);
+		
+		stopWatch.stop();
+		log.debug("<<tmdb api를 불러오는 시간>>" + stopWatch.prettyPrint());
 
 		return mav; 
 	}
