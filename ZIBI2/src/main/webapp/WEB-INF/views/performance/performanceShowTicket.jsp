@@ -26,22 +26,6 @@
 					<div class="showTicket">
 						<div class="ticketBody">
 							${total.performanceVO.performance_title}
-							<c:if test="${total.performanceVO.performance_age == 0}">
-							전체 관람가
-							<img class="ratingAge" src="${pageContext.request.contextPath}/images/hyun/rating1.png">
-							</c:if>
-							<c:if test="${total.performanceVO.performance_age == 12}">
-							12세 이상 관람
-							<img class="ratingAge" src="${pageContext.request.contextPath}/images/hyun/rating2.png">
-							</c:if>
-							<c:if test="${total.performanceVO.performance_age == 15}">
-							15세 이상 관람
-							<img class="ratingAge" src="${pageContext.request.contextPath}/images/hyun/rating3.png">
-							</c:if>
-							<c:if test="${total.performanceVO.performance_age == 19}">
-							청소년 관람 불가
-							<img class="ratingAge" src="${pageContext.request.contextPath}/images/hyun/rating4.png">
-							</c:if>
 						</div>
 						<div class="ticketInfo">
 							<span class="ticketLabel">상영관</span>

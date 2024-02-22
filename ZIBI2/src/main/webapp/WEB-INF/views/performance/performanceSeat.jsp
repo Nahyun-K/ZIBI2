@@ -84,12 +84,6 @@
 <!-- 영화 정보/ 인원 선택 End -->
 
 
-<%-- <c:forEach var="cinema" items="${pickCinema}" varStatus="status">
-	<div>행 : ${cinema.cinema_row}</div>
-	<div>열 : ${cinema.cinema_col}</div>
-</c:forEach>
- --%>
-
 <!-- 좌석 선택 Start -->
 <div class="container-fluid contact py-6 wow" data-wow-delay="0.1s">
 	<div class="container">
@@ -101,8 +95,6 @@
 	</div>
 </div>
 <!-- 좌석 선택 End -->
-
-
 
 
 <br><br><br>

@@ -199,96 +199,11 @@
         
 <div id="newspan"></div>
 <br><br><br><br><br><br><br><br>
-<!-- ------------------------------------------------------------------------ -->
- <!-- 캐러셀 시작 -->
-<!-- <div class="container">
-	<div class="main-content">
-		<h5>ZIBI의 다양한 메뉴를 만나보세요!</h5>
-		
-		----------------------- << 캐러셀 시작 >> ------------------------
-		<div class="owl-carousel">
-			<div class="bg-light rounded service-item">
-				<div class="service-content d-flex justify-content-center p-4">
-					<div class="service-content-icon text-center">
-						<h4 class="mb-3">
-							<a href="/book/list">👥 모임 참여</a>
-						</h4>
-						<p class="mb-1">모임을 만들어 지비러들끼리 소통을 활성화하세요</p>
-					</div>
-				</div>
-			</div>
-			<div class="bg-light rounded service-item">
-				<div class="service-content d-flex justify-content-center p-4">
-					<div class="service-content-icon text-center">
-						<h4 class="mb-3">
-							<a href="/performance/list">🎬 영화 감상</a>
-						</h4>
-						<p class="mb-1">지비러를 위한 영화를 특별한 가격으로 감상하세요</p>
-					</div>
-				</div>
-			</div>
-			<div class="bg-light rounded service-item">
-				<div class="service-content d-flex justify-content-center p-4">
-					<div class="service-content-icon text-center">
-						<h4 class="mb-3">
-							<a href="/checklist/list">🏠 집 체크리스트</a>
-						</h4>
-						<p class="mb-1">집을 이사할 때 ZIBI의 체크리스트를 활용해보세요</p>
-					</div>
-				</div>
-			</div>
-			<div class="bg-light rounded service-item">
-				<div class="service-content d-flex justify-content-center p-4">
-					<div class="service-content-icon text-center">
-						<h4 class="mb-3">
-							<a href="/secondhand/list">🤝 중고거래</a>
-						</h4>
-						<p class="mb-1">더이상 사용하지 않는 물품을 거래하세요</p>
-					</div>
-				</div>
-			</div>
-			<div class="bg-light rounded service-item">
-				<div class="service-content d-flex  justify-content-center p-4">
-					<div class="service-content-icon text-center">
-						<h4 class="mb-3">
-							<a href="/helper/list">🙋 재능 기부</a>
-						</h4>
-						<p class="mb-1">나의 사소한 재능을 기부하세요</p>
-					</div>
-				</div>
-			</div>
-			<div class="bg-light rounded service-item">
-				<div class="service-content d-flex justify-content-center p-4">
-					<div class="service-content-icon text-center">
-						<h4 class="mb-3">
-							<a href="/policy/main">ℹ️ 1인 가구 정보</a>
-						</h4>
-						<p class="mb-1">1인 가구 정보를 열람하세요</p>
-					</div>
-				</div>
-			</div>
-			<div class="bg-light rounded service-item">
-				<div class="service-content d-flex justify-content-center p-4">
-					<div class="service-content-icon text-center">
-						<h4 class="mb-3">
-							<a href="/community/list">✍️ 커뮤니티</a>
-						</h4>
-						<p class="mb-1">지비러들끼리 간편하게 소통하세요</p>
-					</div>
-				</div>
-			</div>
-		</div>
-		----------------------- << 캐러셀 끝 >> ------------------------
-		
-	</div>
-</div> -->
-<!-- 캐러셀 끝 -->
-
-<!-- ------------------------------------------------------------------------ -->
 
 
 
-<%-- <!-- ----------------------- << 캐러셀 시작 >> ------------------------ -->
+
+<!-- ----------------------- << 캐러셀 시작 >> ------------------------ -->
  <!-- 캐러셀 시작 -->
 <div class="container">
 	<div class="main-content" style="width:600px;">
@@ -300,52 +215,25 @@
 		<c:forEach var="day" items="${dayList}">
 										
 									
-			<div class="bg-light rounded service-item">
+			<div class="bg-light rounded service-item" id="select_day" data-value="${day.ticketing_date}">
 				<div class="service-content d-flex justify-content-center p-4">
 					<div class="service-content-icon text-center">
 						<h4 class="mb-3">
-							<a href="/checklist/list">${fn:substring(day.ticketing_date,5,7)}/${fn:substring(day.ticketing_date,8,10)}</a>
+							<a href="javascript:;" onclick="date();">${fn:substring(day.ticketing_date,5,7)}/${fn:substring(day.ticketing_date,8,10)}</a>
 						</h4>
 					</div>
 				</div>
 			</div>
-			<div class="bg-light rounded service-item">
-				<div class="service-content d-flex justify-content-center p-4">
-					<div class="service-content-icon text-center">
-						<h4 class="mb-3">
-							<a href="/secondhand/list">${fn:substring(day.ticketing_date,5,7)}/${fn:substring(day.ticketing_date,8,10)}</a>
-						</h4>
-					</div>
-				</div>
-			</div>
-			<div class="bg-light rounded service-item">
-				<div class="service-content d-flex  justify-content-center p-4">
-					<div class="service-content-icon text-center">
-						<h4 class="mb-3">
-							<a href="/helper/list">${fn:substring(day.ticketing_date,5,7)}/${fn:substring(day.ticketing_date,8,10)}</a>
-						</h4>
-					</div>
-				</div>
-			</div>
-			<div class="bg-light rounded service-item">
-				<div class="service-content d-flex justify-content-center p-4">
-					<div class="service-content-icon text-center">
-						<h4 class="mb-3">
-							<a href="/policy/main">${fn:substring(day.ticketing_date,5,7)}/${fn:substring(day.ticketing_date,8,10)}</a>
-						</h4>
-					</div>
-				</div>
-			</div>
-			</c:forEach>
 			
+			
+		</c:forEach>
 			
 			
 		</div>
 		<!-- ----------------------- << 캐러셀 끝 >> ------------------------ -->
-		
 	</div>
 </div>
- --%><!-- ----------------------- << 캐러셀 끝 >> ------------------------ -->
+<!-- ----------------------- << 캐러셀 끝 >> ------------------------ -->
 <script src="${pageContext.request.contextPath}/sample/lib/owlcarousel/owl.carousel.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/na/owlCarousel.js"></script>
 
