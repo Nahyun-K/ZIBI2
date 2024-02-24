@@ -259,7 +259,6 @@ public class PerformanceController {
 		return new PerformanceVO();
 	}
 	// 등록 폼 호출
-//	@RequestMapping("/performance/write")
 	@RequestMapping("/admin/write") // -> /performance/writePerformance로 변경하기
 	public String form() {
 		log.debug("<<영화 등록 폼>>");
@@ -299,7 +298,6 @@ public class PerformanceController {
 		return new CinemaVO();
 	}
 	// 상영관 등록 폼 호출
-//	@RequestMapping("/performance/writeCinema")
 	@RequestMapping("/admin/writeCinema")
 	public String formCinema() {
 		log.debug("<<상영관 등록 폼>>");
@@ -425,7 +423,6 @@ public class PerformanceController {
 		return mav; 
 	}
 	//전송된 데이터 처리
-//	@PostMapping("/performance/registerDate")
 	@PostMapping("/admin/registerDate")
 	public String submitDate(@Valid TicketingVO  ticketingVO, BindingResult result, 
 			             HttpServletRequest request, HttpSession session, Model model) throws IllegalStateException, IOException {
@@ -510,7 +507,7 @@ public class PerformanceController {
 	}
 	
 
-	///////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////// 수정 필요 ////////////////////////////////////////////////
 	// 좌석 정보 insert ChoiceVO - 행/열/인원/회원번호/ticketing_num -> 결제창으로 이동
 	@GetMapping("/performance/submitSeat")
 	public ModelAndView submitSeat(String seat_info, int ticketing_num, int cinema_num,
@@ -534,7 +531,7 @@ public class PerformanceController {
 		List<String> seatList = new ArrayList<>();
 		
 		
-		// 좌석 정보 insert - ChoiceVO
+		// 좌석 정보 insert - ChoiceVO <<<<<<<<<<<INSERT 여기서 하는거 없애기>>>>>>>>>>>
 		for(int i=0; i<seatNum.length; i++) {
 			Map<String, Object> mapChoice = new HashMap<String, Object>();
 			log.debug(i + "번째 : " + seatNum[i]);
@@ -550,14 +547,16 @@ public class PerformanceController {
 			mapChoice.put("ticketing_num", ticketing_num);
 			
 			
-			performanceService.insertChoice(mapChoice);
+			//performanceService.insertChoice(mapChoice);
 			
 			seatList.add(seatNum[i]);
 		}
+		// 좌석 정보 insert - ChoiceVO <<<<<<<<<<<INSERT 여기서 하는거 없애기>>>>>>>>>>>
 		
-		// 여석 UPDATE - CinemaVO
+		// 여석 UPDATE - CinemaVO // <<<<<<<<<<<<UPDATE 없애기>>>>>>>>>>>>
 		log.debug("<<결제 인원 수>> : "  + (adult_money+teenage_money+treatement_money));
 		performanceService.updateChoice(cinema_num, (adult_money+teenage_money+treatement_money));
+		// 여석 UPDATE - CinemaVO // <<<<<<<<<<<<UPDATE 없애기>>>>>>>>>>>>
 		
 		
 		// -------------------------------------------------------------------
@@ -605,17 +604,31 @@ public class PerformanceController {
 	 *=================================*/
 	@RequestMapping("/performance/choiceSeat")
 	public ModelAndView choiceSeat(@RequestParam String uid,
-//            						 @RequestParam String choice_seat,
-//			                         @RequestParam int choice_adult,
-//			                         @RequestParam int choice_teenage,
-//			                         @RequestParam int choice_treatment,
-//			                         @RequestParam int ticketing_num,
-//			                         @RequestParam int cinema_num,
+            						 @RequestParam String choice_seat, // 좌석 정보
+			                         @RequestParam(value="choice_adult", defaultValue="0") int choice_adult,
+			                         @RequestParam(value="choice_teenage", defaultValue="0") int choice_teenage,
+			                         @RequestParam(value="choice_treatment", defaultValue="0") int choice_treatment,
+			                         @RequestParam int ticketing_num,
+			                         @RequestParam int cinema_num,
 			                         HttpServletRequest request, HttpSession session) {
-		log.debug("<<결제끝>>");
-
+		
+		
+		log.debug("<< ======= 결제값 INSERT 시작 ======== >>");
+		choice_seat = choice_seat.substring(1, choice_seat.length()-1);
+		choice_seat = choice_seat.replaceAll("[,]", "");
+		
+		log.debug("<<ticketing_num>> "  + ticketing_num);
+		log.debug("<<cinema_num>> "  + cinema_num);
+		log.debug("<<choice_seat>> "  + choice_seat); // 좌석 정보
+		log.debug("<<choice_adult>> "  + choice_adult);
+		log.debug("<<choice_teenage>> "  + choice_teenage);
+		log.debug("<<choice_treatment>> "  + choice_treatment);
+		
+		
 		MemberVO memberVO = (MemberVO)session.getAttribute("user");
 		ModelAndView mav = new ModelAndView();
+		
+		// 결제
 		log.debug("<<uid>> "  + uid);
 
 		Integer user = memberVO.getMem_num();
@@ -627,18 +640,14 @@ public class PerformanceController {
 		List<TotalVO> all = performanceService.selectPayAll(map);
 		
 
-//		log.debug("<<ticketing_num>> "  + ticketing_num);
-//		log.debug("<<cinema_num>> "  + cinema_num);
-//		log.debug("<<choice_seat>> "  + choice_seat);
-//		log.debug("<<choice_adult>> "  + choice_adult);
-//		log.debug("<<choice_teenage>> "  + choice_teenage);
-//		log.debug("<<choice_treatment>> "  + choice_treatment);
-//		log.debug("<<ticketing_num>> "  + ticketing_num);
+		
 		
 		mav.setViewName("performanceShowTicket"); // tiles 설정 name과 동일해야 함
 		mav.addObject("total", total);
 		mav.addObject("all", all);
+		log.debug("<< ======= 결제값 INSERT 끝 ======== >>");
 		return mav; 
+		
 	}
 	
 	

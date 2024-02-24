@@ -156,7 +156,7 @@
 
 <!-- ----------------------------<<ChoiceVO>>------------------------------------ -->
 <form id="choiceValue" action="choiceSeat" method="get">
-<%-- 
+
 	<!-- ticketing_num -->
 	<input type="hidden" id="ticketing_num" name="ticketing_num" value="${payTicketing.ticketing_num}"/>
 	<!-- cinema_num -->
@@ -170,7 +170,7 @@
 	<input type="hidden" id="choice_teenage" name="choice_teenage" value="${teenage_money}"/>	
 	<!-- 우대 명 수 -->
 	<input type="hidden" id="choice_treatment" name="choice_treatment" value="${treatement_money}"/>
- --%>
+
 
 	
 	<input type="hidden" id="uid" name="uid" value=""/>
@@ -254,6 +254,8 @@ function payment(method, payMethod) {
 		    			//msg += ' 카드 승인번호 : ' + rsp.apply_num; // 카카오 페이지에서는 안 보임
 		    			
 		    			alert(msg);
+		    			
+		    			// 결제가 성공했을 때 submit
 		    			submit();
 					}
 				},
