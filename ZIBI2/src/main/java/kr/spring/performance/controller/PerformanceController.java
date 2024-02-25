@@ -457,8 +457,6 @@ public class PerformanceController {
 		MemberVO memberVO = (MemberVO)session.getAttribute("user");
 		
 		log.debug("<<mem_num>> : " + memberVO.getMem_num());
-		log.debug("<<mem_num>> : " + memberVO.getMem_email());
-		log.debug("<<mem_num>> : " + memberVO.getMem_nickname());
 		
 		
 		map.put("ticketing_num", ticketing_num);
@@ -522,42 +520,13 @@ public class PerformanceController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("ticketing_num", ticketing_num);
 		
-		log.debug("<<좌석 정보>>" + seat_info); // 공백으로 split하기
-		log.debug("<<일반>> : " + adult_money); // 명
-		log.debug("<<청소년>> : " + teenage_money); // 명
-		log.debug("<<우대>> : " + treatement_money); // 명
 		
 		String[] seatNum = seat_info.split(" ");
 		List<String> seatList = new ArrayList<>();
 		
-		
-		// 좌석 정보 insert - ChoiceVO <<<<<<<<<<<INSERT 여기서 하는거 없애기>>>>>>>>>>>
 		for(int i=0; i<seatNum.length; i++) {
-			Map<String, Object> mapChoice = new HashMap<String, Object>();
-			log.debug(i + "번째 : " + seatNum[i]);
-			String[] rowAndCol = seatNum[i].split("_"); // 행열 나누기 
-			log.debug("<<행>> "  + Integer.parseInt(rowAndCol[0]));
-			log.debug("<<열>> "  + Integer.parseInt(rowAndCol[1]));
-			mapChoice.put("choice_row", Integer.parseInt(rowAndCol[0]));
-			mapChoice.put("choice_col", Integer.parseInt(rowAndCol[1]));
-			mapChoice.put("choice_adult", adult_money);
-			mapChoice.put("choice_teenage", teenage_money);
-			mapChoice.put("choice_treatment", treatement_money);
-			mapChoice.put("mem_num", memberVO.getMem_num());
-			mapChoice.put("ticketing_num", ticketing_num);
-			
-			
-			//performanceService.insertChoice(mapChoice);
-			
 			seatList.add(seatNum[i]);
 		}
-		// 좌석 정보 insert - ChoiceVO <<<<<<<<<<<INSERT 여기서 하는거 없애기>>>>>>>>>>>
-		
-		// 여석 UPDATE - CinemaVO // <<<<<<<<<<<<UPDATE 없애기>>>>>>>>>>>>
-		log.debug("<<결제 인원 수>> : "  + (adult_money+teenage_money+treatement_money));
-		performanceService.updateChoice(cinema_num, (adult_money+teenage_money+treatement_money));
-		// 여석 UPDATE - CinemaVO // <<<<<<<<<<<<UPDATE 없애기>>>>>>>>>>>>
-		
 		
 		// -------------------------------------------------------------------
 		CinemaVO payCinema = null;
@@ -604,26 +573,10 @@ public class PerformanceController {
 	 *=================================*/
 	@RequestMapping("/performance/choiceSeat")
 	public ModelAndView choiceSeat(@RequestParam String uid,
-            						 @RequestParam String choice_seat, // 좌석 정보
-			                         @RequestParam(value="choice_adult", defaultValue="0") int choice_adult,
-			                         @RequestParam(value="choice_teenage", defaultValue="0") int choice_teenage,
-			                         @RequestParam(value="choice_treatment", defaultValue="0") int choice_treatment,
-			                         @RequestParam int ticketing_num,
-			                         @RequestParam int cinema_num,
 			                         HttpServletRequest request, HttpSession session) {
 		
 		
-		log.debug("<< ======= 결제값 INSERT 시작 ======== >>");
-		choice_seat = choice_seat.substring(1, choice_seat.length()-1);
-		choice_seat = choice_seat.replaceAll("[,]", "");
-		
-		log.debug("<<ticketing_num>> "  + ticketing_num);
-		log.debug("<<cinema_num>> "  + cinema_num);
-		log.debug("<<choice_seat>> "  + choice_seat); // 좌석 정보
-		log.debug("<<choice_adult>> "  + choice_adult);
-		log.debug("<<choice_teenage>> "  + choice_teenage);
-		log.debug("<<choice_treatment>> "  + choice_treatment);
-		
+		log.debug("<< ======= 결제 시작 ======== >>");
 		
 		MemberVO memberVO = (MemberVO)session.getAttribute("user");
 		ModelAndView mav = new ModelAndView();
@@ -638,9 +591,6 @@ public class PerformanceController {
 		map.put("payment_uid", uid);
 		List<TotalVO> total = performanceService.selectPayTotal(map);
 		List<TotalVO> all = performanceService.selectPayAll(map);
-		
-
-		
 		
 		mav.setViewName("performanceShowTicket"); // tiles 설정 name과 동일해야 함
 		mav.addObject("total", total);

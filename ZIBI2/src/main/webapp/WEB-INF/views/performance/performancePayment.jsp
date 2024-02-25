@@ -154,30 +154,11 @@
 
 
 
-<!-- ----------------------------<<ChoiceVO>>------------------------------------ -->
+<!-- ----------------------------<< 결제 >>------------------------------------ -->
 <form id="choiceValue" action="choiceSeat" method="get">
-
-	<!-- ticketing_num -->
-	<input type="hidden" id="ticketing_num" name="ticketing_num" value="${payTicketing.ticketing_num}"/>
-	<!-- cinema_num -->
-	<input type="hidden" id="cinema_num" name="cinema_num" value="${payCinema.cinema_num}"/>
-	
-	<!-- 좌석 번호 -->
-	<input type="hidden" id="choice_seat" name="choice_seat" value="${seatList}"/>
-	<!-- 일반 명 수 -->
-	<input type="hidden" id="choice_adult" name="choice_adult" value="${adult_money}"/>
-	<!-- 청소년 명 수 -->
-	<input type="hidden" id="choice_teenage" name="choice_teenage" value="${teenage_money}"/>	
-	<!-- 우대 명 수 -->
-	<input type="hidden" id="choice_treatment" name="choice_treatment" value="${treatement_money}"/>
-
-
-	
 	<input type="hidden" id="uid" name="uid" value=""/>
-
-	<!-- <input type="submit" value="결제하기"> -->
 </form>
-<!-- ----------------------------<<ChoiceVO>>------------------------------------ -->
+<!-- ----------------------------<< 결체 >>------------------------------------ -->
 
 <div id="payment-data" data-ticketing-num="${payTicketing.ticketing_num}" data-cinema-num="${payCinema.cinema_num}" data-choice-seat="${seatList}" data-choice-adult="${adult_money}" data-choice-teenage="${teenage_money}" data-choice-treatment="${treatement_money}"></div>
 
