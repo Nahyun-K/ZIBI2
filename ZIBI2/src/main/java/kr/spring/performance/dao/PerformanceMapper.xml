@@ -112,6 +112,18 @@
 		   #{ticketing_num})
 	</insert>
 	
+	<!-- seat insert -->
+	<insert id="insertSeat" parameterType="map">
+		INSERT INTO perform_seat(
+		   seat_num,
+		   seat_row,
+		   seat_col)
+		VALUES (
+		   (SELECT MAX(choice_num) FROM perform_choice),
+		   #{choice_row},
+		   #{choice_col})
+	</insert>
+	
 	<insert id="insertPayment" parameterType="map">
 		INSERT INTO perform_payment(
 		   payment_num,

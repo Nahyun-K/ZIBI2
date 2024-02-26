@@ -40,7 +40,7 @@
                                                 <div class="event-overlay d-flex flex-column p-4 mainMouseover">
                                                     <!-- <h4 class="me-auto">Wedding</h4> -->
                                                     <%-- <input type="button" value="예매하기" onclick="location.href='ticketing?performance_num=${performance.performance_num}'"> --%>
-                                                    <input type="button" value="영화 상세" class="mainMouseoverBtn" onclick="location.href='detail?performance_num=${performance.performance_num}'">
+                                                    <input type="button" value="영화 상세" class="mainMouseoverBtn" onclick="location.href='detail?performance_id=${performance.performance_id}'">
                                                 </div>
                                             </div>
                                             <div>${performance.performance_title}</div>

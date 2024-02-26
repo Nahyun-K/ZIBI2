@@ -33,7 +33,7 @@
                             <div class="overflow-hidden rounded payment-body">
                             	<p>${payPerformance.performance_title}</p>
                             	<p><img class="img-fluid rounded" src="https://image.tmdb.org/t/p/w500/${payPerformance.performance_poster}" alt="" style="width:150px;"></p>
-                            	<p>연령 : 
+                            	<%-- <p>연령 : 
                             	<c:if test="${payPerformance.performance_age == 0}">
 								전체 관람가
 								<img class="ratingAge" src="${pageContext.request.contextPath}/images/hyun/rating1.png">
@@ -49,7 +49,7 @@
 								<c:if test="${payPerformance.performance_age == 19}">
 								청소년 관람 불가
 								<img class="ratingAge" src="${pageContext.request.contextPath}/images/hyun/rating4.png">
-								</c:if>
+								</c:if> --%>
                             	</p>
                             	<p>영화관 : ${payCinema.cinema_theater}</p>
                             	<p>일시 : ${payTicketing.ticketing_date} ${payTicketing.ticketing_start_time} </p>
@@ -215,7 +215,7 @@ function payment(method, payMethod) {
 
 		    		imp_uid : rsp.imp_uid,
 		    		merchant_uid : rsp.merchant_uid,
-		    		pay_method : 'card',
+		    		pay_method : payMethod,
 		    		total_price : $('#total_price').text(),
 		    		
 		    		ticketing_num : $('#payment-data').data("ticketing-num"),

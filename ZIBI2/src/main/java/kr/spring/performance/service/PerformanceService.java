@@ -22,7 +22,7 @@ public interface PerformanceService {
 	public List<TicketingVO> selectDate(); 
 	
 	
-	public PerformanceVO selectWithPerformance(int performance_num);
+	public PerformanceVO selectWithPerformance(int performance_id);
 	
 	public List<CinemaVO> selectCinemaWithTicketing(Map<String, Object> map);
 	public List<PerformanceVO> selectPerformanceWithTicketing(Map<String, Object> map);
@@ -41,6 +41,7 @@ public interface PerformanceService {
 	
 	// 결제 페이지
 	public void insertChoice(Map<String, Object> map);
+	public void insertSeat(Map<String, Object> map);
 	public void updateChoice(int cinema_num, int num); // 여석 수 업데이트
 	public void insertPayment(Map<String, Object> map);
 	

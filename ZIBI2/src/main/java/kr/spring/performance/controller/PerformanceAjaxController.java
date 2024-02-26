@@ -242,28 +242,35 @@ public class PerformanceAjaxController {
 		choice_seat = choice_seat.replaceAll("[,]", "");
 		String[] seatNum = choice_seat.split(" ");
 		List<String> seatList = new ArrayList<>();
+
+		Map<String, Object> mapChoice = new HashMap<String, Object>();
+		mapChoice.put("choice_adult", choice_adult);
+		mapChoice.put("choice_teenage", choice_teenage);
+		mapChoice.put("choice_treatment", choice_treatment);
+		mapChoice.put("mem_num", user.getMem_num());
+		mapChoice.put("ticketing_num", ticketing_num);
 		
 		
 		// 좌석 정보 insert - ChoiceVO <<<<<<<<<<<INSERT 여기서 하는거 없애기>>>>>>>>>>>
 		for(int i=0; i<seatNum.length; i++) {
-			Map<String, Object> mapChoice = new HashMap<String, Object>();
+			Map<String, Object> mapSeat = new HashMap<String, Object>();
 			log.debug(i + "번째 : " + seatNum[i]);
 			String[] rowAndCol = seatNum[i].split("_"); // 행열 나누기 
 			log.debug("<<행>> "  + Integer.parseInt(rowAndCol[0]));
 			log.debug("<<열>> "  + Integer.parseInt(rowAndCol[1]));
+			
 			mapChoice.put("choice_row", Integer.parseInt(rowAndCol[0]));
 			mapChoice.put("choice_col", Integer.parseInt(rowAndCol[1]));
-			mapChoice.put("choice_adult", choice_adult);
-			mapChoice.put("choice_teenage", choice_teenage);
-			mapChoice.put("choice_treatment", choice_treatment);
-			mapChoice.put("mem_num", user.getMem_num());
-			mapChoice.put("ticketing_num", ticketing_num);
 			
+			// 지워야 함
+			mapSeat.put("choice_row", Integer.parseInt(rowAndCol[0]));
+			mapSeat.put("choice_col", Integer.parseInt(rowAndCol[1]));
 			
+			// for문 밖으로 빼기
 			performanceService.insertChoice(mapChoice);
+			performanceService.insertSeat(mapSeat);
 			
 			seatList.add(seatNum[i]);
-			log.debug("<<mapChoice>> : " + mapChoice);
 		}
 		
 		

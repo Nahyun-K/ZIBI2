@@ -185,8 +185,8 @@ public class PerformanceServiceImpl implements PerformanceService {
 	}
 
 	@Override
-	public PerformanceVO selectWithPerformance(int performance_num) {
-		return performanceMapper.selectWithPerformance(performance_num);
+	public PerformanceVO selectWithPerformance(int performance_id) {
+		return performanceMapper.selectWithPerformance(performance_id);
 	}
 
 	@Override
@@ -202,6 +202,11 @@ public class PerformanceServiceImpl implements PerformanceService {
 	@Override
 	public int countPerformance(int performance_id) {
 		return performanceMapper.countPerformance(performance_id);
+	}
+
+	@Override
+	public void insertSeat(Map<String, Object> map) {
+		performanceMapper.insertSeat(map);
 	}
 
 	

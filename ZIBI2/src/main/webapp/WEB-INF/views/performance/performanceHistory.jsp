@@ -27,7 +27,7 @@
 					<td>
 						<div>
 						<a href="${pageContext.request.contextPath}/performance/choiceSeat?uid=${total.paymentVO.payment_uid}">${total.performanceVO.performance_title} </a>&nbsp;
-						<c:if test="${total.performanceVO.performance_age == 0}">
+						<%-- <c:if test="${total.performanceVO.performance_age == 0}">
 						<img class="ratingAge" src="${pageContext.request.contextPath}/images/hyun/rating1.png">
 						</c:if>
 						<c:if test="${total.performanceVO.performance_age == 12}">
@@ -38,7 +38,7 @@
 						</c:if>
 						<c:if test="${total.performanceVO.performance_age == 19}">
 						<img class="ratingAge" src="${pageContext.request.contextPath}/images/hyun/rating4.png">
-						</c:if>
+						</c:if> --%>
 						
 							
 						</div>

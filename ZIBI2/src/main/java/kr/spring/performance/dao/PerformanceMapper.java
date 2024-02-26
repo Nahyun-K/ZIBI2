@@ -31,8 +31,8 @@ public interface PerformanceMapper {
 	public List<TicketingVO> selectDate();
 	
 	// 영화 디테일
-	@Select("SELECT * FROM performance WHERE performance_num=#{performance_num}")
-	public PerformanceVO selectWithPerformance(int performance_num);
+	@Select("SELECT * FROM performance WHERE performance_id=#{performance_id}")
+	public PerformanceVO selectWithPerformance(int performance_id);
 	
 	// 상영관 + 날짜 + 영화로 예매할 수 있는 정보
 	public List<CinemaVO> selectCinemaWithTicketing(Map<String, Object> map);
@@ -53,6 +53,7 @@ public interface PerformanceMapper {
 	
 	// 결제 페이지
 	public void insertChoice(Map<String, Object> map); // 좌석+영화+상영관+회원에 대한 정보
+	public void insertSeat(Map<String, Object> map);
 	@Update("UPDATE cinema SET cinema_total=cinema_total-#{num} WHERE cinema_num=#{cinema_num}")
 	public void updateChoice(int cinema_num, int num); // 여석 수 업데이트
 	public void insertPayment(Map<String, Object> map);

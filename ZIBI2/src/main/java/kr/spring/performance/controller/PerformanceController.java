@@ -236,12 +236,12 @@ public class PerformanceController {
 	 * 영화 Detail
 	 *=================================*/
 	@RequestMapping("/performance/detail") // detail?performance_num=${performance.performance_num}
-	public ModelAndView performanceDetail(@RequestParam int performance_num) {
+	public ModelAndView performanceDetail(@RequestParam int performance_id) {
 		log.debug("<< 디테일 >>");
 		Map<String, Object> map = new HashMap<String, Object>();
-		log.debug("<<영화 번호>> : " + performance_num);
+		log.debug("<<영화 번호>> : " + performance_id);
 		
-		PerformanceVO performance = performanceService.selectWithPerformance(performance_num);
+		PerformanceVO performance = performanceService.selectWithPerformance(performance_id);
 		
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("performanceDetail"); // tiles 설정 name과 동일해야 함

@@ -66,6 +66,14 @@ create table perform_choice(
 
 create sequence perform_choice_seq;
 
+
+--좌석 정보(행, 열)
+create table perform_seat(
+ seat_num number not null, -- max(choice_num) // 시퀀스 없음
+ seat_row number not null,
+ seat_col number not null
+); -- insert join으로 perform_choice 값을 넣으면서 같이 넣을 값
+
 -- 결제 정보
 create table perform_payment(
  payment_num number not null,
