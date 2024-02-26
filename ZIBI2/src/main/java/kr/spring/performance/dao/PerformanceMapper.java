@@ -12,6 +12,7 @@ import kr.spring.performance.vo.ChoiceVO;
 import kr.spring.performance.vo.CinemaVO;
 import kr.spring.performance.vo.PaymentVO;
 import kr.spring.performance.vo.PerformanceVO;
+import kr.spring.performance.vo.SeatVO;
 import kr.spring.performance.vo.TicketingVO;
 import kr.spring.performance.vo.TotalVO;
 
@@ -70,8 +71,9 @@ public interface PerformanceMapper {
 	
 	
 	//좌석 출력
-	@Select("SELECT * FROM perform_choice WHERE ticketing_num=#{ticketing_num}")
-	public List<ChoiceVO> selectChoice(Map<String, Object> map);
+//	@Select("SELECT * FROM perform_choice WHERE ticketing_num=#{ticketing_num}")
+	@Select("SELECT s.seat_num,s.seat_row,s.seat_col FROM perform_choice c JOIN perform_seat s ON c.choice_num=s.seat_num WHERE ticketing_num=#{ticketing_num}")
+	public List<SeatVO> selectChoice(Map<String, Object> map);
 	
 	
 	//좌석 rollback

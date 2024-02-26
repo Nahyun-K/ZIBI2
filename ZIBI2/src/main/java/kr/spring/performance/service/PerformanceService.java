@@ -7,6 +7,7 @@ import kr.spring.performance.vo.ChoiceVO;
 import kr.spring.performance.vo.CinemaVO;
 import kr.spring.performance.vo.PaymentVO;
 import kr.spring.performance.vo.PerformanceVO;
+import kr.spring.performance.vo.SeatVO;
 import kr.spring.performance.vo.TicketingVO;
 import kr.spring.performance.vo.TotalVO;
 
@@ -57,7 +58,7 @@ public interface PerformanceService {
 	
 	
 	
-	public List<ChoiceVO> selectChoice(Map<String, Object> map);
+	public List<SeatVO> selectChoice(Map<String, Object> map);
 	
 	public void deleteChoice(Map<String, Object> map);
 	
