@@ -48,11 +48,11 @@
 						<div class="ticketInfo">
 							<span class="ticketLabel">좌석</span>
 							<span class="ticketContent">
-							<c:forEach var="all" items="${all}" varStatus="status">
+							<%-- <c:forEach var="all" items="${all}" varStatus="status">
 							<c:if test="${total.paymentVO.payment_uid==all.paymentVO.payment_uid}">
 								${all.choiceVO.choice_row+1}행 ${all.choiceVO.choice_col+1}열  
 							</c:if>
-							</c:forEach>
+							</c:forEach> --%>
 							</span>
 						</div>
 					</div>

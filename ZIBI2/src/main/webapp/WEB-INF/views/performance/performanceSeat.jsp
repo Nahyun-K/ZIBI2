@@ -33,7 +33,7 @@
 				<c:forEach var="performance" items="${pickPerformance}" varStatus="status">
 					<div class="movieInfo-sort">${performance.performance_title}</div>
 					<div class="movieInfo-sort">
-					<c:if test="${performance.performance_age == 0}">
+					<%-- <c:if test="${performance.performance_age == 0}">
 					전체 관람가
 					<img class="ratingAge" src="${pageContext.request.contextPath}/images/hyun/rating1.png">
 					</c:if>
@@ -48,7 +48,7 @@
 					<c:if test="${performance.performance_age == 19}">
 					청소년 관람 불가
 					<img class="ratingAge" src="${pageContext.request.contextPath}/images/hyun/rating4.png">
-					</c:if>
+					</c:if> --%>
 					</div>
 				</c:forEach>
 			</div>

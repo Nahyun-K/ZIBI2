@@ -249,7 +249,8 @@ public class PerformanceAjaxController {
 		mapChoice.put("choice_treatment", choice_treatment);
 		mapChoice.put("mem_num", user.getMem_num());
 		mapChoice.put("ticketing_num", ticketing_num);
-		
+
+		performanceService.insertChoice(mapChoice); // max 할 때 mem_num도 같이
 		
 		// 좌석 정보 insert - ChoiceVO <<<<<<<<<<<INSERT 여기서 하는거 없애기>>>>>>>>>>>
 		for(int i=0; i<seatNum.length; i++) {
@@ -259,15 +260,13 @@ public class PerformanceAjaxController {
 			log.debug("<<행>> "  + Integer.parseInt(rowAndCol[0]));
 			log.debug("<<열>> "  + Integer.parseInt(rowAndCol[1]));
 			
-			mapChoice.put("choice_row", Integer.parseInt(rowAndCol[0]));
-			mapChoice.put("choice_col", Integer.parseInt(rowAndCol[1]));
-			
-			// 지워야 함
+//			mapChoice.put("choice_row", Integer.parseInt(rowAndCol[0]));
+//			mapChoice.put("choice_col", Integer.parseInt(rowAndCol[1]));
+			mapSeat.put("mem_num", user.getMem_num());
 			mapSeat.put("choice_row", Integer.parseInt(rowAndCol[0]));
 			mapSeat.put("choice_col", Integer.parseInt(rowAndCol[1]));
 			
 			// for문 밖으로 빼기
-			performanceService.insertChoice(mapChoice);
 			performanceService.insertSeat(mapSeat);
 			
 			seatList.add(seatNum[i]);
@@ -286,33 +285,48 @@ public class PerformanceAjaxController {
 		log.debug("<< choice_teenage >> : " + choice_teenage); // 명 // choice_num
 		log.debug("<< choice_treatment >> : " + choice_treatment); // 명 // choice_num
 		
-		String[] str = choice_seat.split(" ");
-		String match = "[^0-9_]";
-		for(int i=0; i<str.length; i++) {
-			String seat = str[i].replaceAll(match, "");
-			String[] seats = seat.split("_");
-			// seats[0] : 행 seats[1] : 열
-			log.debug("<<Seat>> : " + seats[0] + " " + seats[1]);
-
-			Map<String, Object> map = new HashMap<String, Object>();
-			
-			map.put("payment_uid", merchant_uid);
-			map.put("payment_type", pay_method);
-			map.put("payment_price", total_price);
-			map.put("payment_state", 1);
-			map.put("mem_num", user.getMem_num());
-			map.put("choice_row", Integer.parseInt(seats[0])); // 행
-			map.put("choice_col", Integer.parseInt(seats[1])); // 열
-			map.put("choice_adult", choice_adult);
-			map.put("choice_teenage", choice_teenage);
-			map.put("choice_treatment", choice_treatment);
-			map.put("ticketing_num", ticketing_num);
-			
-//			payment : uid, type, price, state, date, modify_date, mem_num, choice_num
-			performanceService.insertPayment(map);
-			
-		}
+		Map<String, Object> map = new HashMap<String, Object>();
 		
+		map.put("payment_uid", merchant_uid);
+		map.put("payment_type", pay_method);
+		map.put("payment_price", total_price);
+		map.put("payment_state", 1);
+		map.put("mem_num", user.getMem_num());
+		map.put("choice_adult", choice_adult);
+		map.put("choice_teenage", choice_teenage);
+		map.put("choice_treatment", choice_treatment);
+		map.put("ticketing_num", ticketing_num);
+		
+//		payment : uid, type, price, state, date, modify_date, mem_num, choice_num
+		performanceService.insertPayment(map);
+		
+//		String[] str = choice_seat.split(" ");
+//		String match = "[^0-9_]";
+//		for(int i=0; i<str.length; i++) {
+//			String seat = str[i].replaceAll(match, "");
+//			String[] seats = seat.split("_");
+//			// seats[0] : 행 seats[1] : 열
+//			log.debug("<<Seat>> : " + seats[0] + " " + seats[1]);
+//
+//			Map<String, Object> map = new HashMap<String, Object>();
+//			
+//			map.put("payment_uid", merchant_uid);
+//			map.put("payment_type", pay_method);
+//			map.put("payment_price", total_price);
+//			map.put("payment_state", 1);
+//			map.put("mem_num", user.getMem_num());
+//			map.put("choice_row", Integer.parseInt(seats[0])); // 행
+//			map.put("choice_col", Integer.parseInt(seats[1])); // 열
+//			map.put("choice_adult", choice_adult);
+//			map.put("choice_teenage", choice_teenage);
+//			map.put("choice_treatment", choice_treatment);
+//			map.put("ticketing_num", ticketing_num);
+//			
+////			payment : uid, type, price, state, date, modify_date, mem_num, choice_num
+//			performanceService.insertPayment(map);
+//			
+//		}
+//		
 
 		mapJson.put("result", "success");
 		log.debug("====== << 결제창 이동 >> =======");
@@ -365,7 +379,9 @@ public class PerformanceAjaxController {
 			map.put("choice_treatment", choice_treatment);
 			map.put("ticketing_num", ticketing_num);
 			
-			performanceService.deleteChoice(map);
+			
+			// 지워야 함
+			//performanceService.deleteChoice(map);
 			
 		}
 		

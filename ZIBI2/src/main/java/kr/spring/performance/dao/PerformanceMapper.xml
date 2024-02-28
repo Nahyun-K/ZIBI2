@@ -14,8 +14,6 @@
 		<result property="ticketingVO.ticketing_date" column="ticketing_date"/>
 		<result property="ticketingVO.ticketing_start_time" column="ticketing_start_time"/>
 		<result property="choiceVO.choice_num" column="choice_num"/>
-		<result property="choiceVO.choice_row" column="choice_row"/>
-		<result property="choiceVO.choice_col" column="choice_col"/>
 		<result property="choiceVO.choice_adult" column="choice_adult"/>
 		<result property="choiceVO.choice_teenage" column="choice_teenage"/>
 		<result property="choiceVO.choice_treatement" column="choice_treatment"/>
@@ -94,8 +92,6 @@
 	<insert id="insertChoice" parameterType="choiceVO">
 		INSERT INTO perform_choice(
 		   choice_num,
-		   choice_row,
-		   choice_col,
 		   choice_adult,
 		   choice_teenage,
 		   choice_treatment,
@@ -103,8 +99,6 @@
 		   ticketing_num)
 		VALUES (
 		   perform_choice_seq.nextval,
-		   #{choice_row},
-		   #{choice_col},
 		   #{choice_adult},
 		   #{choice_teenage},
 		   #{choice_treatment},
@@ -119,7 +113,7 @@
 		   seat_row,
 		   seat_col)
 		VALUES (
-		   (SELECT MAX(choice_num) FROM perform_choice),
+		   (SELECT MAX(choice_num) FROM perform_choice WHERE mem_num=#{mem_num}),
 		   #{choice_row},
 		   #{choice_col})
 	</insert>
@@ -144,8 +138,7 @@
 		   #{mem_num},
 		   (SELECT min(choice_num) 
 		   		FROM perform_choice 
-		   		WHERE choice_row=#{choice_row} AND choice_col=#{choice_col} 
-		   		AND choice_adult=#{choice_adult} 
+		   		WHERE choice_adult=#{choice_adult} 
 		   		AND choice_teenage=#{choice_teenage} 
 		   		AND choice_treatment=#{choice_treatment} 
 		   		AND mem_num=#{mem_num} AND ticketing_num=#{ticketing_num}))

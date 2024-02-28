@@ -49,8 +49,8 @@
 								<c:if test="${payPerformance.performance_age == 19}">
 								청소년 관람 불가
 								<img class="ratingAge" src="${pageContext.request.contextPath}/images/hyun/rating4.png">
-								</c:if> --%>
-                            	</p>
+								</c:if>
+                            	</p> --%>
                             	<p>영화관 : ${payCinema.cinema_theater}</p>
                             	<p>일시 : ${payTicketing.ticketing_date} ${payTicketing.ticketing_start_time} </p>
                             	<p></p>
@@ -60,7 +60,7 @@
 										<c:set var="text" value="${fn:split(seatList,'_')}" />
 										<c:forEach var="textValue" items="${text}" varStatus="varStatus">
 											<c:if test="${varStatus.count eq 1}">
-									         ${textValue+1}행 
+									         ${textValue+1}행
 									         </c:if>
 									         <c:if test="${varStatus.count eq 2}">
 									         ${textValue+1}열

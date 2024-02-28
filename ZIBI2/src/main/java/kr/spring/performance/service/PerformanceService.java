@@ -60,7 +60,7 @@ public interface PerformanceService {
 	
 	public List<SeatVO> selectChoice(Map<String, Object> map);
 	
-	public void deleteChoice(Map<String, Object> map);
+//	public void deleteChoice(Map<String, Object> map);
 	
 	
 	

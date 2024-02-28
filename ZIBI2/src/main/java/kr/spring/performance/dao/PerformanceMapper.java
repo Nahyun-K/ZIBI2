@@ -76,9 +76,9 @@ public interface PerformanceMapper {
 	public List<SeatVO> selectChoice(Map<String, Object> map);
 	
 	
-	//좌석 rollback
-	@Delete("DELETE FROM perform_choice WHERE choice_row=#{choice_row} AND choice_col=#{choice_col} AND choice_adult=#{choice_adult} AND choice_teenage=#{choice_teenage} AND choice_treatment=#{choice_treatment} AND mem_num=#{mem_num} AND ticketing_num=#{ticketing_num}")
-	public void deleteChoice(Map<String, Object> map);
+	//좌석 rollback // => 지워도 됨
+//	@Delete("DELETE FROM perform_choice WHERE choice_row=#{choice_row} AND choice_col=#{choice_col} AND choice_adult=#{choice_adult} AND choice_teenage=#{choice_teenage} AND choice_treatment=#{choice_treatment} AND mem_num=#{mem_num} AND ticketing_num=#{ticketing_num}")
+//	public void deleteChoice(Map<String, Object> map);
 	
 	
 	// 관리자

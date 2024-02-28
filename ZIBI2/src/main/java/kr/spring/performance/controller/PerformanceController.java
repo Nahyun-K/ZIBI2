@@ -590,11 +590,11 @@ public class PerformanceController {
 		map.put("mem_num", user);
 		map.put("payment_uid", uid);
 		List<TotalVO> total = performanceService.selectPayTotal(map);
-		List<TotalVO> all = performanceService.selectPayAll(map);
+		//List<TotalVO> all = performanceService.selectPayAll(map);
 		
 		mav.setViewName("performanceShowTicket"); // tiles 설정 name과 동일해야 함
 		mav.addObject("total", total);
-		mav.addObject("all", all);
+		//mav.addObject("all", all);
 		log.debug("<< ======= 결제값 INSERT 끝 ======== >>");
 		return mav; 
 		

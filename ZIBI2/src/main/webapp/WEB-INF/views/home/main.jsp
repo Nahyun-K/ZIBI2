@@ -21,7 +21,7 @@
 		</div>
 		<div class="carousel-item" style="background: #fafafa;">
 			<div class="cmovie-photo">
-				<img src="${pageContext.request.contextPath}/upload/${perf.performance_poster}" style="height: 500px !important;">
+				<img src="https://image.tmdb.org/t/p/w500/${perf.performance_poster}" style="height: 500px !important;">
 			</div>
 			<div class="cmovie-content">
 				<small>매일 만나는 최신 영화 혜택 📽️</small>
