@@ -13,5 +13,6 @@ public class TotalVO {
 	private PerformanceVO performanceVO;
 	private TicketingVO ticketingVO;
 	private ChoiceVO choiceVO;
+	private SeatVO seatVO;
 	private PaymentVO paymentVO;
 }
